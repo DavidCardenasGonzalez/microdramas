@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "planned",
+        "pending",
+        "ready",
+        "stale",
+        "rejected"
+      ]
+    },
+    "deps": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "scriptId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "sceneId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "episodeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "beatIds": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "characterIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "referenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "assetIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "framing": {
+      "type": "string"
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string"
+        },
+        "movement": {
+          "type": "string"
+        },
+        "lens": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "position",
+        "movement",
+        "lens",
+        "focus"
+      ],
+      "additionalProperties": false
+    },
+    "blocking": {
+      "type": "string"
+    },
+    "startState": {
+      "type": "string"
+    },
+    "endState": {
+      "type": "string"
+    },
+    "durationSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "continuity": {
+      "type": "object",
+      "properties": {
+        "axis": {
+          "type": "string"
+        },
+        "eyelines": {
+          "type": "string"
+        },
+        "wardrobe": {
+          "type": "string"
+        },
+        "props": {
+          "type": "string"
+        },
+        "lighting": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "axis",
+        "eyelines",
+        "wardrobe",
+        "props",
+        "lighting"
+      ],
+      "additionalProperties": false
+    },
+    "dialogue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "speakerId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "text": {
+            "type": "string"
+          },
+          "beatId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          }
+        },
+        "required": [
+          "speakerId",
+          "text",
+          "beatId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sound": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "previousShotId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "nextShotId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "strategy": {
+      "default": "reference-video",
+      "type": "string",
+      "enum": [
+        "reference-video",
+        "i2v",
+        "flf2v",
+        "t2v",
+        "multi-shot"
+      ]
+    },
+    "selectedTakeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "finalState": {
+      "default": "planned",
+      "type": "string",
+      "enum": [
+        "planned",
+        "generated",
+        "selected",
+        "edited",
+        "stale"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "status",
+    "deps",
+    "scriptId",
+    "sceneId",
+    "episodeId",
+    "beatIds",
+    "characterIds",
+    "referenceIds",
+    "assetIds",
+    "purpose",
+    "framing",
+    "camera",
+    "blocking",
+    "startState",
+    "endState",
+    "durationSeconds",
+    "continuity",
+    "dialogue",
+    "sound",
+    "strategy",
+    "finalState"
+  ],
+  "additionalProperties": false
+}

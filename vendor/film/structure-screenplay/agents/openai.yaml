@@ -1,0 +1,4 @@
+interface:
+  display_name: "剧本结构化"
+  short_description: "将剧本文本拆解为可追溯的场景、节拍、叙事单元和制作事实"
+  default_prompt: "使用 $structure-screenplay 将这份剧本整理成结构化制作数据。"

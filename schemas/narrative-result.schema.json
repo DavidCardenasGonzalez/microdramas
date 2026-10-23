@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "authority": {
+      "type": "string",
+      "const": "screenwriting"
+    },
+    "skillsUsed": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "brief": {
+      "type": "string"
+    },
+    "bible": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        },
+        "premise": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "conflict": {
+          "type": "string"
+        },
+        "ending": {
+          "type": "string"
+        },
+        "seasonOutline": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "premise",
+        "theme",
+        "conflict",
+        "ending",
+        "seasonOutline",
+        "decisions"
+      ],
+      "additionalProperties": false
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "want": {
+            "type": "string"
+          },
+          "need": {
+            "type": "string"
+          },
+          "arc": {
+            "type": "string"
+          },
+          "voice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "want",
+          "need",
+          "arc",
+          "voice"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "location",
+              "prop",
+              "wardrobe"
+            ]
+          },
+          "ownerId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "description",
+          "aliases"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "episodes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          },
+          "scriptText": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "synopsis",
+          "scriptText"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "reviewer": {
+          "type": "string"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hook": {
+          "type": "string"
+        },
+        "conflictProgression": {
+          "type": "string"
+        },
+        "rhythm": {
+          "type": "string"
+        },
+        "ending": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "findings",
+        "hook",
+        "conflictProgression",
+        "rhythm",
+        "ending"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "authority",
+    "skillsUsed",
+    "brief",
+    "bible",
+    "characters",
+    "assets",
+    "episodes",
+    "review"
+  ],
+  "additionalProperties": false
+}

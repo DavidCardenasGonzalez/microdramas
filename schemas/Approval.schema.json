@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "scopeHash": {
+      "type": "string"
+    },
+    "jobIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "expiresAt": {
+      "type": "string"
+    },
+    "maxCost": {
+      "type": "number",
+      "minimum": 0
+    },
+    "maxJobs": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "usedJobs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "spent": {
+      "type": "number",
+      "minimum": 0
+    },
+    "allowPaid": {
+      "type": "boolean"
+    },
+    "allowLocal": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "scopeHash",
+    "jobIds",
+    "expiresAt",
+    "maxCost",
+    "maxJobs",
+    "usedJobs",
+    "spent",
+    "allowPaid",
+    "allowLocal",
+    "reason"
+  ],
+  "additionalProperties": false
+}

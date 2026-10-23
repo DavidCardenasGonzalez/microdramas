@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "planned",
+        "pending",
+        "ready",
+        "stale",
+        "rejected"
+      ]
+    },
+    "deps": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "episodeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "segments": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "shotId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "takeId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "sourceIn": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sourceOut": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "audio": {
+            "type": "string",
+            "enum": [
+              "native",
+              "mute",
+              "external"
+            ]
+          },
+          "externalAudio": {
+            "type": "string"
+          },
+          "transition": {
+            "type": "string",
+            "const": "cut"
+          }
+        },
+        "required": [
+          "shotId",
+          "takeId",
+          "sourceIn",
+          "sourceOut",
+          "audio",
+          "transition"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "audioTracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "dialogue",
+              "music",
+              "effect"
+            ]
+          },
+          "file": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "sourceIn": {
+            "default": 0,
+            "type": "number",
+            "minimum": 0
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "gainDb": {
+            "type": "number"
+          },
+          "replacesNative": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "kind",
+          "file",
+          "start",
+          "sourceIn",
+          "gainDb",
+          "replacesNative"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "subtitles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "text"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "subtitleStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "verified",
+        "simulated"
+      ]
+    },
+    "normalizeAudio": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "status",
+    "deps",
+    "episodeId",
+    "segments",
+    "audioTracks",
+    "subtitles",
+    "subtitleStatus",
+    "normalizeAudio"
+  ],
+  "additionalProperties": false
+}

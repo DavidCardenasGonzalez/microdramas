@@ -1,0 +1,4 @@
+interface:
+  display_name: "审片与组接"
+  short_description: "审查候选镜头、记录决策并生成可交付时间线与质检结果"
+  default_prompt: "使用 $review-and-assemble 审查这些生成结果并整理为可交付时间线。"

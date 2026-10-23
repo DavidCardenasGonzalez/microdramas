@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.tmp/
+productions/
+*.lock.tmp
+*.log
+local.config.json
+docs/environment.detected.json
+docs/msr-integration.detected.json

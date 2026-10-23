@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "planned",
+        "pending",
+        "ready",
+        "stale",
+        "rejected"
+      ]
+    },
+    "deps": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "kind": {
+      "default": "video",
+      "type": "string",
+      "enum": [
+        "video",
+        "written"
+      ]
+    },
+    "timelineId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "file": {
+      "type": "string"
+    },
+    "srt": {
+      "type": "string"
+    },
+    "manifest": {
+      "type": "string"
+    },
+    "quality": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "simulated"
+      ]
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "simulated": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "status",
+    "deps",
+    "kind",
+    "file",
+    "manifest",
+    "quality",
+    "sha256",
+    "simulated",
+    "createdAt"
+  ],
+  "additionalProperties": false
+}

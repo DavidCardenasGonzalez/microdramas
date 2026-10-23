@@ -1,0 +1,4 @@
+interface:
+  display_name: "生成提示编译"
+  short_description: "将已批准的故事、资产和镜头数据编译为模型无关的生成请求包"
+  default_prompt: "使用 $compile-generation-prompts 将这些制作数据编译为生成请求包。"

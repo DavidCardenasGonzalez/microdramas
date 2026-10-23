@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "adapter": {
+      "type": "string"
+    },
+    "shotId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "shotVersion": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "strategy": {
+      "default": "reference-video",
+      "type": "string",
+      "enum": [
+        "reference-video",
+        "i2v",
+        "flf2v",
+        "t2v",
+        "multi-shot"
+      ]
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "negative": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "version": {
+            "type": "number"
+          },
+          "role": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "role",
+          "file",
+          "sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "durationSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "fps": {
+      "type": "number"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "simulated": {
+      "type": "boolean"
+    },
+    "parameters": {
+      "default": {},
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "adapter",
+    "shotId",
+    "shotVersion",
+    "strategy",
+    "prompt",
+    "negative",
+    "references",
+    "durationSeconds",
+    "width",
+    "height",
+    "fps",
+    "seed",
+    "simulated",
+    "parameters"
+  ],
+  "additionalProperties": false
+}

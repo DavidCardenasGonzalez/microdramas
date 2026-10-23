@@ -1,0 +1,22 @@
+{
+  "name": "ai-film-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Codex-directed, provider-independent audiovisual production CLI",
+  "bin": {"studio": "bin/studio.mjs"},
+  "scripts": {
+    "studio": "tsx src/cli.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "demo": "tsx scripts/demo.ts",
+    "prepare:example": "tsx scripts/prepare-example.ts",
+    "integration:msr": "tsx scripts/integration.ts",
+    "doctor": "tsx src/cli.ts doctor",
+    "skills:verify": "node scripts/vendor-skills.mjs --verify"
+  },
+  "engines": {"node": ">=22"},
+  "dependencies": {"commander": "14.0.2", "zod": "4.1.12"},
+  "devDependencies": {"@types/node": "22.18.12", "tsx": "4.20.6", "typescript": "5.9.3"}
+}

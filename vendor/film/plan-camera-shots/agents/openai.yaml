@@ -1,0 +1,4 @@
+interface:
+  display_name: "镜头规划"
+  short_description: "将叙事节拍转换为带时长、机位、调度和连续性约束的镜头方案"
+  default_prompt: "使用 $plan-camera-shots 为这些叙事节拍制定可执行的镜头方案。"

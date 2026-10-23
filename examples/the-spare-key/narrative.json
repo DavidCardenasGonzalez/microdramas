@@ -1,0 +1,35 @@
+{
+  "authority": "screenwriting",
+  "skillsUsed": ["sw-workflow", "sw-premise-theme", "sw-character-conflict", "sw-scene-craft", "sw-dialogue", "sw-format-adaptation"],
+  "brief": "An original, contained two-character drama. A daughter returning the shop key discovers that her father has kept a place for her. English B1 dialogue; one room and one physical prop. Short proof of production, not a full 15-episode season.",
+  "bible": {
+    "id": "BIBLE-KEY",
+    "premise": "A daughter determined to end a family argument by returning a key must decide whether to accept her father's quiet offer to start again.",
+    "theme": "Repair begins when someone makes room for a difficult return.",
+    "conflict": "Nora wants to leave without asking for forgiveness; Eli wants her to stay but refuses to buy her agreement.",
+    "ending": "Nora keeps the key and asks when the shop opens, choosing a next meeting without pretending the argument is solved.",
+    "seasonOutline": [],
+    "decisions": ["Standalone proof, not a cliffhanger formula.", "Two adults only; no extra speaking roles.", "The brass key changes meaning from rejection to invitation.", "No flashbacks, phone screens or unreadable generated text."]
+  },
+  "characters": [
+    {"id":"CHAR-NORA","name":"Nora","description":"Adult woman, 30, short dark hair, plain navy coat, cream shirt; no jewelry.","want":"Return the key and leave.","need":"Ask for a way back without surrendering her independence.","arc":"From closing a door to choosing another meeting.","voice":"Quiet, short direct sentences; restrained adult English voice."},
+    {"id":"CHAR-ELI","name":"Eli","description":"Adult man, 58, gray cropped hair, plain gray work shirt, brown canvas apron.","want":"Keep a place for Nora.","need":"Offer without controlling her choice.","arc":"From holding on to leaving the decision in her hands.","voice":"Warm, measured adult English voice; concrete practical words."}
+  ],
+  "assets": [
+    {"id":"ASSET-NORA","kind":"character","ownerId":"CHAR-NORA","name":"Nora identity and wardrobe","description":"Adult Nora, 30, short dark hair, navy coat over cream shirt, no jewelry. Same clothing throughout.","aliases":["Nora"]},
+    {"id":"ASSET-ELI","kind":"character","ownerId":"CHAR-ELI","name":"Eli identity and wardrobe","description":"Adult Eli, 58, gray cropped hair, gray work shirt and brown canvas apron. Same clothing throughout.","aliases":["Eli"]},
+    {"id":"ASSET-SHOP","kind":"location","name":"Repair shop","description":"Small unbranded repair shop, one wooden counter, warm late-afternoon window light; no customers, no readable signs.","aliases":["REPAIR SHOP"]},
+    {"id":"ASSET-KEY","kind":"prop","name":"Brass key","description":"One simple brass key, no keyring or engraving; one instance only.","aliases":["key"]}
+  ],
+  "episodes": [
+    {"id":"EP001","title":"The spare key","synopsis":"Nora returns the shop key. Eli offers her a choice. She keeps it and asks when the shop opens.","scriptText":"INT. REPAIR SHOP - LATE AFTERNOON\n\nNora stands on the left side of the wooden counter in her navy coat. Eli stands behind it on the right, wearing a gray shirt and a brown apron. Nora places one brass key between them.\n\nNORA\nYou can change the lock now.\n\nEli looks at the key. He keeps his hands on his side of the counter.\n\nELI\nIt still works.\n\nNORA\nThat is not what I mean.\n\nELI\nI know.\n\nNora starts to turn away. Eli stays behind the counter.\n\nELI\nI kept your place. Not your job.\n\nNora turns back and picks up the key.\n\nNORA\nWhat time do you open?\n\nELI\nSeven.\n\nNora closes her hand around the key. She stays beside the counter.\n"}
+  ],
+  "review": {
+    "reviewer":"Codex self-review using selected Screenwriting skills; no independent reviewer claimed",
+    "findings":["Character choice drives the ending; the past argument remains unspecified intentionally.","The key anchors every escalation. No new location or event is needed for coverage.","B1 vocabulary is an editorial judgment, not a certified language test.","Generated voices and performance still require listening and temporal visual review."],
+    "hook":"Returning the key makes the immediate relationship question visible.",
+    "conflictProgression":"Nora tries to close the relationship; Eli offers access, then a place without employment obligations; Nora chooses a future meeting.",
+    "rhythm":"Short exchanges with two motivated physical changes: turning away, then taking the key.",
+    "ending":"A practical opening-time question acts as reconciliation without an explicit speech about forgiveness."
+  }
+}
