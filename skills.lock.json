@@ -923,6 +923,72 @@
           "sha256": "2270982e9c7db70dfe84825fe77c32001736edcce5fde205d2dcd1a84cc8def3"
         }
       ]
+    },
+    {
+      "key": "generation-strategy",
+      "repo": "local-user-skill",
+      "commit": "unversioned",
+      "license": "not specified",
+      "selected": [
+        "generation-strategy"
+      ],
+      "files": [
+        {
+          "remote": "SKILL.md",
+          "local": "vendor/generation-strategy/SKILL.md",
+          "sha256": "2102463fb953b778e6ce2f58bb7407f0fe54bc747419eddd901680f2978c54aa"
+        },
+        {
+          "remote": "agents/openai.yaml",
+          "local": "vendor/generation-strategy/agents/openai.yaml",
+          "sha256": "0e1bc8052895e7871224e2d0b5b3340a4b47489692d60fcb9e77d87117bafdd9"
+        },
+        {
+          "remote": "assets/capabilities.json",
+          "local": "vendor/generation-strategy/assets/capabilities.json",
+          "sha256": "d4c16f667112c8c8b2ab79f052b4f7ee1d2a8ccaa556cd41236d77b1fd2d8c76"
+        },
+        {
+          "remote": "assets/evaluation_cases.json",
+          "local": "vendor/generation-strategy/assets/evaluation_cases.json",
+          "sha256": "0ea3aae35e9ed2e6902309c3d26bea79b7303dc3902fd570fbfd03ca35d089cc"
+        },
+        {
+          "remote": "assets/sources.json",
+          "local": "vendor/generation-strategy/assets/sources.json",
+          "sha256": "ad1833d872a133096f9810e8a6826055497893906e24faae938eb427ad4d26bf"
+        },
+        {
+          "remote": "references/adapters.md",
+          "local": "vendor/generation-strategy/references/adapters.md",
+          "sha256": "5d48e2a6e56737785800f5b1351b2fbd95ae00c47043634bb58cdeaece2ff6b5"
+        },
+        {
+          "remote": "references/contracts.md",
+          "local": "vendor/generation-strategy/references/contracts.md",
+          "sha256": "f23b0a5b0f95644bc42dcff7850ac98be94558c8fa53753c69cc862b972b568c"
+        },
+        {
+          "remote": "references/knowledge.md",
+          "local": "vendor/generation-strategy/references/knowledge.md",
+          "sha256": "bf36fb002cf1eb6d045723cb7747068c99396419bfbcbf4e4c4e721c461f6c33"
+        },
+        {
+          "remote": "references/production-method.md",
+          "local": "vendor/generation-strategy/references/production-method.md",
+          "sha256": "8c9fffc7b8dd0423ed7de66742dc0ef873c5e803861df66001841cf2292267ba"
+        },
+        {
+          "remote": "scripts/strategy.py",
+          "local": "vendor/generation-strategy/scripts/strategy.py",
+          "sha256": "ebaca7c6805288801da180d0238ea8f58ad11cfe02f1bee21fed7e836606d5b9"
+        },
+        {
+          "remote": "tests/test_strategy.py",
+          "local": "vendor/generation-strategy/tests/test_strategy.py",
+          "sha256": "37b78616a5a1ffae35d2d7c01a5a5fd2b3f2bdf75edba925ce8484899ae1d1de"
+        }
+      ]
     }
   ]
 }

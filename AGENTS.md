@@ -27,6 +27,8 @@ La aprobación de planes y referencias puede hacerla Codex dentro de una producc
 
 Primero `doctor`, `generate --dry-run` y `generate --prepare-only`. No usar referencias simuladas en modelos reales. I2V exige primer frame; FLF exige ambos extremos. No sustituirlos por T2V. El límite real lo valida el adaptador, no una guía genérica. La continuidad de voz entre clips LTX no está garantizada.
 
+Para elegir estrategia de video por toma, consulta `docs/VIDEO_STRATEGY.md` y la skill integrada en `vendor/generation-strategy/`. Requiere un plan cinematográfico aprobado. El selector propone T2V, MSR, I2V o FLF2V con restricciones explícitas; revisa su salida y sincroniza la estrategia elegida con el `Shot` aprobado antes de generar. La selección no valida modelos instalados ni autoriza un render. Las rutas de workflow del registro son marcadores portables y deben configurarse para el ComfyUI del usuario antes de inspeccionarlas.
+
 MSR reutiliza el constructor de `run_msr_shots.py` local mediante `scripts/msr_graph.py`. Solo crea copias de producción. No modificar runners, modelos, workflows maestros ni configuraciones de ComfyUI. Preservar la cola ajena. FLUX valida los modelos del servicio activo: la existencia de una plantilla o una prueba histórica no confirma instalación actual.
 
 La CLI conserva el prompt_id inmediatamente y marca un POST ambiguo como `uncertain`. No reenviar un trabajo incierto. Consultar backend, vincular el ID con `jobs --bind-remote`, o confirmar su ausencia explícitamente con `--confirm-not-submitted`. `resume` reutiliza trabajos completos y observa IDs conocidos. Un timeout de observación no es un fallo de render. Como máximo dos intentos por defecto; una reparación crea una alternativa nueva, sin borrar resultados previos.

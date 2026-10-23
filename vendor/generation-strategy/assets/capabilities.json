@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-10-22",
+  "profiles": {
+    "landscape": {
+      "width": 1280,
+      "height": 720
+    },
+    "portrait": {
+      "width": 720,
+      "height": 1280
+    }
+  },
+  "workflows": {
+    "msr": {
+      "workflow": "<COMFYUI_ROOT>/user/default/workflows/LTX-2.5_MSR_V2_12GB.json",
+      "model": "LTX-2.5 Licon MSR V2",
+      "capabilities": [
+        "reference_to_video"
+      ],
+      "evidence": "prior_local_recipe_reported_runs",
+      "inspected_sha256": "9b382dee01b3a9b3a2c27d17584bd717deda1fcbfa7571f7386c92f641baf289",
+      "runtime_verified_this_session": false
+    },
+    "t2v": {
+      "workflow": "<COMFYUI_ROOT>/user/default/workflows/video_ltx2_5_t2v.json",
+      "model": "LTX-2.5 distilled int8 convrot",
+      "capabilities": [
+        "text_to_video"
+      ],
+      "evidence": "local_graph_inspected_no_new_render",
+      "inspected_sha256": "2243bb542920043017beab14c2d932c0f0bd3709dc6f06e5d13da0f342420e9f",
+      "runtime_verified_this_session": false
+    },
+    "i2v": {
+      "workflow": "<COMFYUI_ROOT>/user/default/workflows/video_ltx2_5_i2v.json",
+      "model": "LTX-2.5 distilled int8 convrot",
+      "capabilities": [
+        "first_frame",
+        "continuation"
+      ],
+      "evidence": "local_graph_inspected_no_new_render",
+      "inspected_sha256": "5807b32b2a43778eea9e36d9350d5fda7755fdd5c995b9cc7ec8dfe4b58cd922",
+      "runtime_verified_this_session": false
+    },
+    "flf2v": {
+      "workflow": "<COMFYUI_ROOT>/user/default/workflows/video_ltx2_5_flf2v.json",
+      "model": "LTX-2.5 distilled int8 convrot",
+      "capabilities": [
+        "first_frame",
+        "last_frame"
+      ],
+      "evidence": "local_graph_inspected_no_new_render",
+      "inspected_sha256": "d30de61966a6c54cc75ee8f0924d90736c49cfc82d25a3794a9ddb322f371158",
+      "runtime_verified_this_session": false
+    }
+  },
+  "not_enabled": [
+    "intermediate_keyframes",
+    "i2v_extra_identity_references",
+    "ingredients",
+    "pose_conditioning",
+    "motion_conditioning",
+    "Director",
+    "Wan",
+    "Seedance",
+    "MiniMax",
+    "FaceDetailer",
+    "frame_interpolation"
+  ]
+}

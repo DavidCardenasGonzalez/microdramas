@@ -17,6 +17,7 @@ if (process.argv.includes('--verify')) {
   console.log(`Verified ${lock.sources.reduce((n,s)=>n+s.files.length,0)} pinned documentation files`);
 } else {
   const get = async u => { const r=await fetch(u,{headers:{'User-Agent':'ai-film-studio'}}); if(!r.ok) throw Error(`${r.status}: ${u}`); return r.text(); };
+  const priorLock = await readFile('skills.lock.json','utf8').then(JSON.parse).catch(()=>({sources:[]}));
   const lock = {version:1, sources:[]};
   for (const [key,repo,commit,base,selected] of sources) {
     const raw=`https://raw.githubusercontent.com/${repo}/${commit}/`;
@@ -33,5 +34,6 @@ if (process.argv.includes('--verify')) {
     }
     lock.sources.push(entry); console.log(`${key}: ${selected.length} skills, ${entry.files.length} documentation files, ${commit}`);
   }
+  lock.sources.push(...priorLock.sources.filter(entry=>!sources.some(([key])=>key===entry.key)));
   await writeFile('skills.lock.json',JSON.stringify(lock,null,2)+'\n');
 }

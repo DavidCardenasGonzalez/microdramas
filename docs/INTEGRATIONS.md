@@ -1,6 +1,6 @@
 # Integraciones verificadas y habilitación
 
-La evidencia observada está en `environment.detected.json`, `msr-integration.detected.json` y los manifiestos de `productions/`. Los detalles siguientes corresponden al entorno inspeccionado, no a garantías universales de esos modelos.
+Los informes `environment.detected.json` y `msr-integration.detected.json` se generan localmente y están excluidos del repositorio porque contienen rutas y datos del equipo. Los manifiestos de `productions/` también son locales. Los detalles siguientes corresponden al entorno inspeccionado, no a garantías universales de esos modelos.
 
 ## ComfyUI y MSR
 
@@ -22,7 +22,7 @@ Solo si comprobaste que no hubo envío usa `--confirm-not-submitted`. No borrar 
 
 ## FLUX 3 Klein
 
-Encontradas las variantes API 1Ref, 2Ref y 4Ref bajo `C:/ComfyUI/user/flux3_research/api/`; el adaptador inicial utiliza 1Ref. El modo sin imagen fuente deriva T2I de esa copia: conserva UNET/CLIP/VAE/sampler, conecta texto directamente y omite acondicionamiento y expansor de edición. El modo `--source` conserva ReferenceMultiLatent y el expansor original.
+Encontradas las variantes API 1Ref, 2Ref y 4Ref bajo `<COMFYUI_ROOT>/user/flux3_research/api/`; el adaptador inicial utiliza 1Ref. El modo sin imagen fuente deriva T2I de esa copia: conserva UNET/CLIP/VAE/sampler, conecta texto directamente y omite acondicionamiento y expansor de edición. El modo `--source` conserva ReferenceMultiLatent y el expansor original.
 
 **Bloqueo comprobado antes de encolar:** el servicio activo no publica los modelos FLUX que espera la plantilla. La prueba `productions/real-integration/generation/REFJOB-4d365763-eae/workflow.api.json` quedó guardada y el job registra el error; `attempts=0`, sin prompt_id ni uso de GPU. Una evidencia histórica en otra carpeta sí indica FLUX ejecutado antes, pero no demuestra disponibilidad en el servicio actual.
 
@@ -46,7 +46,7 @@ No se afirma un límite de duración validado del modelo I2V/FLF: el adaptador r
 
 ## Director y multi-shot
 
-Existen la receta local y `C:/ComfyUI/user/director_quality/prompt_quality.json`. Se inventariaron; no se cambió la timeline histórica ni se ejecutó su escena de prueba. No hay adaptador automático de escena multi-shot en esta versión. El contrato reserva la estrategia, pero un proveedor sin capacidad registrada la rechaza. El primer flujo operativo utiliza MSR por tomas, tal como prioriza este proyecto. Para Director se necesita un adaptador de agrupación de escenas, sincronización de ventana/timeline y despiece de resultados con tiempos de origen; no se lo simula concatenando MP4.
+Existen la receta local y `<COMFYUI_ROOT>/user/director_quality/prompt_quality.json`. Se inventariaron; no se cambió la timeline histórica ni se ejecutó su escena de prueba. No hay adaptador automático de escena multi-shot en esta versión. El contrato reserva la estrategia, pero un proveedor sin capacidad registrada la rechaza. El primer flujo operativo utiliza MSR por tomas, tal como prioriza este proyecto. Para Director se necesita un adaptador de agrupación de escenas, sincronización de ventana/timeline y despiece de resultados con tiempos de origen; no se lo simula concatenando MP4.
 
 ## Higgsfield / Seedance
 

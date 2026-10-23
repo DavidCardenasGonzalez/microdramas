@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "ltx_prompt",
+      "url": "https://docs.ltx.io/api-documentation/implementation-guides/prompting-guide",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "LTX-2.5",
+      "claim": "chronological action, camera, audio, dialogue and explicit prose cuts; prompt adaptation per model",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "ltx_i2v",
+      "url": "https://docs.ltx.io/open-source-model/usage-guides/image-to-video",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "LTX-2.5",
+      "claim": "first frame and first/last frame workflows; local graph parameters still require inspection",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "ltx_t2v",
+      "url": "https://docs.ltx.io/open-source-model/usage-guides/text-to-video",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "LTX-2.5",
+      "claim": "standalone T2V template with audio and refinement stages",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "ltx_controls",
+      "url": "https://docs.ltx.io/open-source-model/integration-tools/ic-lo-ra-adapters",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "version_specific",
+      "claim": "controls require compatible checkpoint and workflow, not generic model family support",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "ltx_legacy",
+      "url": "https://github.com/Lightricks/LTX-Video",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "historical repository",
+      "claim": "links to LTX-2; older claims do not prove installed 2.5 behavior",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "comfy",
+      "url": "https://github.com/Comfy-Org/ComfyUI",
+      "checked_on": "2026-10-22",
+      "classification": "official_documented",
+      "version_scope": "installed version must be checked",
+      "claim": "graph/backend source; exported subgraph and runtime schema must be validated",
+      "confidence": "documented_not_locally_measured",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "film",
+      "url": "https://github.com/zhangzhangco/film-production-skills",
+      "checked_on": "2026-10-22",
+      "classification": "individual_report",
+      "version_scope": "unversioned README accessed 2026-10-22",
+      "claim": "author architecture: traceable provider-neutral handoffs; no claimed schema interoperability",
+      "confidence": "architectural_or_discovery_only",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "director",
+      "url": "https://github.com/0xhughs/director-skills",
+      "checked_on": "2026-10-22",
+      "classification": "individual_report",
+      "version_scope": "unversioned README accessed 2026-10-22",
+      "claim": "author architecture: creative intent, cinematography, model adaptation separated",
+      "confidence": "architectural_or_discovery_only",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "reddit_comfy",
+      "url": "https://www.reddit.com/r/comfyui/",
+      "checked_on": "2026-10-22",
+      "classification": "individual_report",
+      "version_scope": "index only",
+      "claim": "discovery only; no technique claim accepted",
+      "confidence": "architectural_or_discovery_only",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    },
+    {
+      "id": "reddit_sd",
+      "url": "https://www.reddit.com/r/StableDiffusion/",
+      "checked_on": "2026-10-22",
+      "classification": "individual_report",
+      "version_scope": "index only",
+      "claim": "discovery only; no repeated recommendation established",
+      "confidence": "architectural_or_discovery_only",
+      "limitations": "Not a quality benchmark on the installed RTX 4070/INT8 workflows"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "joint_frontal_identity",
+      "classification": "experimental_hypothesis",
+      "status": "not_tested",
+      "scope": "I2V with compatible extra reference inputs; current I2V graph lacks them",
+      "confidence": "unvalidated"
+    }
+  ],
+  "community_repeated": []
+}

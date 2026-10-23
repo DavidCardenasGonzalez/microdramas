@@ -1,5 +1,9 @@
 # Skills integradas y selección
 
+## Estrategia de generación de video
+
+La skill local proporcionada por el usuario se integra en `vendor/generation-strategy/` como guía técnica para elegir por toma entre T2V, MSR, I2V y FLF2V, preparar referencias, diagnosticar bloqueos y registrar resultados. El selector es una herramienta local de planeación; no envía trabajos ni sustituye los adaptadores del estudio. Su registro de workflows usa marcadores portables que requieren configuración local. Consulta [VIDEO_STRATEGY.md](VIDEO_STRATEGY.md) para el procedimiento y sus límites.
+
 Se inspeccionaron los cuatro repositorios solicitados, sus árboles, instrucciones y licencias antes de incorporar documentación. Las cuatro licencias son MIT y se conservan en `vendor/<source>/LICENSE`. No se instalaron plugins globales, runners upstream, dependencias Remotion ni generadores alternativos.
 
 | Fuente | Commit fijado | Módulos locales |
@@ -9,7 +13,7 @@ Se inspeccionaron los cuatro repositorios solicitados, sus árboles, instruccion
 | [Film Production](https://github.com/zhangzhangco/film-production-skills) | `47b2a6a432235e716fa2aa0d08eefae76fdb34fd` | 5 |
 | [Director](https://github.com/0xhughs/director-skills) | `35ca0a2b4cd55b0668aa9ea0f40273324b774bb4` | 3 |
 
-En total, 23 módulos seleccionados y 172 archivos de documentación/licencias/contratos. `skills.lock.json` registra rutas originales, SHA-256 y versiones. `npm run skills:verify` verifica todos los archivos. `scripts/vendor-skills.mjs` solo descarga documentos de esos commits y confirma MIT; no ejecuta código upstream. Una nueva revisión requiere inspección de cambios y licencia antes de modificar la selección fijada.
+Los cuatro repositorios externos aportan 23 módulos y 172 archivos fijados por licencia y hash. Además, se conserva la skill local de estrategia de video como fuente del usuario. `skills.lock.json` registra rutas originales, SHA-256 y versiones. `npm run skills:verify` verifica todos los archivos. `scripts/vendor-skills.mjs` solo descarga documentos de esos commits y confirma MIT; no ejecuta código upstream. Una nueva revisión requiere inspección de cambios y licencia antes de modificar la selección fijada.
 
 ## Screenwriting: única autoridad narrativa
 
