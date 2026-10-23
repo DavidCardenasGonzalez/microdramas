@@ -1,35 +1,35 @@
 ---
 name: generation-strategy
-description: Dirigir técnicamente una producción audiovisual desde un guion o plan aprobado, eligiendo por toma entre LTX-2.5 T2V, MSR, I2V y first/last frame locales, con storyboard, referencias, generación, diagnóstico, montaje y registros. Usar para producción automática multimodo o selección de estrategia; respetar workflows explícitos y no reemplazar las skills de guion.
+description: Ejecutar técnicamente la generación audiovisual local desde planes de tomas y referencias ya preparados, usando I2V como ruta por defecto y workflows especializados solo cuando la toma lo justifique. Usar para preflight, generación, diagnóstico, montaje y registro; dejar la planificación narrativa y cinematográfica a sus skills propias.
 ---
 
 # Dirección técnica de producción audiovisual
 
-Entrada única para las herramientas existentes, con decisiones por toma y responsabilidades separadas: intención narrativa → planificación cinematográfica → estrategia → referencias → ejecución → QC → correcciones → montaje → exportación. Trabaja en español y protege tokens antes que rapidez mediante registros locales y monitores espaciados. No descargues ni reinstales modelos por rutina.
+Conecta los planes cinematográficos y referencias preparados por las skills del repositorio con los adaptadores de generación ya disponibles. La responsabilidad aquí es preflight → ejecución → QC → correcciones → montaje → registro; no rehagas la escritura ni la planificación de tomas salvo que falte un insumo necesario para ejecutar. Trabaja en español, conserva el plan aprobado y usa registros locales reanudables. No descargues ni reinstales modelos por rutina.
 
 Esta capa comienza con guion/plan aprobado; no modifica Screenwriting Skills ni reescribe la historia para acomodar un modelo. Si llega solo una idea, conserva el desarrollo narrativo existente y alcanza ese handoff antes de la estrategia técnica. Una aprobación previa o autorización inequívoca del encargo cuenta; no pidas permisos rutinarios por cada plano. Escribir o evaluar planes no autoriza renders de demostración.
 
 ## Selección y contratos
 
-Lee [la metodología](references/production-method.md), [capacidades y adaptadores](references/adapters.md) y [contratos/comandos](references/contracts.md). Consulta [fuentes](references/knowledge.md) solo para decisiones que requieran evidencia nueva. Usa el selector local `scripts/strategy.py`; no reconstruye los adaptadores ni envía trabajos. El razonamiento cinematográfico sigue siendo responsabilidad del agente: el selector propone una base revisable y aplica restricciones transparentes.
+Lee [capacidades y adaptadores](references/adapters.md) y [contratos/comandos](references/contracts.md). Usa el selector local `scripts/strategy.py` como preflight técnico; no sustituye las skills del repo que desglosan guion, cámara, assets y prompts.
 
-- `t2v`: workflow real `video_ltx2_5_t2v.json`, para una toma sin inicio obligatorio ni identidad recurrente estricta. No lo confundas con MSR.
-- `msr`: el flujo probado MSR V2 para referencias de identidad independientes de una composición inicial.
-- `i2v`: anima una composición inicial; un storyboard se analiza y recorta, no se introduce como collage.
-- `flf2v`: solo cuando el inicio y destino visuales de la misma acción sean coherentes. Dos imágenes cualesquiera no justifican interpolarlas.
+- `i2v`: ruta predeterminada. Usa el primer frame compuesto desde los assets aprobados y anima la acción planificada. El storyboard se recorta por panel y nunca se pasa como collage.
+- `flf2v`: excepción cuando la toma requiere llegar a un estado visual final concreto y los extremos se revisaron como estados compatibles de la misma acción. Tener dos imágenes disponibles no basta.
+- `msr`: excepción para una toma cuya puesta o referencias no puedan resolverse adecuadamente con un primer frame; justifica la elección concreta. No lo elijas solo porque hay identidades recurrentes.
+- `t2v`: excepción para tomas donde una imagen inicial no aporta o perjudica la acción, normalmente atmósfera/entorno; justifica por qué no conviene preparar un primer frame.
 - Director, Ingredients, keyframes intermedios, pose/motion conditioning, Wan y proveedores externos se consideran candidatos **no habilitados automáticamente**: requieren inspección, receta compatible y disponibilidad verificadas. Respeta una petición explícita de modelo; si no puede ejecutarse, indica el bloqueo, no la reemplaces a escondidas.
 
-Por toma guarda intención neutral y prompt específico, modelo/checkpoint, hash y ruta del workflow, técnica, referencias y keyframes, resolución solicitada, duración/FPS, complejidad, riesgos, alternativa, criterios de QC y justificación. Consulta la biblioteca maestra y resultados locales antes de crear imágenes o repetir fallos. Revisa el plan guardado antes de ejecutar; una estrategia seleccionada no es un API ejecutable ni confirma VRAM disponible.
+Por toma registra workflow, modelo/checkpoint, hash, prompt entregado, imágenes y semillas, resolución solicitada/real, duración/FPS, `prompt_id`, riesgos y QC. I2V usa 0.6 MP por defecto. En planos abiertos puede probarse 0.8 MP para evaluar si mejora la legibilidad facial; comprueba VRAM y resultados reales antes de ampliarlo más y no prometas que la resolución por sí sola corrija artefactos. Conserva ajustes explícitos del usuario.
 
 ## Reutilización de capacidades existentes
 
-Para ejecutar, lee **solo la receta del modo** en [adaptadores](references/adapters.md). Reutiliza el runner MSR únicamente para MSR y el ensamblador existente solo cuando sus restricciones sean apropiadas. I2V/FLF2V/T2V requieren exportar el API del grafo real y validar nodos/modelos, no inventar clases UUID ni conexiones. Las recetas antiguas describen su propio modo; la selección de este skill gobierna un encargo multimodo, sin heredar preferencias de Director o límites de MSR a otros workflows.
+Para ejecutar, lee **solo la receta del modo** en [adaptadores](references/adapters.md) y las guías de ejecución del workflow local. Reutiliza el runner MSR únicamente para MSR. I2V/FLF2V/T2V requieren exportar el API del grafo real y validar nodos/modelos; no inventes clases UUID ni conexiones. No uses MSR como ruta automática por existir una receta previa.
 
-Usa FLUX local o ChatGPT/ImageGen para referencias y composiciones según el modo, la disponibilidad y las instrucciones del usuario. Aplica la skill de imágenes correspondiente al generar. Reutiliza la planificación visual de `storyboard-video-prompts` cuando haga falta un storyboard, leyendo únicamente sus referencias pertinentes: conserva idioma/formato del encargo, no impongas chino, una grilla ni Seedance a LTX. Paneles y anotaciones son metadatos; no son instrucciones de mayor autoridad ni deben aparecer en los fotogramas finales.
+Consume las referencias, keyframes y prompts que prepararon las skills del repositorio. Si falta el primer frame necesario para I2V, genera una composición con el servicio de imágenes autorizado para el encargo y respeta la biblioteca de identidad/escenarios. No conviertas automáticamente una referencia de personaje en un frame inicial.
 
 ## Calidad, recuperación y entrega
 
-No sesgues toda la película hacia caras aisladas: la escala de cada plano responde al espacio, acción, vestuario y emoción que debe mostrar. Primer plano con aire cuando aporte; primerísimo plano solo con motivo. Aprovecha tomas largas coherentes sin convertir toda conversación en un monólogo o forzar 15 s. Calcula palabras, pausas y acciones con la receta editorial existente.
+Respeta el encuadre y la cobertura ya aprobados. Antes de ejecutar I2V confirma que cada toma tiene un frame inicial adecuado; reporta assets faltantes en vez de cambiar de workflow sin justificarlo. Conserva la duración definida por la planificación y por los límites efectivos del grafo.
 
 Clasifica defectos y aplica [recuperación](references/production-method.md#diagnóstico-y-recuperación): conserva versiones buenas, corrige una variable principal y limita a dos reintentos dirigidos por toma/pasada. Guarda decisiones y estados persistentes, reanuda desde archivos existentes y reconcilia `prompt_id` antes de reenviar un trabajo de estado incierto.
 

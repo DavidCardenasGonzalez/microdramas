@@ -936,7 +936,7 @@
         {
           "remote": "SKILL.md",
           "local": "vendor/generation-strategy/SKILL.md",
-          "sha256": "2102463fb953b778e6ce2f58bb7407f0fe54bc747419eddd901680f2978c54aa"
+          "sha256": "87f5820e9a15edee3ae2a3bdebcf99a2dfaaa0a5d5aaf73e8ba18df573e49042"
         },
         {
           "remote": "agents/openai.yaml",
@@ -946,7 +946,7 @@
         {
           "remote": "assets/capabilities.json",
           "local": "vendor/generation-strategy/assets/capabilities.json",
-          "sha256": "d4c16f667112c8c8b2ab79f052b4f7ee1d2a8ccaa556cd41236d77b1fd2d8c76"
+          "sha256": "a4268abc8664ef7ef8f6460719c8d9bc864efd02bf28f85913a0b3ddae8a063f"
         },
         {
           "remote": "assets/evaluation_cases.json",
@@ -966,7 +966,7 @@
         {
           "remote": "references/contracts.md",
           "local": "vendor/generation-strategy/references/contracts.md",
-          "sha256": "f23b0a5b0f95644bc42dcff7850ac98be94558c8fa53753c69cc862b972b568c"
+          "sha256": "def2c377170d3bce45890edbe94b95c404396e2e712797c3fe11bd0298dbf7f2"
         },
         {
           "remote": "references/knowledge.md",
@@ -976,17 +976,17 @@
         {
           "remote": "references/production-method.md",
           "local": "vendor/generation-strategy/references/production-method.md",
-          "sha256": "8c9fffc7b8dd0423ed7de66742dc0ef873c5e803861df66001841cf2292267ba"
+          "sha256": "3e123f420f38ce3501b90362d204a983beb7462466178a9dbf290076894ae095"
         },
         {
           "remote": "scripts/strategy.py",
           "local": "vendor/generation-strategy/scripts/strategy.py",
-          "sha256": "ebaca7c6805288801da180d0238ea8f58ad11cfe02f1bee21fed7e836606d5b9"
+          "sha256": "9b3d620f4363878a706e413ed55c56976464ce6861a5ee9e68ebafc4020fd372"
         },
         {
           "remote": "tests/test_strategy.py",
           "local": "vendor/generation-strategy/tests/test_strategy.py",
-          "sha256": "37b78616a5a1ffae35d2d7c01a5a5fd2b3f2bdf75edba925ce8484899ae1d1de"
+          "sha256": "2067745162cc47fb86a348d8c6761c190c072ea6fe6ca92d22a1d1df782bbfc9"
         }
       ]
     }

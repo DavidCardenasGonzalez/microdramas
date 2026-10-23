@@ -4,10 +4,11 @@ La metodología integrada en `vendor/generation-strategy/` es la referencia téc
 
 ## Selección
 
-- **T2V** cuando la toma no necesita una imagen inicial ni identidad recurrente estricta.
-- **MSR** cuando se requiere continuidad de identidad mediante referencias independientes de una composición inicial.
-- **I2V** cuando una composición inicial debe animarse.
-- **FLF2V** solo cuando los frames inicial y final representan extremos coherentes de la misma acción.
+- **I2V** es la opción por defecto para cada toma. Las skills cinematográficas preparan la composición inicial y sus keyframes; la skill de generación ejecuta el workflow.
+- El tamaño por defecto de I2V es **0.6 MP**. En tomas abiertas se puede probar **0.8 MP** para comprobar si los rostros se leen mejor; valida VRAM y calidad antes de subir más.
+- **FLF2V** solo cuando el frame final sea un requisito de la acción y ambos extremos sean compatibles. Si el destino no es obligatorio, anima desde el inicio con I2V.
+- **MSR** se reserva para tomas donde referencias independientes sean necesarias y una composición inicial I2V no resuelva la puesta. La identidad recurrente por sí sola no selecciona MSR.
+- **T2V** se reserva para tomas cuyo movimiento o atmósfera no se beneficie de una composición inicial. Justifica la excepción en el plan.
 
 Respeta el modelo solicitado. Si no hay workflow, referencias o capacidad verificada, conserva el bloqueo en el plan; no cambies de modo en silencio. Director, keyframes intermedios, Ingredients, pose/motion conditioning y proveedores externos requieren inspección y registro propios.
 

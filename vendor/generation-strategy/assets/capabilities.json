@@ -11,6 +11,11 @@
       "height": 1280
     }
   },
+  "resolution_defaults": {
+    "i2v_megapixels": 0.6,
+    "wide_shot_megapixels": 0.8,
+    "multiple": 32
+  },
   "workflows": {
     "msr": {
       "workflow": "<COMFYUI_ROOT>/user/default/workflows/LTX-2.5_MSR_V2_12GB.json",

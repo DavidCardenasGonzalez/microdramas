@@ -29,7 +29,7 @@ Ejemplo mínimo de plan técnico, no autorización de generación:
 }
 ```
 
-`dialogue` es una lista de `{speaker,text,rate_wpm}`. Registra `pauses_seconds`, `exclusive_action_seconds`, `cut_margin_seconds` sin duplicar acciones simultáneas al habla. La estimación no valida pronunciación ni garantiza tiempos de LTX. El compilador base `ltx_prose_v1` es un borrador: el agente debe traducir las instrucciones visuales al idioma del adaptador, conservar literalmente diálogos, agregar estados espaciales e instrucciones de corte pertinentes y guardar también el prompt final exacto del API. No es compilador para otros proveedores.
+`dialogue` es una lista de `{speaker,text,rate_wpm}`. Registra `pauses_seconds`, `exclusive_action_seconds`, `cut_margin_seconds` sin duplicar acciones simultáneas al habla. I2V es el modo predeterminado: si no hay `first_frame`, el selector solicita ese asset. `requested_mode` permite una excepción deliberada; si se proporciona `last_frame`, FLF2V solo se elige automáticamente cuando ambos frames existen y `endpoints_compatible: true` (salvo que `last_frame_required: false`). Sin `resolution`, I2V solicita 0.6 MP (0.8 MP para encuadre abierto); `resolution_megapixels` o `resolution` explícitos prevalecen. La estimación de diálogo no valida pronunciación ni garantiza tiempos de LTX. Guarda el prompt final exacto enviado al API.
 
 ## Salida y estados
 

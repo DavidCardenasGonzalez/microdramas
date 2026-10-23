@@ -14,12 +14,21 @@ class StrategyTests(unittest.TestCase):
     def setUp(self):
         self.registry = m.read(ROOT / 'assets/capabilities.json')
         self.plan = m.read(ROOT / 'assets/evaluation_cases.json')
+        self.temp = tempfile.TemporaryDirectory()
+        for mode, item in self.registry['workflows'].items():
+            workflow = Path(self.temp.name) / f'{mode}.json'
+            workflow.write_text('{}', encoding='utf-8')
+            item['workflow'] = str(workflow)
+            item['inspected_sha256'] = m.hashlib.sha256(workflow.read_bytes()).hexdigest()
+
+    def tearDown(self):
+        self.temp.cleanup()
 
     def test_ten_acceptance_scenarios(self):
         result = m.select(self.plan, self.registry)
         self.assertEqual(len(result['shots']), 10)
         self.assertEqual([s['mode'] for s in result['shots']],
-                         ['msr', 'i2v', 'i2v', 'flf2v', 'i2v', 'i2v', 'i2v', 'i2v', 't2v', 'i2v'])
+                         ['i2v', 'i2v', 'i2v', 'flf2v', 'i2v', 'i2v', 'i2v', 'i2v', 'i2v', 'i2v'])
         self.assertTrue(all(not s['runtime_verified'] for s in result['shots']))
         self.assertTrue(any('Unseen regions' in r for r in result['shots'][2]['risks']))
         self.assertEqual(result['shots'][1]['status'], 'needs_assets')
@@ -38,16 +47,39 @@ class StrategyTests(unittest.TestCase):
         shot = {**self.plan['shots'][3], 'endpoints_compatible': False, 'requested_mode': 'flf2v'}
         self.assertEqual(m.choose(shot, self.registry)['status'], 'blocked')
 
-    def test_abstract_scene_can_use_real_t2v(self):
+    def test_i2v_remains_default_for_abstract_scene(self):
         shot = {**self.plan['shots'][0], 'identity_required': False, 'dialogue': []}
+        self.assertEqual(m.choose(shot, self.registry)['mode'], 'i2v')
+        shot['requested_mode'] = 't2v'
         self.assertEqual(m.choose(shot, self.registry)['mode'], 't2v')
 
     def test_msr_limit_not_global_limit(self):
-        shot = {**self.plan['shots'][0], 'duration_seconds': 16}
+        shot = {**self.plan['shots'][0], 'duration_seconds': 16, 'requested_mode': 'msr'}
         self.assertEqual(m.choose(shot, self.registry)['status'], 'blocked')
-        shot['identity_required'] = False
-        self.assertEqual(m.choose(shot, self.registry)['mode'], 't2v')
+        shot['requested_mode'] = None
+        self.assertEqual(m.choose(shot, self.registry)['mode'], 'i2v')
         self.assertNotEqual(m.choose(shot, self.registry)['status'], 'blocked')
+
+    def test_i2v_default_requests_first_frame_and_06mp(self):
+        shot = {**self.plan['shots'][0], 'orientation': 'portrait', 'first_frame': None}
+        result = m.choose(shot, self.registry)
+        self.assertEqual(result['mode'], 'i2v')
+        self.assertIn('first_frame', result['assets_needed'])
+        self.assertEqual(result['requested_megapixels'], 0.6)
+        self.assertEqual(result['requested_resolution'], {'width': 576, 'height': 1024})
+
+    def test_wide_i2v_can_request_higher_resolution(self):
+        shot = {**self.plan['shots'][1], 'framing': 'wide establishing shot', 'orientation': 'landscape'}
+        result = m.choose(shot, self.registry)
+        self.assertEqual(result['requested_megapixels'], 0.8)
+        self.assertGreater(result['requested_resolution']['width'] * result['requested_resolution']['height'],
+                           round(0.6 * 1_000_000))
+
+    def test_flf_is_reserved_for_required_compatible_endpoint(self):
+        shot = {**self.plan['shots'][3], 'last_frame_required': False}
+        self.assertEqual(m.choose(shot, self.registry)['mode'], 'i2v')
+        shot['last_frame_required'] = True
+        self.assertEqual(m.choose(shot, self.registry)['mode'], 'flf2v')
 
     def test_dialogue_overflow_detected(self):
         shot = {**self.plan['shots'][0], 'dialogue': [{'speaker': 'A', 'text': 'word ' * 60, 'rate_wpm': 120}]}
@@ -66,7 +98,7 @@ class StrategyTests(unittest.TestCase):
         with self.assertRaises(ValueError): m.select(self.plan, self.registry)
 
     def test_changed_workflow_needs_reinspection(self):
-        self.registry['workflows']['t2v']['inspected_sha256'] = 'outdated'
+        self.registry['workflows']['i2v']['inspected_sha256'] = 'outdated'
         self.plan['shots'] = [self.plan['shots'][8]]
         self.assertEqual(m.select(self.plan, self.registry)['shots'][0]['status'], 'blocked')
 
@@ -74,7 +106,7 @@ class StrategyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             take = Path(temp) / 'observed.mp4'
             take.write_bytes(b'test file, not a generated video')
-            self.plan['shots'] = [self.plan['shots'][8]]
+            self.plan['shots'] = [{**self.plan['shots'][8], 'requested_mode': 't2v'}]
             selected = m.select(self.plan, self.registry)['shots'][0]
             event = dict(state='reviewed', mode='t2v', scenario='09_upscale', file=str(take), take_id='first',
                          workflow_sha256=selected['workflow_sha256'], review_decision='reject')

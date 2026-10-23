@@ -85,14 +85,11 @@ def choose(shot, registry):
     first, last = shot.get('first_frame'), shot.get('last_frame')
     if explicit:
         mode, reason = explicit, 'User explicitly requested this technique'
-    elif first and last and shot.get('endpoints_compatible') is True:
-        mode, reason = 'flf2v', 'Coherent start/end states constrain the same action'
-    elif first:
-        mode, reason = 'i2v', 'A composed initial frame anchors the action'
-    elif shot.get('identity_required'):
-        mode, reason = 'msr', 'Recurring identity requires independent master references'
+    elif (first and last and shot.get('endpoints_compatible') is True
+          and shot.get('last_frame_required', True) is True):
+        mode, reason = 'flf2v', 'A required, compatible end state needs endpoint guidance'
     else:
-        mode, reason = 't2v', 'No mandatory visual starting state or strict recurring identity'
+        mode, reason = 'i2v', 'I2V is the default; prepare a composed first frame for the planned action'
     risks, blockers, needs = [], [], []
     item = registry['workflows'].get(mode)
     if not item:
@@ -132,9 +129,23 @@ def choose(shot, registry):
     files = [x for x in [first, last, *shot.get('identity_references', [])] if x]
     missing = [p for p in files if not Path(p).is_file()]
     needs.extend(missing)
+    megapixels = None
+    if mode in ('i2v', 'flf2v'):
+        config = registry.get('resolution_defaults', {})
+        wide = any(term in shot.get('framing', '').lower() for term in ('wide', 'establishing', 'long shot', 'gran plano general', 'plano general'))
+        megapixels = shot.get('resolution_megapixels')
+        if megapixels is None and 'resolution' not in shot:
+            megapixels = config.get('wide_shot_megapixels', 0.8) if mode == 'i2v' and wide else config.get('i2v_megapixels', 0.6)
     size = shot.get('resolution', registry['profiles']['portrait' if shot.get('orientation') == 'portrait' else 'landscape'])
     if not isinstance(size, dict) or any(isinstance(size.get(k), bool) or not isinstance(size.get(k), int) or size[k] <= 0 for k in ['width', 'height']):
         raise ValueError('Resolution requires positive integer width and height')
+    if megapixels is not None:
+        positive(megapixels, 'resolution_megapixels')
+        aspect = (9 / 16) if shot.get('orientation') == 'portrait' else (16 / 9)
+        multiple = config.get('multiple', 32)
+        height = round(math.sqrt(megapixels * 1_000_000 / aspect) / multiple) * multiple
+        width = round(height * aspect / multiple) * multiple
+        size = {'width': width, 'height': height}
     lines = ' '.join(f'{d["speaker"]} says: {json.dumps(d["text"], ensure_ascii=False)}' for d in shot.get('dialogue', []))
     prompt = f'{shot["framing"]}. {shot["intent"]} {shot["action"]} Camera: {shot["camera"]}. Lighting: {shot["lighting"]}. {lines}'
     alt_modes = [m for m in ('i2v', 'msr', 't2v', 'flf2v') if m != mode]
@@ -144,7 +155,7 @@ def choose(shot, registry):
                   neutral_intent=shot, compiled_prompt=prompt.strip(), prompt_compiler='ltx_prose_v1',
                   input_frames={'first': first, 'last': last}, references=shot.get('identity_references', []),
                   seed=shot.get('seed', 42), additional_seeds='Read all sampling stages from exported API',
-                  requested_resolution=size, duration_seconds=duration, fps=shot.get('fps', 24),
+                  requested_resolution=size, requested_megapixels=megapixels, duration_seconds=duration, fps=shot.get('fps', 24),
                   motion_complexity=shot.get('motion_complexity', 'low'), estimated_occupied_seconds=round(total, 3),
                   blockers=blockers, assets_needed=needs, risks=risks,
                   alternatives=[{'mode': m, 'condition': 'Recompose/review assets and verify adapter; never silently override explicit requirements'} for m in alt_modes],
