@@ -557,7 +557,12 @@
         {
           "remote": "skills/compile-generation-prompts/SKILL.md",
           "local": "vendor/film/compile-generation-prompts/SKILL.md",
-          "sha256": "281b26f79175b79bb4f24309868ce8b2bc2a5b456cc4c8a3cbefec208dc18cd8"
+          "sha256": "281b26f79175b79bb4f24309868ce8b2bc2a5b456cc4c8a3cbefec208dc18cd8",
+          "localPatch": {
+            "baseSha256": "281b26f79175b79bb4f24309868ce8b2bc2a5b456cc4c8a3cbefec208dc18cd8",
+            "sha256": "91ad32270a75e0de80a9e7894c4310400231c05d3a455d2caa50d411c77a2cb6",
+            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+          }
         },
         {
           "remote": "skills/compile-generation-prompts/agents/openai.yaml",
@@ -607,7 +612,12 @@
         {
           "remote": "skills/plan-camera-shots/SKILL.md",
           "local": "vendor/film/plan-camera-shots/SKILL.md",
-          "sha256": "d498f8468fdd82ea0c41252d741534d15b66288cbca689bd9eeb34778176a7f3"
+          "sha256": "d498f8468fdd82ea0c41252d741534d15b66288cbca689bd9eeb34778176a7f3",
+          "localPatch": {
+            "baseSha256": "d498f8468fdd82ea0c41252d741534d15b66288cbca689bd9eeb34778176a7f3",
+            "sha256": "da8d348b465ab37a3be7797bd94127d08ab7c9dde3927f76f3003261e86cf502",
+            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+          }
         },
         {
           "remote": "skills/plan-camera-shots/agents/openai.yaml",
@@ -617,7 +627,12 @@
         {
           "remote": "skills/plan-camera-shots/references/field-guide.md",
           "local": "vendor/film/plan-camera-shots/references/field-guide.md",
-          "sha256": "0067a353d258d2528b0fe47c2e00aba2a38624510e28183db79287019ac1edc6"
+          "sha256": "0067a353d258d2528b0fe47c2e00aba2a38624510e28183db79287019ac1edc6",
+          "localPatch": {
+            "baseSha256": "0067a353d258d2528b0fe47c2e00aba2a38624510e28183db79287019ac1edc6",
+            "sha256": "4c84114fd04c08c0852f600a5297273b532711de6b8dab0258634237117a8496",
+            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+          }
         },
         {
           "remote": "skills/plan-camera-shots/schemas/input.schema.json",
@@ -936,12 +951,22 @@
         {
           "remote": "SKILL.md",
           "local": "vendor/generation-strategy/SKILL.md",
-          "sha256": "87f5820e9a15edee3ae2a3bdebcf99a2dfaaa0a5d5aaf73e8ba18df573e49042"
+          "sha256": "87f5820e9a15edee3ae2a3bdebcf99a2dfaaa0a5d5aaf73e8ba18df573e49042",
+          "localPatch": {
+            "baseSha256": "87f5820e9a15edee3ae2a3bdebcf99a2dfaaa0a5d5aaf73e8ba18df573e49042",
+            "sha256": "530433e9a343b1899dc6d07ac06a57791a0cbc203a74dfc5f56e81237e6f1441",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "agents/openai.yaml",
           "local": "vendor/generation-strategy/agents/openai.yaml",
-          "sha256": "0e1bc8052895e7871224e2d0b5b3340a4b47489692d60fcb9e77d87117bafdd9"
+          "sha256": "0e1bc8052895e7871224e2d0b5b3340a4b47489692d60fcb9e77d87117bafdd9",
+          "localPatch": {
+            "baseSha256": "0e1bc8052895e7871224e2d0b5b3340a4b47489692d60fcb9e77d87117bafdd9",
+            "sha256": "738641e84c01ce2847c79aae2223fde333f7f77ab268d2b90de3d394fb949fe6",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "assets/capabilities.json",
@@ -961,27 +986,52 @@
         {
           "remote": "references/adapters.md",
           "local": "vendor/generation-strategy/references/adapters.md",
-          "sha256": "5d48e2a6e56737785800f5b1351b2fbd95ae00c47043634bb58cdeaece2ff6b5"
+          "sha256": "5d48e2a6e56737785800f5b1351b2fbd95ae00c47043634bb58cdeaece2ff6b5",
+          "localPatch": {
+            "baseSha256": "5d48e2a6e56737785800f5b1351b2fbd95ae00c47043634bb58cdeaece2ff6b5",
+            "sha256": "2ed639092f3137b50e6a3043d76fdcfc8ba088342995746aee13661ab246af25",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "references/contracts.md",
           "local": "vendor/generation-strategy/references/contracts.md",
-          "sha256": "def2c377170d3bce45890edbe94b95c404396e2e712797c3fe11bd0298dbf7f2"
+          "sha256": "def2c377170d3bce45890edbe94b95c404396e2e712797c3fe11bd0298dbf7f2",
+          "localPatch": {
+            "baseSha256": "def2c377170d3bce45890edbe94b95c404396e2e712797c3fe11bd0298dbf7f2",
+            "sha256": "ea92684ba628fc47a65625561eac5dcae3ae38737a1ca6c35468ea65ff4cdc7a",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "references/knowledge.md",
           "local": "vendor/generation-strategy/references/knowledge.md",
-          "sha256": "bf36fb002cf1eb6d045723cb7747068c99396419bfbcbf4e4c4e721c461f6c33"
+          "sha256": "bf36fb002cf1eb6d045723cb7747068c99396419bfbcbf4e4c4e721c461f6c33",
+          "localPatch": {
+            "baseSha256": "bf36fb002cf1eb6d045723cb7747068c99396419bfbcbf4e4c4e721c461f6c33",
+            "sha256": "634e103ce0fc7d6f66b2e123b5dcc0cfdd11427e3576d7d4bc1fa567cd9ed8e2",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "references/production-method.md",
           "local": "vendor/generation-strategy/references/production-method.md",
-          "sha256": "3e123f420f38ce3501b90362d204a983beb7462466178a9dbf290076894ae095"
+          "sha256": "3e123f420f38ce3501b90362d204a983beb7462466178a9dbf290076894ae095",
+          "localPatch": {
+            "baseSha256": "3e123f420f38ce3501b90362d204a983beb7462466178a9dbf290076894ae095",
+            "sha256": "067f10b929df9360599fa754f697e5144fca9369fdbc9425174372ffb5c7ee5f",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "scripts/strategy.py",
           "local": "vendor/generation-strategy/scripts/strategy.py",
-          "sha256": "9b3d620f4363878a706e413ed55c56976464ce6861a5ee9e68ebafc4020fd372"
+          "sha256": "9b3d620f4363878a706e413ed55c56976464ce6861a5ee9e68ebafc4020fd372",
+          "localPatch": {
+            "baseSha256": "9b3d620f4363878a706e413ed55c56976464ce6861a5ee9e68ebafc4020fd372",
+            "sha256": "209a50f0d157ae9ab5740d5cd5806ee930acb0a7bfdd593f7f275737cb063a7f",
+            "reason": "Official direction adopted 2026-10-25: Fast Ref/Motion, minimal references and Studio-only state; legacy recipes explicitly scoped."
+          }
         },
         {
           "remote": "tests/test_strategy.py",

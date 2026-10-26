@@ -10,7 +10,7 @@ import { createTimeline, render } from '../src/editing.js';
 import { save, latest, json, atomic, now } from '../src/store.js';
 import { directSpareKey } from '../src/example-direction.js';
 const root=path.resolve(process.argv[2]??path.join(repository,'productions',`demo-${Date.now()}`));
-const s=await init(root,'The spare key — SIMULATED pipeline proof','microdrama');
+const s=await init(root,'The spare key — SIMULATED pipeline proof','microdrama');s.project.profile.maxShotSeconds=12;
 s.project.profile.episodes=1;s.project.profile.width=360;s.project.profile.height=640;s.project.profile.durationSeconds=[25,60];s.project.profile.distribution=[{name:'preview',width:180,height:320}];s.config.concurrency=2;
 await narrativeRequest(root,s,'A daughter returns her father’s shop key. A quiet offer lets her choose whether to return.');
 await importNarrative(root,s,await json(path.join(repository,'examples/the-spare-key/narrative.json')),true,'Codex / authorized original example');

@@ -114,6 +114,292 @@
             "type": "string"
           },
           "additionalProperties": {}
+        },
+        "generationMode": {
+          "type": "string",
+          "enum": [
+            "h3_fast_ref",
+            "h3_motion",
+            "seedance",
+            "kling",
+            "ltx_i2v",
+            "h3_reference_to_video"
+          ]
+        },
+        "referencePlan": {
+          "type": "object",
+          "properties": {
+            "references": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "referenceId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "assetId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "identity",
+                      "wardrobe",
+                      "location",
+                      "prop",
+                      "composition",
+                      "start",
+                      "end"
+                    ]
+                  },
+                  "subjectId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "usage": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "referenceId",
+                  "role",
+                  "usage"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "subjects": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "subjectId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "characterId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "wardrobe": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "referenceIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                    }
+                  },
+                  "textOnlyReason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "subjectId",
+                  "description",
+                  "wardrobe",
+                  "referenceIds"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "shots": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "beatIds": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                    }
+                  },
+                  "inSeconds": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "outSeconds": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "transition": {
+                    "type": "string",
+                    "enum": [
+                      "start",
+                      "hard-cut"
+                    ]
+                  },
+                  "composition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "action": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "camera": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "continuity": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "visibleSubjectIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                    }
+                  },
+                  "dramaticPurpose": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "performance": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "cutReason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "beatIds",
+                  "inSeconds",
+                  "outSeconds",
+                  "transition",
+                  "composition",
+                  "action",
+                  "camera",
+                  "continuity"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "dialogueStaging": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "beatId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "speakerId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "shotId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "enum": [
+                      "on-camera",
+                      "offscreen-audio",
+                      "reaction-audio"
+                    ]
+                  },
+                  "lipSync": {
+                    "type": "string",
+                    "enum": [
+                      "required",
+                      "none"
+                    ]
+                  },
+                  "inSeconds": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "outSeconds": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "beatId",
+                  "speakerId",
+                  "shotId",
+                  "strategy",
+                  "lipSync",
+                  "inSeconds",
+                  "outSeconds",
+                  "rationale"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "retentionAnalysis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "continuityRequirements": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "expectedOutput": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validationCriteria": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "references",
+            "subjects",
+            "shots",
+            "retentionAnalysis",
+            "continuityRequirements",
+            "expectedOutput",
+            "validationCriteria"
+          ],
+          "additionalProperties": false
+        },
+        "structuredPrompt": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "required": [

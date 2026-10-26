@@ -1,4 +1,4 @@
-"""Local, no-render strategy planner and append-only production journal (stdlib only)."""
+"""Legacy LTX/MSR compatibility utility. Official Fast Ref/Motion direction uses Studio CLI."""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -235,11 +235,14 @@ def character(path, entry):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('command', choices=['inspect', 'select', 'evaluate', 'record', 'character'])
+    p.add_argument('--legacy-ltx', action='store_true', help='Explicitly select the historical LTX/MSR utility; not the official Studio router')
     p.add_argument('--input', type=Path)
     p.add_argument('--output', type=Path)
     p.add_argument('--registry', type=Path, default=ROOT / 'assets/capabilities.json')
     p.add_argument('--history', type=Path, help='Local JSONL journal: verified comparable results inform planning')
     a = p.parse_args()
+    if a.command in ('select', 'evaluate', 'record', 'character') and not a.legacy_ltx:
+        p.error('Use node bin/studio.mjs task --stage production for official Fast Ref/Motion direction; --legacy-ltx is only for explicit legacy use')
     registry = read(a.registry)
     if a.command == 'inspect': result = inspect(registry)
     elif a.command == 'select':

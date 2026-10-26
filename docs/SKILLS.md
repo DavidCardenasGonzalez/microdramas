@@ -2,7 +2,9 @@
 
 ## Estrategia de generación de video
 
-La skill local proporcionada por el usuario se integra en `vendor/generation-strategy/` como guía técnica para elegir por toma entre T2V, MSR, I2V y FLF2V, preparar referencias, diagnosticar bloqueos y registrar resultados. El selector es una herramienta local de planeación; no envía trabajos ni sustituye los adaptadores del estudio. Su registro de workflows usa marcadores portables que requieren configuración local. Consulta [VIDEO_STRATEGY.md](VIDEO_STRATEGY.md) para el procedimiento y sus límites.
+La skill integrada `vendor/generation-strategy/` consume la [guía oficial](AI_FILM_DIRECTION_PLAYBOOK.md): Fast Ref principal, Motion alternativa y Seedance/Kling excepcionales. Los paquetes narrativos y de producción incluyen la misma política de filmabilidad y continuidad. La CLI es la vía de contratos/adaptadores; el selector Python y sus recetas LTX/MSR quedan como compatibilidad histórica explícita, fuera de la ruta nueva. Ver [VIDEO_STRATEGY.md](VIDEO_STRATEGY.md).
+
+Las adaptaciones locales de documentación vendorizada se registran en skills.lock.json como localPatch: hash upstream conservado, hash local y motivo. skills:verify valida la versión adoptada sin presentar modificaciones locales como archivos upstream intactos.
 
 Se inspeccionaron los cuatro repositorios solicitados, sus árboles, instrucciones y licencias antes de incorporar documentación. Las cuatro licencias son MIT y se conservan en `vendor/<source>/LICENSE`. No se instalaron plugins globales, runners upstream, dependencias Remotion ni generadores alternativos.
 
@@ -23,9 +25,15 @@ Para un corto o microdrama inicial: workflow/premisa, después estructura breve,
 
 No se cargan las 26 skills ni se importan automáticamente casos de estudio, estilos nacionales, comedia o dramaturgia específica. Si el formato los necesita después, se evalúan individualmente. El ejemplo original fue escrito por Codex bajo las skills Screenwriting seleccionadas; la revisión está identificada como auto-revisión, sin inventar un reviewer independiente.
 
+La política local [NARRATIVE_WRITING.md](NARRATIVE_WRITING.md) se incluye en todos los handoffs narrativos. Cubre desarrollo de novela/historia, adaptación libre, capítulos, escenas, conversaciones desarrolladas y revisión. En microdrama, reparto pequeño con propósito y una apertura que motive seguir tras dos segundos, con cualquier forma de hook; no exige preguntas. Distingue prosa y adaptación audiovisual; la adaptación considera filmabilidad y recibe feedback de dirección/QA sin cambiar snapshots aprobados.
+
 ## Drama: criterios y producción
 
 Seleccionadas: `short-drama-assets`, `short-drama-storyboard`, `short-drama-image-prompts`, `short-drama-video-prompts`, `short-drama-review`, `short-drama-edit`.
+
+La guía local [SCENE_WARDROBE.md](SCENE_WARDROBE.md) separa ropa incidental en hojas de identidad de vestuario adecuado a cada escena (boda, alberca, etc.), con continuidad y assets específicos sin contaminar la identidad del personaje.
+
+La guía local [SCENE_SIMPLICITY.md](SCENE_SIMPLICITY.md) incorpora la preferencia de buscar realizaciones físicas más sencillas cuando conserven hook, tensión, revelación y consecuencias. Se transmite a las solicitudes narrativas y tareas de producción como recomendación, sin cuotas ni bloqueo de guiones complejos. Screenwriting conserva la decisión narrativa.
 
 El rubric story-script alimenta a Screenwriting con criterios de conflicto, progresión, apertura y cierre, sin fijar cuotas ni alterar unilateralmente un guion. Las otras skills aportan continuidad, cuadros iniciales/finales, prompts y criterios de montaje. Sus archivos Markdown orientan al agente y se adaptan a la única fuente de estado; no se mantiene una segunda carpeta editable de documentos contradictorios.
 
@@ -36,6 +44,8 @@ Excluidas `short-drama-write`, `short-drama-develop`, el análisis/reemplazo nar
 Se integraron las cinco solicitadas: `structure-screenplay`, `design-production-assets`, `plan-camera-shots`, `compile-generation-prompts`, `review-and-assemble`. Se adoptaron referencias exactas, separación de hechos/propuestas, IDs, dependencias, estados parciales, reintentos por elemento, linaje y revisión no destructiva.
 
 Se adaptó su entrada de blueprint desde la biblia/guion aprobado de Screenwriting. No se importó `shape-story-blueprint` como escritor alternativo, ni `execute-media-generation` como sustituto de ComfyUI/Higgsfield. Sus schemas y field-guides son documentación de origen, y los contratos operativos del estudio están en `src/contracts.ts`; no son copias editables equivalentes.
+
+La cobertura de diálogo del estudio se especifica en [DIALOGUE_COVERAGE.md](DIALOGUE_COVERAGE.md). Para conversaciones, esta adaptación local prevalece sobre recomendaciones genéricas de minimizar la cantidad de tomas; no modifica los snapshots externos fijados por licencia y hash.
 
 ## Director: complementos con responsabilidad acotada
 

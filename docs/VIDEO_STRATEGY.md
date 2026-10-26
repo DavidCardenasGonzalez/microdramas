@@ -1,27 +1,23 @@
 # Estrategia de generación de video
 
-La metodología integrada en `vendor/generation-strategy/` es la referencia técnica para elegir una estrategia por toma. Mantiene la selección separada de la escritura narrativa y de la ejecución: Screenwriting conserva autoridad sobre el guion aprobado; el selector solo propone una ruta técnica; los adaptadores del estudio preparan y ejecutan los trabajos.
+La [guía oficial](AI_FILM_DIRECTION_PLAYBOOK.md) gobierna adaptación, guion, dirección, referencias, prompts, evaluación y montaje. [HYBRID_VIDEO_DIRECTION.md](HYBRID_VIDEO_DIRECTION.md) documenta contratos y comandos. Fast Ref es la ruta principal; Motion es la alternativa local con la misma interfaz de referencias. Seedance/Kling son escalamiento excepcional.
 
-## Selección
+El selector Python histórico de LTX/MSR no participa en la ruta oficial. No pedir un primer frame, una hoja ni imágenes nuevas por escena de manera automática. Reutilizar identidades y continuidad textual exacta; preparar solo lo que falte y aporte una mejora concreta. Los límites provienen del workflow registrado y el adaptador, sin máximo universal de cinco segundos.
 
-- **I2V** es la opción por defecto para cada toma. Las skills cinematográficas preparan la composición inicial y sus keyframes; la skill de generación ejecuta el workflow.
-- El tamaño por defecto de I2V es **0.6 MP**. En tomas abiertas se puede probar **0.8 MP** para comprobar si los rostros se leen mejor; valida VRAM y calidad antes de subir más.
-- **FLF2V** solo cuando el frame final sea un requisito de la acción y ambos extremos sean compatibles. Si el destino no es obligatorio, anima desde el inicio con I2V.
-- **MSR** se reserva para tomas donde referencias independientes sean necesarias y una composición inicial I2V no resuelva la puesta. La identidad recurrente por sí sola no selecciona MSR.
-- **T2V** se reserva para tomas cuyo movimiento o atmósfera no se beneficie de una composición inicial. Justifica la excepción en el plan.
+## Ejecución y continuidad del encargo
 
-Respeta el modelo solicitado. Si no hay workflow, referencias o capacidad verificada, conserva el bloqueo en el plan; no cambies de modo en silencio. Director, keyframes intermedios, Ingredients, pose/motion conditioning y proveedores externos requieren inspección y registro propios.
+El objetivo es recibir una novela y completar su adaptación a microdrama con mínima intervención. Codex ejecuta las etapas con skills y contratos persistentes, escena por escena; la CLI no contiene un LLM ni puede sustituir escritura, dirección o percepción audiovisual.
 
-## Uso del selector
+`completionMode: complete` es el valor predeterminado para continuar dentro del alcance autorizado: preparación → envío → recuperación por ID conocido → QA → selección/recortes → montaje/subtítulos/exportación. `config --completion-mode submit` conserva encargos donde solo se desea enviar y devolver el control. Una preferencia explícita del usuario por proyecto prevalece. Cambiar esta política no autoriza recursos nuevos ni convierte clips heredados al guion actual.
 
-`vendor/generation-strategy/scripts/strategy.py` usa Python estándar. Acepta únicamente planes aprobados con `schema_version: 1`, un `project_id` y tomas con intención, encuadre, acción, cámara, iluminación y duración. Consulta `vendor/generation-strategy/references/contracts.md` para el esquema completo.
+Guardar prompt_id inmediatamente. No reenviar un POST incierto; reconciliar backend y vincular el ID o confirmar ausencia explícita. Observar un ID conocido no vuelve a enviar el trabajo. Timeout de observación no significa fallo de render. Trabajos locales secuenciales y cola ajena preservada; no modificar masters, modelos, runners ni servicio.
 
-```powershell
-$tool = Join-Path $PWD 'vendor/generation-strategy/scripts/strategy.py'
-py $tool inspect --output '.tmp/capability-inspection.json'
-py $tool select --input 'productions/<slug>/plan.json' --output 'productions/<slug>/strategy.json'
-```
+Antes de primer uso o cambio de backend: `doctor`. Para paquetes nuevos/modificados: `generate --dry-run` y `--prepare-only`; reutilizar evidencia/preparaciones intactas. Verificar cola antes de enviar. Render local real usa autorización acotada `approve --local`; FLUX conserva `--execute --approve-local`. Preparar no renderiza ni autoriza gasto.
 
-Antes de `inspect`, configura en `vendor/generation-strategy/assets/capabilities.json` las rutas reales de tus workflows. Los marcadores `<COMFYUI_ROOT>` son portables y no se expanden automáticamente. La inspección de un grafo solo identifica su estructura, nodos y modelos citados; no prueba disponibilidad en ejecución, VRAM libre ni calidad. Actualiza evidencia y hashes cuando cambie un workflow.
+## Recuperación y entrega
 
-Revisa la salida y transfiere manualmente la estrategia aprobada al `Shot` correspondiente mediante el flujo de importación de planes. Después ejecuta `generate --dry-run` y `--prepare-only`. Las recetas del skill no reemplazan `src/adapters.ts` ni son una autorización para renderizar. Los registros históricos solo pueden influir en decisiones cuando los resultados tengan revisión y sean comparables por escenario, modo y hash de workflow.
+Intento inicial en ruta apropiada; segundo diagnóstico cambiando una variable. Un tercer intento es opcional con motivo y cambio explícito de ruta/división dentro del presupuesto; no bucles. Una reparación genera alternativa y conserva archivos. Screenwriting revisa cambios narrativos; no se alteran snapshots aprobados para acomodar un generador.
+
+Seedance/Kling requieren acción indispensable, razón de escalamiento, plataforma real inspeccionada, estimación vigente, presupuesto por episodio/proyecto y aprobación humana del pago. No gastar automáticamente al fallar el backend local.
+
+Evaluar identidad, anatomía, movimiento, continuidad, tiempo, causalidad y diálogo mediante video y audio. Si falta capacidad para ver/escuchar/transcribir/sincronizar, registrar QA pendiente. No declarar terminado un master por pasar FFmpeg. Seleccionar rangos útiles y conservar una sola fuente por línea; subtítulos literales con tiempos revisados. Exportar master, versiones, SRT, hashes, procedencia y estado QA. Todos los prompts exigen sonido diegético planificado y diálogo, sin música de principio a fin.

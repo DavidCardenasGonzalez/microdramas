@@ -1,3 +1,5 @@
+> Compatibilidad histórica LTX/MSR, fuera de la ruta oficial nueva. Leer solo para planes heredados o una petición explícita. Fast Ref/Motion y los contratos Studio se rigen por [la guía oficial](../../../docs/AI_FILM_DIRECTION_PLAYBOOK.md). No crear el journal ni biblioteca paralelos descritos aquí para proyectos Studio.
+
 # Metodología técnica
 
 ## Plan y biblioteca visual

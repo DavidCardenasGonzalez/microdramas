@@ -1,0 +1,21 @@
+$s=Get-Content -Raw 'productions/funny-girl-32/.studio/state.json' | ConvertFrom-Json
+$shot=$s.shots | Where-Object id -eq 'EP001-SC006-SH009' | Select-Object -Last 1
+$sp=$shot.referencePlan.shots
+$sp[0].action="Ethan rises beside his chair and asks Molly to notice him. He looks directly at her with a hopeful, eager, lightly flirtatious smile and warm, expressive eyes; his voice is playfully lifted, never flat."
+$new=@()
+$new += $sp[0]
+$new += [pscustomobject]@{id='CIN-2A';beatIds=@('EP001-SC006-B-85f3efd5-1');inSeconds=3.5;outSeconds=4.45;transition='hard-cut';composition="Medium close-up on Ethan stepping toward the pair, his face clearly readable; Molly and Nick remain soft foreground anchors.";action="Ethan takes the single scripted step toward Molly and Nick with eager, hopeful intent. He looks toward Molly, inviting her attention; no added gesture or contact.";camera="Eye-level, locked, shallow focus on Ethan; maintain the established bed-side axis and cut once at the specified transition.";continuity="Ethan advances one step from the chair toward the bed; Molly and Nick remain beside each other; preserve screen direction, outfits, lighting, and identities."}
+$new += [pscustomobject]@{id='CIN-2B';beatIds=@('EP001-SC006-B-4c760b86-1','EP001-SC006-B-394c2470-1');inSeconds=4.45;outSeconds=6.2;transition='hard-cut';composition="Tight medium close-up over Ethan's clearly identifiable gray-suited shoulder in the near foreground; Molly's face is sharp and dominant. Nick stays visible but soft at the far side of frame.";action="Molly turns her eyes and face directly toward Ethan in the foreground, clearly separating her attention from Nick. She pulls her upper body away from Nick; her smile drops and her playful warmth changes to alert, firm resolve as she addresses Ethan. Ethan stops. Nick draws back.";camera="Eye-level, locked, shallow focus on Molly with Ethan's shoulder/profile visibly anchoring her eyeline; preserve the established axis and cut only at the next specified boundary.";continuity="Molly looks directly at Ethan while speaking; he is the only person in her near eyeline. Nick remains beside her but soft and farther back. Preserve Molly's turn away from Nick, the bed-side axis, screen direction, outfits, light, and faces."}
+$new += $sp[2]
+$sp[3].action="Molly straightens her shoulders, lowers then lifts her eyes, and gives a small practiced social smile. She sounds slightly tired and reassuring, but the smile does not reach her eyes."
+$new += $sp[3]
+$sp[4].action="Nick asks tenderly and with uncertainty. Molly rises once and answers with calm, clear resolve; her expression is kind but final."
+$new += $sp[4]
+$sp[5].action="Ethan quietly agrees, subdued and accepting. Molly turns toward the clear doorway; end when her choice to leave is clear."
+$new += $sp[5]
+$shot.referencePlan.shots=@($new)
+$shot.referencePlan.retentionAnalysis="Keep Molly, Nick and Ethan visually distinct and stable across every cut. Favor close-ups and expressive listening reactions. At the boundary beat, Ethan's step toward Molly and Nick is clearly shown; cut to Molly looking directly at Ethan over his visible gray-suited shoulder as she speaks. Nick is farther back, visibly secondary. Molly pulls away from Nick; both men stop and give her space."
+$shot.referencePlan.expectedOutput='One 19.333-second vertical video with 7 close/medium-close compositions, including a dedicated Ethan step-in shot and Molly speaking to Ethan over his identifiable shoulder, with clean hard cuts.'
+$shot.referencePlan.validationCriteria=@("Check every face, outfit, eyeline, screen direction, room position and cut against the references.","Confirm the single step by Ethan is visible before Molly speaks and she looks directly at him while setting her boundary; Nick is visibly separate and secondary.","Check literal dialogue, assigned speaker, emotional intent, intelligibility, pronunciation and lip sync.","Confirm Molly pulls away from Nick; Ethan freezes and Nick draws back.","Confirm no music, score, sting or added synthetic audio from first frame through last.")
+ConvertTo-Json -InputObject @($shot) -Depth 16 | Set-Content -Encoding utf8 -NoNewline 'tmp/EP001-SC006-SH009-directed-v2.json'
+$shot | ConvertTo-Json -Depth 16 | Set-Content -Encoding utf8 -NoNewline 'tmp/EP001-SC006-SH009-directed-v2.json'

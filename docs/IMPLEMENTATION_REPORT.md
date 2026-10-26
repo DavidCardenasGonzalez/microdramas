@@ -1,3 +1,5 @@
+> Registro histórico de implementación. No dirige nuevas producciones; la política vigente es [AI_FILM_DIRECTION_PLAYBOOK.md](AI_FILM_DIRECTION_PLAYBOOK.md). Sus límites y rutas describen la versión evaluada entonces.
+
 # Reporte de implementación — 22 de octubre de 2026, México
 
 ## Resultado

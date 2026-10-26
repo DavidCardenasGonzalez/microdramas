@@ -2,7 +2,13 @@
 
 Los informes `environment.detected.json` y `msr-integration.detected.json` se generan localmente y están excluidos del repositorio porque contienen rutas y datos del equipo. Los manifiestos de `productions/` también son locales. Los detalles siguientes corresponden al entorno inspeccionado, no a garantías universales de esos modelos.
 
-## ComfyUI y MSR
+## Ruta oficial Fast Ref/Motion
+
+Consultar [integración de dirección](HYBRID_VIDEO_DIRECTION.md). Fast Ref incorpora la plantilla adjunta con prompt/referencias de ejemplo retirados; Motion requiere su API propia. Los registros son separados y se validan contra el servicio activo antes de preparar paquetes. La existencia de la plantilla no demuestra disponibilidad actual ni calidad. Seedance/Kling se entregan como handoff a la plataforma real con autorización humana y presupuesto; no se presenta un conector Node ficticio.
+
+Las secciones siguientes conservan evidencia histórica de adaptadores heredados, no una selección predeterminada para nuevos proyectos.
+
+## ComfyUI y MSR (histórico)
 
 - Backend activo: `http://127.0.0.1:8000`, ComfyUI 0.42.0, RTX 4070 de 12 GB.
 - `GET /system_stats`, `/queue` y los `/object_info/<class>` necesarios funcionaron.

@@ -2,6 +2,27 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
+    "productionMode": {
+      "default": "standard",
+      "type": "string",
+      "enum": [
+        "standard",
+        "simple"
+      ]
+    },
+    "completionMode": {
+      "default": "complete",
+      "type": "string",
+      "enum": [
+        "submit",
+        "complete"
+      ]
+    },
+    "premiumBudgetPerEpisode": {
+      "default": 0,
+      "type": "number",
+      "minimum": 0
+    },
     "ffmpeg": {
       "type": "string"
     },
@@ -104,6 +125,35 @@
               "maxSeconds": {
                 "type": "number",
                 "exclusiveMinimum": 0
+              },
+              "resolutionMegapixels": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "workflowName": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 64,
+                "maxLength": 64
+              },
+              "referenceNode": {
+                "type": "string"
+              },
+              "maxReferences": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "framePolicy": {
+                "type": "string",
+                "enum": [
+                  "h3-17n5"
+                ]
+              },
+              "evidence": {
+                "type": "string"
               }
             },
             "required": [
@@ -139,6 +189,34 @@
         },
         "catalog": {
           "type": "string"
+        },
+        "kling": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minSeconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "maxSeconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "evidence": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "model",
+            "minSeconds",
+            "maxSeconds",
+            "evidence"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -148,6 +226,9 @@
     }
   },
   "required": [
+    "productionMode",
+    "completionMode",
+    "premiumBudgetPerEpisode",
     "concurrency",
     "maxAttempts",
     "pollMs",

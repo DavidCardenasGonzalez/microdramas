@@ -28,7 +28,7 @@ model, media type, capability flags, and explicit limits.
 2. Build a semantic shot representation that freezes story facts.
 3. Define storyboard frames as single observable moments.
 4. Compile image requests from identity, environment, composition, action state, lighting, and continuity constraints.
-5. Compile video requests from start state, action progression, camera motion, performance change, and end state.
+5. Compile video requests from the approved concrete visual treatment, start state, action progression, camera/focus, observable performance change, timed speaker assignments and end state. Missing direction returns to camera; do not fill it with generic cinematic adjectives or repeated negatives.
 6. Select a generation mode from text-to-image, text-to-video,
    image-to-video, first/last-frame video, multi-reference video, or audio.
 7. Match each request against an explicit provider capability profile.

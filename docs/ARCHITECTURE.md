@@ -1,5 +1,7 @@
 # Arquitectura implementada
 
+La [guía oficial](AI_FILM_DIRECTION_PLAYBOOK.md) gobierna el ciclo. `src/direction.ts` comparte esa política entre solicitudes narrativas y tareas de producción; `src/hybrid.ts` enruta Fast Ref/Motion y conserva planes heredados. `src/continuity.ts` importa biblias de secuencia versionadas, invalida solo dependientes y deriva el reference_manifest.
+
 ## Módulos y ejecución
 
 `src/cli.ts` expone la interfaz operativa. Commander interpreta opciones; Zod valida todos los contratos al cargar y guardar. `src/studio.ts` inicializa proyectos, informa progreso, valida el conjunto y descubre herramientas. `src/narrative.ts` prepara solicitudes para Codex, importa resultados Screenwriting y aprueba versiones inmutables. `src/tasks.ts` limita el contexto por episodio, escena o toma.
@@ -36,7 +38,7 @@ No se guarda una segunda copia editable de contratos en cada etapa. Las vistas d
 
 ## Contratos
 
-Los esquemas de `schemas/` se generan desde `src/contracts.ts`. Se implementaron `Project`, `StoryBible`, `Character`, `Episode`, `Script`, `Scene`, `Beat`, `Shot`, `Asset`, `Reference`, `GenerationJob`, `GeneratedTake`, `Review`, `Timeline`, `Export`; además `Profile`, `Config`, `PromptPackage`, `Approval`, `ReferenceGeneration` y diagnósticos.
+Los esquemas de `schemas/` se generan desde `src/contracts.ts`. Se implementaron `Project`, `StoryBible`, `Character`, `Episode`, `Script`, `Scene`, `Beat`, `Shot`, `SequenceContinuity`, `ReferencePlan`, `Asset`, `Reference`, `GenerationJob`, `GeneratedTake`, `Review`, `Timeline`, `Export`; además `Profile`, `Config`, `PromptPackage`, `Approval`, `ReferenceGeneration` y diagnósticos.
 
 Los artefactos tienen ID, versión, estado y dependencias exactas `{id,version}`. Una toma apunta al job, plano y versiones de referencias. El plano apunta al guion, escena, beats, personajes, assets y referencias; el seleccionado y sus in/out están identificados explícitamente. Timeline y Export dependen de las selecciones y versiones correspondientes.
 

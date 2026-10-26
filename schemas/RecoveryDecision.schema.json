@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "fromJobId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "technical",
+        "staging",
+        "performance",
+        "speaker-attribution",
+        "continuity",
+        "capability"
+      ]
+    },
+    "diagnosis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "prompt-refinement",
+        "seed-variation",
+        "redirect",
+        "separate-audio",
+        "change-model"
+      ]
+    },
+    "changedVariable": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expectedImprovement": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "fromJobId",
+    "category",
+    "diagnosis",
+    "action",
+    "changedVariable",
+    "expectedImprovement"
+  ],
+  "additionalProperties": false
+}

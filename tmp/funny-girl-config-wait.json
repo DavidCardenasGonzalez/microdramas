@@ -1,0 +1,115 @@
+{
+  "productionMode": "simple",
+  "concurrency": 1,
+  "maxAttempts": 2,
+  "pollMs": 100,
+  "timeoutMs": 1800000,
+  "budget": 2.5,
+  "comfy": {
+    "url": "http://127.0.0.1:8000",
+    "root": "C:/ComfyUI",
+    "python": "C:/ComfyUI/.venv/Scripts/python.exe",
+    "msrRunner": "C:\\Users\\AMD RYZEN\\.codex\\skills\\comfy-msr-video\\scripts\\run_msr_shots.py",
+    "msrBase": "C:\\Users\\AMD RYZEN\\.codex\\skills\\comfy-msr-video\\assets\\msr_15s_proven_base.json",
+    "fluxBase": "C:/ComfyUI/user/flux3_research/api/FLUX3_Klein_1Ref_Director_12GB.api.json",
+    "apiWorkflows": {
+      "comfy-h3-ref2v": {
+        "path": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\productions\\funny-girl-32\\generation\\workflows\\video_fasth3_ominiref_r2v.api.json",
+        "bindings": {
+          "prompt": {
+            "node": "136",
+            "input": "prompt"
+          },
+          "width": {
+            "node": "115",
+            "input": "aspect_ratio"
+          },
+          "height": {
+            "node": "115",
+            "input": "megapixels"
+          },
+          "duration": {
+            "node": "132",
+            "input": "value"
+          },
+          "seed": {
+            "node": "129",
+            "input": "noise_seed"
+          },
+          "fps": {
+            "node": "130",
+            "input": "fps"
+          },
+          "save": {
+            "node": "92",
+            "input": "filename_prefix"
+          }
+        },
+        "verified": true,
+        "minSeconds": 0.20833333333333334,
+        "maxSeconds": 19.333333333333332,
+        "resolutionMegapixels": 0.4,
+        "workflowName": "video_fasth3_ominiref_r2v",
+        "sha256": "1960e7a9353ccb7fca49d0ef5cc882c1530c0d0bab9752fe751ed8da9fd251f4",
+        "referenceNode": "136",
+        "maxReferences": 9,
+        "framePolicy": "h3-17n5",
+        "evidence": "Live MiniMaxH3ReferenceToVideo and all API graph nodes/models validated. Native frame policy 17*n+5 at 24 FPS. Source duration control is 20s; largest supported duration not exceeding it is 19.333333333333332s. ResolutionSelector retained at 0.4 MP. Seed bound to RandomNoise.noise_seed. No render quality implied. First-frame images may be included as explicitly mapped reference images. Source: C:\\Users\\AMD RYZEN\\Downloads\\video_fasth3_ominiref_r2v.json"
+      },
+      "comfy-i2v": {
+        "path": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\productions\\funny-girl-32\\generation\\workflows\\LTX-2.5_i2v.api.json",
+        "bindings": {
+          "prompt": {
+            "node": "398:376",
+            "input": "value"
+          },
+          "negative": {
+            "node": "398:373",
+            "input": "text"
+          },
+          "duration": {
+            "node": "398:362",
+            "input": "value"
+          },
+          "width": {
+            "node": "403",
+            "input": "aspect_ratio"
+          },
+          "height": {
+            "node": "403",
+            "input": "megapixels"
+          },
+          "seed": {
+            "node": "398:339",
+            "input": "noise_seed"
+          },
+          "seed2": {
+            "node": "398:338",
+            "input": "noise_seed"
+          },
+          "fps": {
+            "node": "398:361",
+            "input": "value"
+          },
+          "save": {
+            "node": "75",
+            "input": "filename_prefix"
+          },
+          "start": {
+            "node": "395",
+            "input": "image"
+          }
+        },
+        "verified": true,
+        "minSeconds": 1,
+        "maxSeconds": 41,
+        "resolutionMegapixels": 0.6,
+        "workflowName": "LTX-2.5 Image-to-Video (Comfy export)",
+        "evidence": "Flat API graph exported from the user active ComfyUI LTX-2.5 I2V canvas on 2026-10-24. Live /object_info verified all node classes and required checkpoints are listed. Generation duration is integer seconds mapped to frames = seconds*24+1; LTXVEmptyLatentAudio accepts 1..1000 frames, limiting integer duration to 41 seconds. 576x1024 (9:16) is a production-copy dimension pair matching the 0.6MP portrait selector in the source graph. The original canvas and export remain unchanged. Repair 2026-10-24: removed the unrelated PreviewAny output node from the production copy so SaveVideo is the sole output node. Resolution mapping uses the live ResolutionSelector portrait ratio and MP fields. Original ComfyMathExpression output nodes restored to preserve correct LTX latent width/height wiring."
+      }
+    }
+  },
+  "bridge": {
+    "model": "seedance_2_0"
+  }
+}

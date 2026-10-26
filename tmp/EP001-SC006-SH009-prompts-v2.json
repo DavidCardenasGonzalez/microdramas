@@ -1,0 +1,1501 @@
+{
+  "file": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\productions\\funny-girl-32\\requests\\prompts-EP001-SC006-SH009.json",
+  "packet": {
+    "kind": "codex-production-task",
+    "stage": "prompts",
+    "requestedStage": "prompts",
+    "scope": {
+      "stage": "prompts",
+      "episode": "EP001",
+      "scene": "EP001-SC006",
+      "shot": "EP001-SC006-SH009"
+    },
+    "productionPolicy": {
+      "mode": "simple",
+      "guide": "docs/SIMPLE_PRODUCTION.md",
+      "instruction": "Prioritize the next renderable scene or shot. Apply the responsible skills once to the bounded scene, retain decisions in Studio contracts, and reuse unchanged approved plans, references, workflows and jobs. Complete planning, required assets and prompts in one working pass without intermediate creative approval requests. Read only necessary skill references; do not reopen completed stages or create extra reports. A technical retry or prompt correction with the same directed Shot does not require a new shot plan. Replan only changed action, camera, duration, routing or dependencies. Story changes require a Screenwriting revision. Board creation is optional: generate a missing individual composed frame directly using relevant approved references and continuity anchors. Send each ready authorized shot before preparing unrelated scenes. Register its remote ID and return control; audiovisual review may remain pending.",
+      "sceneBoardRequired": false,
+      "safeguards": [
+        "Preserve approved script and dependency lineage.",
+        "Use real required references and verified adapter limits.",
+        "Keep scoped resource authorization and human approval of paid spending.",
+        "Never resubmit uncertain jobs or modify master workflows.",
+        "No music; no audiovisual approval without viewing and listening."
+      ]
+    },
+    "project": {
+      "id": "PROJECT-af235ceb-5d7",
+      "title": "Funny Girl",
+      "profile": {
+        "format": "microdrama",
+        "episodes": 32,
+        "durationSeconds": [
+          90,
+          120
+        ],
+        "language": "en-US",
+        "languageLevel": "native",
+        "audience": "adultos",
+        "genre": "comedia dramática",
+        "tone": "íntimo, agudo y autoconsciente",
+        "width": 720,
+        "height": 1280,
+        "fps": 24,
+        "pacing": "motivado y variado, sin relleno",
+        "hooks": "pregunta dramática clara con variedad orgánica",
+        "cliffhangers": "solo si nacen de una elección o consecuencia; permitir cierres resueltos",
+        "platforms": [
+          "vertical"
+        ],
+        "style": "cinematic",
+        "strictContinuity": true,
+        "maxShotSeconds": 12,
+        "distribution": []
+      }
+    },
+    "skills": [
+      {
+        "name": "compile-generation-prompts",
+        "path": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\vendor\\film\\compile-generation-prompts\\SKILL.md"
+      }
+    ],
+    "hybridDirection": {
+      "guide": "docs/HYBRID_VIDEO_DIRECTION.md",
+      "instruction": "Read this local routing policy before directing shots, preparing assets, compiling prompts or reviewing video. It overrides vendor I2V-default and mandatory-board assumptions. Choose generationMode and routingReason per scene sequence: ltx_i2v for controlled composition, dialogue and subtle reactions; h3_reference_to_video with workflow H3_motion_ref2v for reference-driven physical action and coordinated movement. Route according to actual verified capabilities, never a whole-episode blanket choice. H3 uses an ordered Reference Plan, not a storyboard per cinematic shot. Respect the registered workflow’s verified per-video maximum and native frame alignment; split longer sequences into units that reuse references. A first-frame image is valid among the references: use role start and map its Picture label to the target opening at 0.00 seconds. One Studio Shot may hold a multi-shot H3 generation unit with contiguous timed shots; preserve approved source beats and dialogue once. LTX retains composed first frames and reusable conversation coverage. No render authorization is implied.",
+      "referencePlans": [
+        {
+          "shotId": "EP001-SC006-SH009",
+          "plan": {
+            "references": [
+              {
+                "referenceId": "REF-CHAR-MOLLY-IDENTITY",
+                "assetId": "CHAR-MOLLY-IDENTITY",
+                "role": "identity",
+                "subjectId": "MOLLY",
+                "usage": "Close-up identity for Molly. Preserve her approved adult face and hair; visual guidance only."
+              },
+              {
+                "referenceId": "REF-CHAR-NICK-IDENTITY",
+                "assetId": "CHAR-NICK-IDENTITY",
+                "role": "identity",
+                "subjectId": "NICK",
+                "usage": "Close-up identity for Nick. Preserve his dark hair, light stubble and established face."
+              },
+              {
+                "referenceId": "REF-CHAR-ETHAN-IDENTITY",
+                "assetId": "CHAR-ETHAN-IDENTITY",
+                "role": "identity",
+                "subjectId": "ETHAN",
+                "usage": "Close-up identity for Ethan. Preserve his sandy hair, clean-shaven face and established features."
+              },
+              {
+                "referenceId": "REF-WARDROBE-MOLLY-WEDDING",
+                "assetId": "WARDROBE-MOLLY-WEDDING",
+                "role": "wardrobe",
+                "subjectId": "MOLLY",
+                "usage": "Molly wears the approved emerald-green wedding guest dress throughout the guest-room scene."
+              }
+            ],
+            "subjects": [
+              {
+                "subjectId": "MOLLY",
+                "characterId": "MOLLY",
+                "description": "Molly, adult woman aged 32; match her approved close-up identity.",
+                "wardrobe": "Long emerald-green wedding guest dress; preserve hair and makeup.",
+                "referenceIds": [
+                  "REF-CHAR-MOLLY-IDENTITY",
+                  "REF-WARDROBE-MOLLY-WEDDING"
+                ]
+              },
+              {
+                "subjectId": "NICK",
+                "characterId": "NICK",
+                "description": "Nick, adult man aged 32; dark hair and light stubble; match approved close-up.",
+                "wardrobe": "Charcoal suit and pale blue open-collar shirt.",
+                "referenceIds": [
+                  "REF-CHAR-NICK-IDENTITY"
+                ]
+              },
+              {
+                "subjectId": "ETHAN",
+                "characterId": "ETHAN",
+                "description": "Ethan, adult man aged 30; sandy hair, clean-shaven; match approved close-up.",
+                "wardrobe": "Light-gray suit and navy open-collar shirt.",
+                "referenceIds": [
+                  "REF-CHAR-ETHAN-IDENTITY"
+                ]
+              }
+            ],
+            "shots": [
+              {
+                "id": "CIN-1",
+                "beatIds": [
+                  "EP001-SC006-B-7f58d61c-1",
+                  "EP001-SC006-B-eaf6842a-1"
+                ],
+                "inSeconds": 0,
+                "outSeconds": 3.5,
+                "transition": "start",
+                "composition": "Close-up to medium close-up on Ethan; Molly and Nick soft in foreground.",
+                "action": "Ethan rises beside his chair and asks Molly to notice him. He looks directly at her with a hopeful, eager, lightly flirtatious smile and warm, expressive eyes; his voice is playfully lifted, never flat.",
+                "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+                "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+              },
+              {
+                "id": "CIN-2A",
+                "beatIds": [
+                  "EP001-SC006-B-85f3efd5-1"
+                ],
+                "inSeconds": 3.5,
+                "outSeconds": 4.45,
+                "transition": "hard-cut",
+                "composition": "Medium close-up on Ethan stepping toward the pair, his face clearly readable; Molly and Nick remain soft foreground anchors.",
+                "action": "Ethan takes the single scripted step toward Molly and Nick with eager, hopeful intent. He looks toward Molly, inviting her attention; no added gesture or contact.",
+                "camera": "Eye-level, locked, shallow focus on Ethan; maintain the established bed-side axis and cut once at the specified transition.",
+                "continuity": "Ethan advances one step from the chair toward the bed; Molly and Nick remain beside each other; preserve screen direction, outfits, lighting, and identities."
+              },
+              {
+                "id": "CIN-2B",
+                "beatIds": [
+                  "EP001-SC006-B-4c760b86-1",
+                  "EP001-SC006-B-394c2470-1"
+                ],
+                "inSeconds": 4.45,
+                "outSeconds": 6.2,
+                "transition": "hard-cut",
+                "composition": "Tight medium close-up over Ethan's clearly identifiable gray-suited shoulder in the near foreground; Molly's face is sharp and dominant. Nick stays visible but soft at the far side of frame.",
+                "action": "Molly turns her eyes and face directly toward Ethan in the foreground, clearly separating her attention from Nick. She pulls her upper body away from Nick; her smile drops and her playful warmth changes to alert, firm resolve as she addresses Ethan. Ethan stops. Nick draws back.",
+                "camera": "Eye-level, locked, shallow focus on Molly with Ethan's shoulder/profile visibly anchoring her eyeline; preserve the established axis and cut only at the next specified boundary.",
+                "continuity": "Molly looks directly at Ethan while speaking; he is the only person in her near eyeline. Nick remains beside her but soft and farther back. Preserve Molly's turn away from Nick, the bed-side axis, screen direction, outfits, light, and faces."
+              },
+              {
+                "id": "CIN-3",
+                "beatIds": [
+                  "EP001-SC006-B-8db3d175-1",
+                  "EP001-SC006-B-e5e6fc54-1"
+                ],
+                "inSeconds": 6.2,
+                "outSeconds": 9.2,
+                "transition": "hard-cut",
+                "composition": "Close-up on Nick with Molly soft at frame edge.",
+                "action": "Nick draws back, gives her space, and asks if she is okay with concern.",
+                "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+                "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+              },
+              {
+                "id": "CIN-4",
+                "beatIds": [
+                  "EP001-SC006-B-33736c40-1",
+                  "EP001-SC006-B-e3b2b863-1"
+                ],
+                "inSeconds": 9.2,
+                "outSeconds": 13,
+                "transition": "hard-cut",
+                "composition": "Tight close-up on Molly, eyes lower then lift.",
+                "action": "Molly straightens her shoulders, lowers then lifts her eyes, and gives a small practiced social smile. She sounds slightly tired and reassuring, but the smile does not reach her eyes.",
+                "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+                "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+              },
+              {
+                "id": "CIN-5",
+                "beatIds": [
+                  "EP001-SC006-B-1e8fea86-1",
+                  "EP001-SC006-B-c114a77e-1",
+                  "EP001-SC006-B-5b386f43-1"
+                ],
+                "inSeconds": 13,
+                "outSeconds": 16.8,
+                "transition": "hard-cut",
+                "composition": "Close-up on Nick for his question, then hard cut to Molly on the same axis.",
+                "action": "Nick asks tenderly and with uncertainty. Molly rises once and answers with calm, clear resolve; her expression is kind but final.",
+                "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+                "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+              },
+              {
+                "id": "CIN-6",
+                "beatIds": [
+                  "EP001-SC006-B-26503677-1",
+                  "EP001-SC006-B-b899b9f8-1"
+                ],
+                "inSeconds": 16.8,
+                "outSeconds": 19.3333333333,
+                "transition": "hard-cut",
+                "composition": "Close-up on Ethan acknowledging, then medium close-up on Molly facing the doorway; Nick stays seated in soft background.",
+                "action": "Ethan quietly agrees, subdued and accepting. Molly turns toward the clear doorway; end when her choice to leave is clear.",
+                "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+                "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+              }
+            ],
+            "retentionAnalysis": "Keep Molly, Nick and Ethan visually distinct and stable across every cut. Favor close-ups and expressive listening reactions. At the boundary beat, Ethan's step toward Molly and Nick is clearly shown; cut to Molly looking directly at Ethan over his visible gray-suited shoulder as she speaks. Nick is farther back, visibly secondary. Molly pulls away from Nick; both men stop and give her space.",
+            "continuityRequirements": [
+              "Lock the three approved faces and hairstyles to their identity references across every internal cut and both video units.",
+              "Molly and Nick begin beside each other at the bed; Ethan begins beside the chair; the doorway stays clear.",
+              "Preserve all three wedding outfits; Molly remains in the emerald-green dress.",
+              "Use simple American English, spoken slowly, clearly and naturally with expressive but restrained delivery; one speaker at a time. Exact source lines once only.",
+              "No captions, text, extra narration, improvised dialogue, extra gestures or music."
+            ],
+            "expectedOutput": "One 19.333-second vertical video with 7 close/medium-close compositions, including a dedicated Ethan step-in shot and Molly speaking to Ethan over his identifiable shoulder, with clean hard cuts.",
+            "validationCriteria": [
+              "Check every face, outfit, eyeline, screen direction, room position and cut against the references.",
+              "Confirm the single step by Ethan is visible before Molly speaks and she looks directly at him while setting her boundary; Nick is visibly separate and secondary.",
+              "Check literal dialogue, assigned speaker, emotional intent, intelligibility, pronunciation and lip sync.",
+              "Confirm Molly pulls away from Nick; Ethan freezes and Nick draws back.",
+              "Confirm no music, score, sting or added synthetic audio from first frame through last."
+            ]
+          }
+        }
+      ]
+    },
+    "shotPlanningContract": {
+      "prerequisite": "Approved, skill-directed Studio Shot records from plan-camera-shots.",
+      "ready": true,
+      "imageContinuityContract": {
+        "appliesTo": "LTX and other composed-frame routes only; exclude H3 reference generation",
+        "mandatory": false,
+        "workflow": "Reuse compatible reviewed composed frames first. For missing compositions, generate only the individual frame needed from approved identity, location and wardrobe references plus the directed Shot. Maintain axis, eyelines, prop state and lighting. A scene board is optional when it solves a concrete continuity problem; it is never an I2V start frame.",
+        "sceneCoverage": {
+          "shots": [],
+          "assets": [],
+          "references": []
+        },
+        "derivation": "Create only missing distinct compositions as individual images. Include relevant approved references and the Shot continuity instructions; include a reviewed board only if one exists and is useful. Inspect each full image before attachment.",
+        "persistence": "If a scene board is created, save it under the production references/boards folder with episode and scene IDs. Save each single-shot image as that shot’s start-frame candidate, inspect it, then attach and approve it through the normal references workflow. Never substitute the multi-panel board for an I2V start frame.",
+        "imageRequest": "Include scene and shot IDs, shot order, framing, camera position, blocking, frozen action moment, continuity anchors, and reference roles in image requests. Keep static composition instructions separate from video motion."
+      },
+      "instruction": "Compile only the approved shot plan. Do not derive, redesign, split, merge, or silently correct shots in this stage. Follow imageContinuityContract for composed frames; its mandatory flag determines whether a board is required. Reuse compatible existing compositions. For H3, compile its approved Reference Plan with ordered reference roles and subject mappings into the official six-section reference prompt, with explicit timed HARD CUTS where planned; do not request a board or image per cinematic shot and do not impose LTX continuous-shot restrictions. Video prompts must be production-ready and sufficiently descriptive: state scene context, visible subjects and stable identity anchors, composition, blocking, one dominant action progression per cinematic shot, performance change, camera behavior, start/end state, continuity and sound. Include the assigned duration in seconds and direct the model to complete only the planned action within that duration; do not add dead air, filler action, or unmotivated holds. Render all source action as narrative prose, never as screenplay dialogue blocks or character-name speaker labels. Render each exact spoken line once in quotation marks, attributed in prose to its speaker; tell the model to speak only quoted text and never vocalize names or narration. Require diegetic-only audio from the first frame to the last: no musical intro or outro, background score, reveal sting, suspense drone, riser, tonal pulse, bass drop, trailer boom, or synthetic impact accent. Do not add music from in-scene devices. Preserve natural quiet where no dialogue or planned sound occurs. Put this rule at the beginning and remind it at the end; include it in supported negative prompts. If direction is incomplete, return to task --stage shots. If only references or technical preflight are missing, resolve those without reopening an unchanged approved shot plan."
+    },
+    "approvedStoryAdapter": {
+      "authority": "screenwriting",
+      "bible": [
+        {
+          "id": "BIBLE-FUNNY-GIRL",
+          "version": 6,
+          "premise": "A celebrity reporter turns difficult experiences into entertaining stories, until she must face what those stories conceal.",
+          "theme": "Honesty makes recovery possible."
+        }
+      ],
+      "note": "Replaces shape-story-blueprint with approved facts. These skill docs are methodological inputs; normalize results to studio schemas rather than maintaining a second editable project."
+    },
+    "sceneSimplicity": {
+      "guide": "docs/SCENE_SIMPLICITY.md",
+      "strength": "advisory",
+      "instruction": "Flag avoidable physical complexity when simpler staging could preserve the dramatic function. Do not impose quotas or simplify essential spectacle, choices or evidence away. Camera/coverage can be refined within approved facts; changes to entrances, concealment, actions, discoveries or consequences must return as recommendations to Screenwriting, never be silently rewritten in production."
+    },
+    "wardrobeDirection": {
+      "guide": "docs/SCENE_WARDROBE.md",
+      "strength": "contextual production direction",
+      "instruction": "Separate character identity from clothing. An identity/reference sheet fixes stable face, hair and build, not a universal outfit. For each scene, choose context-appropriate clothing when clear (e.g. wedding attire at a wedding, swimwear at a pool), unless the screenplay or an approved scene-specific wardrobe reference establishes another deliberate choice. Treat unstated costume as a visual proposal, preserve it across the scene, and link any wardrobe asset/reference only to the relevant scenes and shots. Never rewrite the approved script or propagate a temporary outfit into identity."
+    },
+    "shots": [
+      {
+        "id": "EP001-SC006-SH009",
+        "version": 2,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          },
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-7f58d61c-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-eaf6842a-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-85f3efd5-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-4c760b86-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-394c2470-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-8db3d175-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-e5e6fc54-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-33736c40-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-e3b2b863-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-1e8fea86-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-c114a77e-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-5b386f43-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-26503677-1",
+            "version": 1
+          },
+          {
+            "id": "EP001-SC006-B-b899b9f8-1",
+            "version": 1
+          },
+          {
+            "id": "MOLLY",
+            "version": 1
+          },
+          {
+            "id": "NICK",
+            "version": 1
+          },
+          {
+            "id": "ETHAN",
+            "version": 1
+          },
+          {
+            "id": "CHAR-MOLLY-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "CHAR-NICK-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "CHAR-ETHAN-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "WARDROBE-MOLLY-WEDDING",
+            "version": 1
+          },
+          {
+            "id": "WARDROBE-NICK-WEDDING",
+            "version": 1
+          },
+          {
+            "id": "WARDROBE-ETHAN-WEDDING",
+            "version": 1
+          },
+          {
+            "id": "LOC-GUEST-ROOM",
+            "version": 1
+          },
+          {
+            "id": "REF-CHAR-MOLLY-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "REF-CHAR-NICK-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "REF-CHAR-ETHAN-IDENTITY",
+            "version": 1
+          },
+          {
+            "id": "REF-WARDROBE-MOLLY-WEDDING",
+            "version": 1
+          }
+        ],
+        "scriptId": "EP001-SCRIPT",
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "beatIds": [
+          "EP001-SC006-B-7f58d61c-1",
+          "EP001-SC006-B-eaf6842a-1",
+          "EP001-SC006-B-85f3efd5-1",
+          "EP001-SC006-B-4c760b86-1",
+          "EP001-SC006-B-394c2470-1",
+          "EP001-SC006-B-8db3d175-1",
+          "EP001-SC006-B-e5e6fc54-1",
+          "EP001-SC006-B-33736c40-1",
+          "EP001-SC006-B-e3b2b863-1",
+          "EP001-SC006-B-1e8fea86-1",
+          "EP001-SC006-B-c114a77e-1",
+          "EP001-SC006-B-5b386f43-1",
+          "EP001-SC006-B-26503677-1",
+          "EP001-SC006-B-b899b9f8-1"
+        ],
+        "characterIds": [
+          "MOLLY",
+          "NICK",
+          "ETHAN"
+        ],
+        "referenceIds": [
+          "REF-CHAR-MOLLY-IDENTITY",
+          "REF-CHAR-NICK-IDENTITY",
+          "REF-CHAR-ETHAN-IDENTITY",
+          "REF-WARDROBE-MOLLY-WEDDING"
+        ],
+        "assetIds": [
+          "CHAR-MOLLY-IDENTITY",
+          "CHAR-NICK-IDENTITY",
+          "CHAR-ETHAN-IDENTITY",
+          "WARDROBE-MOLLY-WEDDING",
+          "WARDROBE-NICK-WEDDING",
+          "WARDROBE-ETHAN-WEDDING",
+          "LOC-GUEST-ROOM"
+        ],
+        "purpose": "Ethan tries to join; Molly sets a boundary, masks her feelings and turns to leave.",
+        "durationReason": "19.333 s covers 7 short, measured lines and their visible actions and motivated reactions. 6 close/medium-close shots keep performance readable at a brisk edit without added holds or business.",
+        "framing": "Multishot close-ups and medium close-ups, with one brief geography-establishing medium close-up.",
+        "camera": {
+          "position": "Eye-level on the bed side of the established axis.",
+          "movement": "Locked; internal changes occur only at specified hard cuts.",
+          "lens": "50mm-equivalent portrait perspective.",
+          "focus": "Shallow focus on the speaking face; retain one soft spatial cue when needed."
+        },
+        "blocking": "Molly and Nick sit beside one another at the bed; Ethan starts beside the nearby chair; keep the door path clear. Follow only the approved action order. One speaker at a time. Add no touch, movement or words.",
+        "startState": "Ethan stands beside his chair.",
+        "endState": "Nick stays seated. Ethan steps back toward his chair. Molly turns toward the clear doorway.",
+        "durationSeconds": 19.3333333333,
+        "continuity": {
+          "axis": "Stay on the bed side of the axis; Ethan faces Molly and Nick; no unmotivated crossing.",
+          "eyelines": "Match eye-lines across close-up cuts; no direct-to-camera looks.",
+          "wardrobe": "Molly: emerald-green wedding guest dress. Nick: charcoal suit and pale blue open-collar shirt. Ethan: light-gray suit and navy open-collar shirt.",
+          "props": "Bed, nearby chair and clear doorway only.",
+          "lighting": "Soft practical bedroom light at night, consistent direction and warmth across cuts and both clips."
+        },
+        "dialogue": [
+          {
+            "speakerId": "ETHAN",
+            "text": "What about me?",
+            "beatId": "EP001-SC006-B-eaf6842a-1"
+          },
+          {
+            "speakerId": "MOLLY",
+            "text": "Wait. Stop.",
+            "beatId": "EP001-SC006-B-394c2470-1"
+          },
+          {
+            "speakerId": "NICK",
+            "text": "Are you okay?",
+            "beatId": "EP001-SC006-B-e5e6fc54-1"
+          },
+          {
+            "speakerId": "MOLLY",
+            "text": "I'm fine. I'm just tired.",
+            "beatId": "EP001-SC006-B-e3b2b863-1"
+          },
+          {
+            "speakerId": "NICK",
+            "text": "Do you want me to stay?",
+            "beatId": "EP001-SC006-B-1e8fea86-1"
+          },
+          {
+            "speakerId": "MOLLY",
+            "text": "No. I want to sleep alone.",
+            "beatId": "EP001-SC006-B-5b386f43-1"
+          },
+          {
+            "speakerId": "ETHAN",
+            "text": "Okay.",
+            "beatId": "EP001-SC006-B-26503677-1"
+          }
+        ],
+        "sound": [
+          "Quiet room tone and subtle clothing rustle only; natural dialogue, no other voices."
+        ],
+        "generationMode": "h3_reference_to_video",
+        "routingReason": "Three stable identities, a gentle two-person kiss and a coordinated stop-and-withdraw action suit the registered MiniMax H3 multireference workflow; internal close-ups maintain readable acting without generated frames.",
+        "referencePlan": {
+          "references": [
+            {
+              "referenceId": "REF-CHAR-MOLLY-IDENTITY",
+              "assetId": "CHAR-MOLLY-IDENTITY",
+              "role": "identity",
+              "subjectId": "MOLLY",
+              "usage": "Close-up identity for Molly. Preserve her approved adult face and hair; visual guidance only."
+            },
+            {
+              "referenceId": "REF-CHAR-NICK-IDENTITY",
+              "assetId": "CHAR-NICK-IDENTITY",
+              "role": "identity",
+              "subjectId": "NICK",
+              "usage": "Close-up identity for Nick. Preserve his dark hair, light stubble and established face."
+            },
+            {
+              "referenceId": "REF-CHAR-ETHAN-IDENTITY",
+              "assetId": "CHAR-ETHAN-IDENTITY",
+              "role": "identity",
+              "subjectId": "ETHAN",
+              "usage": "Close-up identity for Ethan. Preserve his sandy hair, clean-shaven face and established features."
+            },
+            {
+              "referenceId": "REF-WARDROBE-MOLLY-WEDDING",
+              "assetId": "WARDROBE-MOLLY-WEDDING",
+              "role": "wardrobe",
+              "subjectId": "MOLLY",
+              "usage": "Molly wears the approved emerald-green wedding guest dress throughout the guest-room scene."
+            }
+          ],
+          "subjects": [
+            {
+              "subjectId": "MOLLY",
+              "characterId": "MOLLY",
+              "description": "Molly, adult woman aged 32; match her approved close-up identity.",
+              "wardrobe": "Long emerald-green wedding guest dress; preserve hair and makeup.",
+              "referenceIds": [
+                "REF-CHAR-MOLLY-IDENTITY",
+                "REF-WARDROBE-MOLLY-WEDDING"
+              ]
+            },
+            {
+              "subjectId": "NICK",
+              "characterId": "NICK",
+              "description": "Nick, adult man aged 32; dark hair and light stubble; match approved close-up.",
+              "wardrobe": "Charcoal suit and pale blue open-collar shirt.",
+              "referenceIds": [
+                "REF-CHAR-NICK-IDENTITY"
+              ]
+            },
+            {
+              "subjectId": "ETHAN",
+              "characterId": "ETHAN",
+              "description": "Ethan, adult man aged 30; sandy hair, clean-shaven; match approved close-up.",
+              "wardrobe": "Light-gray suit and navy open-collar shirt.",
+              "referenceIds": [
+                "REF-CHAR-ETHAN-IDENTITY"
+              ]
+            }
+          ],
+          "shots": [
+            {
+              "id": "CIN-1",
+              "beatIds": [
+                "EP001-SC006-B-7f58d61c-1",
+                "EP001-SC006-B-eaf6842a-1"
+              ],
+              "inSeconds": 0,
+              "outSeconds": 3.5,
+              "transition": "start",
+              "composition": "Close-up to medium close-up on Ethan; Molly and Nick soft in foreground.",
+              "action": "Ethan rises beside his chair and asks Molly to notice him. He looks directly at her with a hopeful, eager, lightly flirtatious smile and warm, expressive eyes; his voice is playfully lifted, never flat.",
+              "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+              "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+            },
+            {
+              "id": "CIN-2A",
+              "beatIds": [
+                "EP001-SC006-B-85f3efd5-1"
+              ],
+              "inSeconds": 3.5,
+              "outSeconds": 4.45,
+              "transition": "hard-cut",
+              "composition": "Medium close-up on Ethan stepping toward the pair, his face clearly readable; Molly and Nick remain soft foreground anchors.",
+              "action": "Ethan takes the single scripted step toward Molly and Nick with eager, hopeful intent. He looks toward Molly, inviting her attention; no added gesture or contact.",
+              "camera": "Eye-level, locked, shallow focus on Ethan; maintain the established bed-side axis and cut once at the specified transition.",
+              "continuity": "Ethan advances one step from the chair toward the bed; Molly and Nick remain beside each other; preserve screen direction, outfits, lighting, and identities."
+            },
+            {
+              "id": "CIN-2B",
+              "beatIds": [
+                "EP001-SC006-B-4c760b86-1",
+                "EP001-SC006-B-394c2470-1"
+              ],
+              "inSeconds": 4.45,
+              "outSeconds": 6.2,
+              "transition": "hard-cut",
+              "composition": "Tight medium close-up over Ethan's clearly identifiable gray-suited shoulder in the near foreground; Molly's face is sharp and dominant. Nick stays visible but soft at the far side of frame.",
+              "action": "Molly turns her eyes and face directly toward Ethan in the foreground, clearly separating her attention from Nick. She pulls her upper body away from Nick; her smile drops and her playful warmth changes to alert, firm resolve as she addresses Ethan. Ethan stops. Nick draws back.",
+              "camera": "Eye-level, locked, shallow focus on Molly with Ethan's shoulder/profile visibly anchoring her eyeline; preserve the established axis and cut only at the next specified boundary.",
+              "continuity": "Molly looks directly at Ethan while speaking; he is the only person in her near eyeline. Nick remains beside her but soft and farther back. Preserve Molly's turn away from Nick, the bed-side axis, screen direction, outfits, light, and faces."
+            },
+            {
+              "id": "CIN-3",
+              "beatIds": [
+                "EP001-SC006-B-8db3d175-1",
+                "EP001-SC006-B-e5e6fc54-1"
+              ],
+              "inSeconds": 6.2,
+              "outSeconds": 9.2,
+              "transition": "hard-cut",
+              "composition": "Close-up on Nick with Molly soft at frame edge.",
+              "action": "Nick draws back, gives her space, and asks if she is okay with concern.",
+              "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+              "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+            },
+            {
+              "id": "CIN-4",
+              "beatIds": [
+                "EP001-SC006-B-33736c40-1",
+                "EP001-SC006-B-e3b2b863-1"
+              ],
+              "inSeconds": 9.2,
+              "outSeconds": 13,
+              "transition": "hard-cut",
+              "composition": "Tight close-up on Molly, eyes lower then lift.",
+              "action": "Molly straightens her shoulders, lowers then lifts her eyes, and gives a small practiced social smile. She sounds slightly tired and reassuring, but the smile does not reach her eyes.",
+              "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+              "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+            },
+            {
+              "id": "CIN-5",
+              "beatIds": [
+                "EP001-SC006-B-1e8fea86-1",
+                "EP001-SC006-B-c114a77e-1",
+                "EP001-SC006-B-5b386f43-1"
+              ],
+              "inSeconds": 13,
+              "outSeconds": 16.8,
+              "transition": "hard-cut",
+              "composition": "Close-up on Nick for his question, then hard cut to Molly on the same axis.",
+              "action": "Nick asks tenderly and with uncertainty. Molly rises once and answers with calm, clear resolve; her expression is kind but final.",
+              "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+              "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+            },
+            {
+              "id": "CIN-6",
+              "beatIds": [
+                "EP001-SC006-B-26503677-1",
+                "EP001-SC006-B-b899b9f8-1"
+              ],
+              "inSeconds": 16.8,
+              "outSeconds": 19.3333333333,
+              "transition": "hard-cut",
+              "composition": "Close-up on Ethan acknowledging, then medium close-up on Molly facing the doorway; Nick stays seated in soft background.",
+              "action": "Ethan quietly agrees, subdued and accepting. Molly turns toward the clear doorway; end when her choice to leave is clear.",
+              "camera": "Eye-level, locked camera, shallow focus on the active face; cut only at this specified transition, no camera travel.",
+              "continuity": "Maintain the bed-side axis, matching close-up eyelines, seated positions and screen direction; no identity or wardrobe drift."
+            }
+          ],
+          "retentionAnalysis": "Keep Molly, Nick and Ethan visually distinct and stable across every cut. Favor close-ups and expressive listening reactions. At the boundary beat, Ethan's step toward Molly and Nick is clearly shown; cut to Molly looking directly at Ethan over his visible gray-suited shoulder as she speaks. Nick is farther back, visibly secondary. Molly pulls away from Nick; both men stop and give her space.",
+          "continuityRequirements": [
+            "Lock the three approved faces and hairstyles to their identity references across every internal cut and both video units.",
+            "Molly and Nick begin beside each other at the bed; Ethan begins beside the chair; the doorway stays clear.",
+            "Preserve all three wedding outfits; Molly remains in the emerald-green dress.",
+            "Use simple American English, spoken slowly, clearly and naturally with expressive but restrained delivery; one speaker at a time. Exact source lines once only.",
+            "No captions, text, extra narration, improvised dialogue, extra gestures or music."
+          ],
+          "expectedOutput": "One 19.333-second vertical video with 7 close/medium-close compositions, including a dedicated Ethan step-in shot and Molly speaking to Ethan over his identifiable shoulder, with clean hard cuts.",
+          "validationCriteria": [
+            "Check every face, outfit, eyeline, screen direction, room position and cut against the references.",
+            "Confirm the single step by Ethan is visible before Molly speaks and she looks directly at him while setting her boundary; Nick is visibly separate and secondary.",
+            "Check literal dialogue, assigned speaker, emotional intent, intelligibility, pronunciation and lip sync.",
+            "Confirm Molly pulls away from Nick; Ethan freezes and Nick draws back.",
+            "Confirm no music, score, sting or added synthetic audio from first frame through last."
+          ]
+        },
+        "strategy": "multi-shot",
+        "finalState": "generated"
+      }
+    ],
+    "beats": [
+      {
+        "id": "EP001-SC006-B-7f58d61c-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2802,
+          "end": 2832,
+          "quote": "Ethan stands beside his chair."
+        },
+        "kind": "action",
+        "text": "Ethan stands beside his chair.",
+        "characterIds": [
+          "ETHAN"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-eaf6842a-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2834,
+          "end": 2854,
+          "quote": "ETHAN\nWhat about me?"
+        },
+        "kind": "dialogue",
+        "speakerId": "ETHAN",
+        "text": "What about me?",
+        "characterIds": [
+          "ETHAN"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-85f3efd5-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2856,
+          "end": 2884,
+          "quote": "He takes a step toward them."
+        },
+        "kind": "action",
+        "text": "He takes a step toward them.",
+        "characterIds": [],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-4c760b86-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2886,
+          "end": 2930,
+          "quote": "Molly pulls away from Nick. Her smile fades."
+        },
+        "kind": "action",
+        "text": "Molly pulls away from Nick. Her smile fades.",
+        "characterIds": [
+          "MOLLY",
+          "NICK"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-394c2470-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2932,
+          "end": 2949,
+          "quote": "MOLLY\nWait. Stop."
+        },
+        "kind": "dialogue",
+        "speakerId": "MOLLY",
+        "text": "Wait. Stop.",
+        "characterIds": [
+          "MOLLY"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-8db3d175-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2951,
+          "end": 2996,
+          "quote": "Nick draws back. Ethan stops where he stands."
+        },
+        "kind": "action",
+        "text": "Nick draws back. Ethan stops where he stands.",
+        "characterIds": [
+          "NICK",
+          "ETHAN"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-e5e6fc54-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 2998,
+          "end": 3016,
+          "quote": "NICK\nAre you okay?"
+        },
+        "kind": "dialogue",
+        "speakerId": "NICK",
+        "text": "Are you okay?",
+        "characterIds": [
+          "NICK"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-33736c40-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3018,
+          "end": 3076,
+          "quote": "Molly straightens her shoulders and puts on a small smile."
+        },
+        "kind": "action",
+        "text": "Molly straightens her shoulders and puts on a small smile.",
+        "characterIds": [
+          "MOLLY"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-e3b2b863-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3078,
+          "end": 3109,
+          "quote": "MOLLY\nI'm fine. I'm just tired."
+        },
+        "kind": "dialogue",
+        "speakerId": "MOLLY",
+        "text": "I'm fine. I'm just tired.",
+        "characterIds": [
+          "MOLLY"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-1e8fea86-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3111,
+          "end": 3139,
+          "quote": "NICK\nDo you want me to stay?"
+        },
+        "kind": "dialogue",
+        "speakerId": "NICK",
+        "text": "Do you want me to stay?",
+        "characterIds": [
+          "NICK"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-c114a77e-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3141,
+          "end": 3166,
+          "quote": "Molly rises from the bed."
+        },
+        "kind": "action",
+        "text": "Molly rises from the bed.",
+        "characterIds": [
+          "MOLLY"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-5b386f43-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3168,
+          "end": 3200,
+          "quote": "MOLLY\nNo. I want to sleep alone."
+        },
+        "kind": "dialogue",
+        "speakerId": "MOLLY",
+        "text": "No. I want to sleep alone.",
+        "characterIds": [
+          "MOLLY"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-26503677-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3202,
+          "end": 3213,
+          "quote": "ETHAN\nOkay."
+        },
+        "kind": "dialogue",
+        "speakerId": "ETHAN",
+        "text": "Okay.",
+        "characterIds": [
+          "ETHAN"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      },
+      {
+        "id": "EP001-SC006-B-b899b9f8-1",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "EP001-SC006",
+            "version": 1
+          },
+          {
+            "id": "EP001-SCRIPT",
+            "version": 6
+          }
+        ],
+        "sceneId": "EP001-SC006",
+        "episodeId": "EP001",
+        "source": {
+          "scriptId": "EP001-SCRIPT",
+          "scriptVersion": 6,
+          "start": 3215,
+          "end": 3306,
+          "quote": "Nick stays seated. Ethan steps back toward his chair. Molly turns toward the clear doorway."
+        },
+        "kind": "action",
+        "text": "Nick stays seated. Ethan steps back toward his chair. Molly turns toward the clear doorway.",
+        "characterIds": [
+          "MOLLY",
+          "NICK",
+          "ETHAN"
+        ],
+        "emotion": "interpret from source; no invented emotion",
+        "sound": []
+      }
+    ],
+    "assets": [
+      {
+        "id": "WARDROBE-MOLLY-WEDDING",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "MOLLY",
+            "version": 1
+          }
+        ],
+        "kind": "wardrobe",
+        "ownerId": "MOLLY",
+        "name": "Molly emerald wedding guest dress",
+        "description": "Scene-specific wardrobe only. Use references/characters/CHAR-MOLLY-WEDDING-v1.png for Molly already dressed in the long emerald-green wedding guest dress in the final doorway close-up. This is not a global identity outfit.",
+        "aliases": [
+          "emerald dress",
+          "wedding dress",
+          "green dress"
+        ]
+      },
+      {
+        "id": "CHAR-NICK-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "NICK",
+            "version": 1
+          }
+        ],
+        "kind": "character",
+        "ownerId": "NICK",
+        "name": "Nick identity",
+        "description": "Stable face, hair and build in references/characters/CHAR-NICK-IDENTITY-v1.png. Wedding clothes in the sheet are scene-specific, not universal.",
+        "aliases": [
+          "Nick"
+        ]
+      },
+      {
+        "id": "CHAR-ETHAN-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "ETHAN",
+            "version": 1
+          }
+        ],
+        "kind": "character",
+        "ownerId": "ETHAN",
+        "name": "Ethan identity",
+        "description": "Stable face, hair and build in references/characters/CHAR-ETHAN-IDENTITY-v1.png. Wedding clothes in the sheet are scene-specific, not universal.",
+        "aliases": [
+          "Ethan"
+        ]
+      },
+      {
+        "id": "WARDROBE-NICK-WEDDING",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "NICK",
+            "version": 1
+          }
+        ],
+        "kind": "wardrobe",
+        "ownerId": "NICK",
+        "name": "Nick wedding clothes",
+        "description": "EP001 wedding night: charcoal suit, pale blue open-collar shirt, dark leather shoes. As seen in the generated reference sheet.",
+        "aliases": []
+      },
+      {
+        "id": "WARDROBE-ETHAN-WEDDING",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "ETHAN",
+            "version": 1
+          }
+        ],
+        "kind": "wardrobe",
+        "ownerId": "ETHAN",
+        "name": "Ethan wedding clothes",
+        "description": "EP001 wedding night: light gray suit, navy open-collar shirt, brown leather shoes. As seen in the generated reference sheet.",
+        "aliases": []
+      },
+      {
+        "id": "LOC-GUEST-ROOM",
+        "version": 1,
+        "status": "approved",
+        "deps": [],
+        "kind": "location",
+        "name": "Guest room in Molly's mother's house",
+        "description": "A modest guest bedroom at night, a bed and a nearby chair, clear path to the doorway. Soft practical light. New scene location proposed by the established adaptation plan.",
+        "aliases": [
+          "Guest room"
+        ]
+      },
+      {
+        "id": "CHAR-MOLLY-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "MOLLY",
+            "version": 1
+          }
+        ],
+        "kind": "character",
+        "ownerId": "MOLLY",
+        "name": "Molly face identity",
+        "description": "Use references/characters/CHAR-MOLLY-DIALOGUE-CU-v1.png to preserve Molly's approved face, hair and build. Her outfit is scene-specific and follows the approved wardrobe.",
+        "aliases": [
+          "Molly face reference"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "id": "REF-WARDROBE-MOLLY-WEDDING",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "WARDROBE-MOLLY-WEDDING",
+            "version": 1
+          }
+        ],
+        "assetId": "WARDROBE-MOLLY-WEDDING",
+        "shotIds": [
+          "EP001-SC003-SH001",
+          "EP001-SC001-SH001",
+          "EP001-SC002-SH001",
+          "EP001-SC004-SH001",
+          "EP001-SC004-SH002",
+          "EP001-SC004-SH003",
+          "EP001-SC004-SH004",
+          "EP001-SC005-SH001",
+          "EP001-SC003-SH002",
+          "EP001-SC006-SH008",
+          "EP001-SC006-SH009",
+          "EP001-SC004-SH005"
+        ],
+        "kind": "wardrobe",
+        "description": "Scene-specific wardrobe only. Use references/characters/CHAR-MOLLY-WEDDING-v1.png for Molly already dressed in the long emerald-green wedding guest dress in the final doorway close-up. This is not a global identity outfit.",
+        "purpose": "Reusable wardrobe continuity reference",
+        "file": "references\\REF-WARDROBE-MOLLY-WEDDING.v1.png",
+        "sha256": "8a3d3aa3f54e692c44d0929030b2068f257eed9f9463a2f369b7061e7d40fafc",
+        "simulated": false,
+        "reviewedBy": "Codex"
+      },
+      {
+        "id": "REF-CHAR-MOLLY-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "CHAR-MOLLY-IDENTITY",
+            "version": 1
+          }
+        ],
+        "assetId": "CHAR-MOLLY-IDENTITY",
+        "shotIds": [
+          "EP001-SC006-SH008",
+          "EP001-SC006-SH009"
+        ],
+        "kind": "identity",
+        "description": "Use references/characters/CHAR-MOLLY-DIALOGUE-CU-v1.png to preserve Molly's approved face, hair and build. Her outfit is scene-specific and follows the approved wardrobe.",
+        "purpose": "Close-up identity for Molly. Preserve her approved adult face and hair; visual guidance only.",
+        "file": "references\\REF-CHAR-MOLLY-IDENTITY.v1.png",
+        "sha256": "52f82f4ed7c26d6edc5000fad5c58cc3479e7d737ff3907570348191afb471ed",
+        "simulated": false,
+        "reviewedBy": "Codex"
+      },
+      {
+        "id": "REF-CHAR-NICK-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "CHAR-NICK-IDENTITY",
+            "version": 1
+          }
+        ],
+        "assetId": "CHAR-NICK-IDENTITY",
+        "shotIds": [
+          "EP001-SC006-SH008",
+          "EP001-SC006-SH009"
+        ],
+        "kind": "identity",
+        "description": "Stable face, hair and build in references/characters/CHAR-NICK-IDENTITY-v1.png. Wedding clothes in the sheet are scene-specific, not universal.",
+        "purpose": "Close-up identity for Nick. Preserve his dark hair, light stubble and established face.",
+        "file": "references\\REF-CHAR-NICK-IDENTITY.v1.png",
+        "sha256": "60d6abc803db73caf9c6a309fc6a9a19378ad30eedc32e39041ab818fc2b7771",
+        "simulated": false,
+        "reviewedBy": "Codex"
+      },
+      {
+        "id": "REF-CHAR-ETHAN-IDENTITY",
+        "version": 1,
+        "status": "approved",
+        "deps": [
+          {
+            "id": "CHAR-ETHAN-IDENTITY",
+            "version": 1
+          }
+        ],
+        "assetId": "CHAR-ETHAN-IDENTITY",
+        "shotIds": [
+          "EP001-SC006-SH008",
+          "EP001-SC006-SH009"
+        ],
+        "kind": "identity",
+        "description": "Stable face, hair and build in references/characters/CHAR-ETHAN-IDENTITY-v1.png. Wedding clothes in the sheet are scene-specific, not universal.",
+        "purpose": "Close-up identity for Ethan. Preserve his sandy hair, clean-shaven face and established features.",
+        "file": "references\\REF-CHAR-ETHAN-IDENTITY.v1.png",
+        "sha256": "a40173e2fc75e26a1aab4230cb0001e419b650fc20e1a1fbac6c603b63312d9d",
+        "simulated": false,
+        "reviewedBy": "Codex"
+      }
+    ],
+    "takes": [],
+    "jobs": [
+      {
+        "id": "JOB-0827030e-713",
+        "shotId": "EP001-SC006-SH009",
+        "shotVersion": 1,
+        "state": "stale",
+        "remoteId": "4260a6ea-30c7-48a3-89e4-1d661f5d2980",
+        "output": "media\\JOB-0827030e-713.mp4",
+        "references": [
+          {
+            "id": "REF-CHAR-MOLLY-IDENTITY",
+            "version": 1,
+            "sha256": "52f82f4ed7c26d6edc5000fad5c58cc3479e7d737ff3907570348191afb471ed"
+          },
+          {
+            "id": "REF-CHAR-NICK-IDENTITY",
+            "version": 1,
+            "sha256": "60d6abc803db73caf9c6a309fc6a9a19378ad30eedc32e39041ab818fc2b7771"
+          },
+          {
+            "id": "REF-CHAR-ETHAN-IDENTITY",
+            "version": 1,
+            "sha256": "a40173e2fc75e26a1aab4230cb0001e419b650fc20e1a1fbac6c603b63312d9d"
+          },
+          {
+            "id": "REF-WARDROBE-MOLLY-WEDDING",
+            "version": 1,
+            "sha256": "8a3d3aa3f54e692c44d0929030b2068f257eed9f9463a2f369b7061e7d40fafc"
+          }
+        ]
+      },
+      {
+        "id": "JOB-0fee9b99-e90",
+        "shotId": "EP001-SC006-SH009",
+        "shotVersion": 1,
+        "state": "stale",
+        "remoteId": "8aaa2b6d-a655-4a27-8fe5-8de721fe2a2f",
+        "output": "media\\JOB-0fee9b99-e90.mp4",
+        "references": [
+          {
+            "id": "REF-CHAR-MOLLY-IDENTITY",
+            "version": 1,
+            "sha256": "52f82f4ed7c26d6edc5000fad5c58cc3479e7d737ff3907570348191afb471ed"
+          },
+          {
+            "id": "REF-CHAR-NICK-IDENTITY",
+            "version": 1,
+            "sha256": "60d6abc803db73caf9c6a309fc6a9a19378ad30eedc32e39041ab818fc2b7771"
+          },
+          {
+            "id": "REF-CHAR-ETHAN-IDENTITY",
+            "version": 1,
+            "sha256": "a40173e2fc75e26a1aab4230cb0001e419b650fc20e1a1fbac6c603b63312d9d"
+          },
+          {
+            "id": "REF-WARDROBE-MOLLY-WEDDING",
+            "version": 1,
+            "sha256": "8a3d3aa3f54e692c44d0929030b2068f257eed9f9463a2f369b7061e7d40fafc"
+          }
+        ]
+      },
+      {
+        "id": "JOB-b964c858-654",
+        "shotId": "EP001-SC006-SH009",
+        "shotVersion": 1,
+        "state": "stale",
+        "error": "Approval scope changed; approve the current jobs",
+        "references": [
+          {
+            "id": "REF-CHAR-MOLLY-IDENTITY",
+            "version": 1,
+            "sha256": "52f82f4ed7c26d6edc5000fad5c58cc3479e7d737ff3907570348191afb471ed"
+          },
+          {
+            "id": "REF-CHAR-NICK-IDENTITY",
+            "version": 1,
+            "sha256": "60d6abc803db73caf9c6a309fc6a9a19378ad30eedc32e39041ab818fc2b7771"
+          },
+          {
+            "id": "REF-CHAR-ETHAN-IDENTITY",
+            "version": 1,
+            "sha256": "a40173e2fc75e26a1aab4230cb0001e419b650fc20e1a1fbac6c603b63312d9d"
+          },
+          {
+            "id": "REF-WARDROBE-MOLLY-WEDDING",
+            "version": 1,
+            "sha256": "8a3d3aa3f54e692c44d0929030b2068f257eed9f9463a2f369b7061e7d40fafc"
+          }
+        ]
+      },
+      {
+        "id": "JOB-65524e71-c77",
+        "shotId": "EP001-SC006-SH009",
+        "shotVersion": 1,
+        "state": "stale",
+        "error": "Approval scope changed; approve the current jobs",
+        "references": [
+          {
+            "id": "REF-CHAR-MOLLY-IDENTITY",
+            "version": 1,
+            "sha256": "52f82f4ed7c26d6edc5000fad5c58cc3479e7d737ff3907570348191afb471ed"
+          },
+          {
+            "id": "REF-CHAR-NICK-IDENTITY",
+            "version": 1,
+            "sha256": "60d6abc803db73caf9c6a309fc6a9a19378ad30eedc32e39041ab818fc2b7771"
+          },
+          {
+            "id": "REF-CHAR-ETHAN-IDENTITY",
+            "version": 1,
+            "sha256": "a40173e2fc75e26a1aab4230cb0001e419b650fc20e1a1fbac6c603b63312d9d"
+          },
+          {
+            "id": "REF-WARDROBE-MOLLY-WEDDING",
+            "version": 1,
+            "sha256": "8a3d3aa3f54e692c44d0929030b2068f257eed9f9463a2f369b7061e7d40fafc"
+          }
+        ]
+      }
+    ],
+    "restrictions": [
+      "No new story events or dialogue. Return narrative feasibility findings to Screenwriting.",
+      "Exact source spans and existing IDs are authoritative.",
+      "Never claim a visual or listening check not performed.",
+      "No provider actions from upstream skill scripts; use studio adapters and approvals."
+    ],
+    "outputSchemas": {
+      "shot": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\schemas\\Shot.schema.json",
+      "review": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\schemas\\Review.schema.json",
+      "timeline": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\schemas\\Timeline.schema.json"
+    }
+  }
+}

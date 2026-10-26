@@ -12,9 +12,11 @@ const sources = [
 if (process.argv.includes('--verify')) {
   const lock = JSON.parse(await readFile('skills.lock.json','utf8'));
   for (const entry of lock.sources) for (const f of entry.files) {
-    if(hash(await readFile(f.local))!==f.sha256) throw Error(`Modified vendor file: ${f.local}`);
+    const patch=f.localPatch;
+    if(patch&&(!patch.reason?.trim()||patch.baseSha256!==f.sha256))throw Error(`Invalid local patch provenance: ${f.local}`);
+    if(hash(await readFile(f.local))!==(patch?.sha256??f.sha256)) throw Error(`Modified vendor file: ${f.local}`);
   }
-  console.log(`Verified ${lock.sources.reduce((n,s)=>n+s.files.length,0)} pinned documentation files`);
+  console.log(`Verified ${lock.sources.reduce((n,s)=>n+s.files.length,0)} pinned files including explicitly recorded local patches`);
 } else {
   const get = async u => { const r=await fetch(u,{headers:{'User-Agent':'ai-film-studio'}}); if(!r.ok) throw Error(`${r.status}: ${u}`); return r.text(); };
   const priorLock = await readFile('skills.lock.json','utf8').then(JSON.parse).catch(()=>({sources:[]}));

@@ -1,3 +1,5 @@
+> Compatibilidad histórica LTX/MSR, fuera de la ruta oficial nueva. Leer solo para planes heredados o una petición explícita. Fast Ref/Motion y los contratos Studio se rigen por [la guía oficial](../../../docs/AI_FILM_DIRECTION_PLAYBOOK.md). No crear el journal ni biblioteca paralelos descritos aquí para proyectos Studio.
+
 # Matriz y adaptadores
 
 El registro configurable es `../assets/capabilities.json`; `strategy.py inspect` comprueba ruta, hash actual, clases y modelos citados, sin enviar trabajos. `workflow_exists` no prueba modelos instalados, compatibilidad de backend, VRAM o calidad. Los nombres de checkpoint se leen del grafo; verifica `/object_info` y `/system_stats` antes de ejecutar. Un hash distinto exige reinspección. `evidence` describe lo observado, no una certificación.

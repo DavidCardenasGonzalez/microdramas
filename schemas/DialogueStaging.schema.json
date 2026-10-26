@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "beatId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "speakerId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "shotId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "strategy": {
+      "type": "string",
+      "enum": [
+        "on-camera",
+        "offscreen-audio",
+        "reaction-audio"
+      ]
+    },
+    "lipSync": {
+      "type": "string",
+      "enum": [
+        "required",
+        "none"
+      ]
+    },
+    "inSeconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "outSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "beatId",
+    "speakerId",
+    "shotId",
+    "strategy",
+    "lipSync",
+    "inSeconds",
+    "outSeconds",
+    "rationale"
+  ],
+  "additionalProperties": false
+}

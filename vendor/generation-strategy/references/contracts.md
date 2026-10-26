@@ -1,3 +1,5 @@
+> Compatibilidad histórica LTX/MSR, fuera de la ruta oficial nueva. Leer solo para planes heredados o una petición explícita. Fast Ref/Motion y los contratos Studio se rigen por [la guía oficial](../../../docs/AI_FILM_DIRECTION_PLAYBOOK.md). No crear el journal ni biblioteca paralelos descritos aquí para proyectos Studio.
+
 # Contratos, persistencia y comandos
 
 No se encontró un contrato de estudio/orquestador versionado ya instalado en `user/` durante esta integración. Este formato v1 sirve como handoff técnico local; **no** se presenta como compatible automáticamente con los repositorios externos. Conserva IDs de sus artefactos y escribe un mapeo explícito si se conectan más adelante, sin modificar las skills narrativas.

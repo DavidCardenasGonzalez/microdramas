@@ -3,20 +3,56 @@ import { type State } from './contracts.js';
 import { latest, atomic } from './store.js';
 import { scoped, type Scope } from './planning.js';
 import { repository } from './narrative.js';
+import { productionPolicy } from './production.js';
+import { filmDirection } from './direction.js';
+import { isH3, cinematicDirectionReady } from './hybrid.js';
+import { referenceManifest } from './continuity.js';
 export const skillRoutes:Record<string,[string,string[]]>={
  breakdown:['film',['structure-screenplay']],assets:['film',['design-production-assets']],shots:['film',['plan-camera-shots']],prompts:['film',['compile-generation-prompts']],review:['film',['review-and-assemble']],
  microdramaReview:['drama',['short-drama-review']],storyboard:['drama',['short-drama-storyboard']],imagePrompts:['drama',['short-drama-image-prompts']],videoPrompts:['drama',['short-drama-video-prompts']],edit:['drama',['short-drama-edit']],
  model:['director',['model-adaptation']],diagnostics:['director',['prompt-iteration-and-diagnostics']],style:['director',['style-cinematography-director']]
 };
-export function taskPacket(s:State,stage:string,scope:Scope){const route=skillRoutes[stage];if(!route)throw Error(`Unknown production task ${stage}`);if(!scope.episode&&!scope.shot&&!scope.scene)throw Error('Bound task by --episode, --scene or --shot');
+export function taskPacket(s:State,stage:string,scope:Scope){if(!scope.episode&&!scope.shot&&!scope.scene)throw Error('Bound task by --episode, --scene or --shot');
+ const requestedStage=stage;const policy=productionPolicy(s);
+ if(stage==='production'){const active=scoped(latest(s.shots),scope);stage=!active.length?'breakdown':active.some(sh=>sh.status!=='approved'||!sh.durationReason?.trim()||!cinematicDirectionReady(sh))?'shots':active.every(sh=>!!sh.selectedTakeId)?'edit':active.every(sh=>s.takes.some(t=>t.shotId===sh.id&&t.status!=='stale'))?'review':'prompts';}
+ const route=skillRoutes[stage];if(!route)throw Error(`Unknown production task ${stage}`);
  const shots=scoped(latest(s.shots),scope);const episodeIds=new Set(shots.map(x=>x.episodeId));if(scope.episode)episodeIds.add(scope.episode);const beats=latest(s.beats).filter(b=>shots.some(sh=>sh.beatIds.includes(b.id)));
  const assetIds=new Set(shots.flatMap(sh=>sh.assetIds));
- return {kind:'codex-production-task',stage,scope,project:{id:s.project.id,title:s.project.title,profile:s.project.profile},skills:route[1].map(name=>({name,path:path.join(repository,'vendor',route[0],name,'SKILL.md')})),
+ const continuitySceneIds=new Set(shots.map(sh=>sh.sceneId));const continuityShots=latest(s.shots).filter(sh=>continuitySceneIds.has(sh.sceneId)&&sh.status==='approved'&&!isH3(sh));const continuityAssetIds=new Set(continuityShots.flatMap(sh=>sh.assetIds));const continuityReferences=latest(s.references).filter(ref=>continuityShots.some(sh=>sh.referenceIds.includes(ref.id)));
+ return {kind:'codex-production-task',stage,requestedStage,scope,productionPolicy:policy,filmDirection,project:{id:s.project.id,title:s.project.title,profile:s.project.profile},skills:route[1].map(name=>({name,path:path.join(repository,'vendor',route[0],name,'SKILL.md')})),
+  hybridDirection:{...filmDirection,referencePlans:shots.filter(x=>x.referencePlan).map(x=>({shotId:x.id,plan:x.referencePlan})),qualityCriteria:stage==='review'?filmDirection.quality:undefined},
+  shotPlanningContract:stage==='shots'?{
+   mandatory:true,
+   skill:'vendor/film/plan-camera-shots/SKILL.md',
+   alsoRead:'vendor/film/plan-camera-shots/references/field-guide.md',
+   cinematicContract:{guide:'docs/CINEMATIC_DIRECTION.md',requiredFields:['direction','referencePlan.shots[].dramaticPurpose','referencePlan.shots[].performance','referencePlan.shots[].visibleSubjectIds','referencePlan.shots[].cutReason (after a cut)','referencePlan.dialogueStaging'],instruction:'Interpret objective, obstacle, subtext and emotional progression before coverage. Translate genre into concrete light, framing, camera, focus and rhythm. Each shot expresses a dramatic beat; a continuous take needs singleShotReason. Assign visible source speakers to native dialogue, or plan an independent replacement mix for offscreen/reaction voices. No fixed number of cuts or default locked camera. Interpretive performance choices are allowed within approved facts; narrative concealment changes require Screenwriting revision.'},
+   dialogueCoverage:{guide:'docs/DIALOGUE_COVERAGE.md',instruction:'Fast Ref dialogue may contain several timed cinematic shots with motivated cuts. Reuse identity references and the literal canonical continuity block across clips. Prefer a dominant face, allow meaningful shared shots and rack focus, and assign each spoken line once. About 3–5 shots in a ~20s unit is an observation, not a quota. Actual duration follows content and registered native frame limits.'},
+   instruction:'Read plan-camera-shots and its field guide for new or changed direction; reuse their recorded decisions for technical retries. Refine source beats, beatType, generationMode/routingReason, sequenceContinuity dependency, Reference Plan, blocking, states, action path, timing and audio. Preserve narrative facts. durationReason justifies action, words, pause and edit rhythm. Return Studio Shot records; never approve the automatic scaffold.',
+   approvalGate:'Only skill-refined Shot records with durationReason and complete cinematic direction, imported with plan --import-shots and approved, may proceed. Software checks completeness and attribution; the director still evaluates dramatic and visual quality.'
+  }:stage==='prompts'?{
+   prerequisite:'Approved, skill-directed Studio Shot records from plan-camera-shots.',
+   ready:shots.length>0&&shots.every(x=>x.status==='approved'&&!!x.durationReason?.trim()&&cinematicDirectionReady(x)),
+   imageContinuityContract:{
+    appliesTo:'Only explicit legacy composed-frame routes; official H3 uses minimal references and canonical textual continuity',
+    mandatory:false,
+    workflow:'Official H3: reuse identity references and canonical sequence text, requesting only justified missing assets. Legacy I2V: reuse reviewed composed frames; generate only the individual frame needed. A scene board is optional when it solves a concrete continuity problem.',
+    sceneCoverage:{shots:continuityShots,assets:latest(s.assets).filter(asset=>continuityAssetIds.has(asset.id)),references:continuityReferences},
+    derivation:'For an explicitly requested composed-frame route, create only missing distinct individual frames with relevant approved references and Shot continuity. Inspect the full image before attaching. H3 does not require this derivation.',
+    persistence:'If a scene board is created, save it under the production references/boards folder with episode and scene IDs. Save each single-shot image as that shot’s start-frame candidate, inspect it, then attach and approve it through the normal references workflow. Never substitute the multi-panel board for an I2V start frame.',
+    imageRequest:'Include scene and shot IDs, shot order, framing, camera position, blocking, frozen action moment, continuity anchors, and reference roles in image requests. Keep static composition instructions separate from video motion.'
+   },
+   instruction:'Compile the approved plan using filmDirection.prompts. H3 uses ordered reference roles, its complete canonical continuity and contiguous timed shots with planned HARD CUTS. Keep analysis and titles in metadata, outside model text. No board or first-frame requirement for H3. Preserve literal dialogue once and diegetic-only sound throughout. Incomplete direction returns to shots; missing assets or preflight do not reopen an unchanged plan.'
+  }:undefined,
   approvedStoryAdapter:{authority:'screenwriting',bible:latest(s.bibles).map(b=>({id:b.id,version:b.version,premise:b.premise,theme:b.theme})),note:'Replaces shape-story-blueprint with approved facts. These skill docs are methodological inputs; normalize results to studio schemas rather than maintaining a second editable project.'},
-  scripts:scope.shot||scope.scene?undefined:s.scripts.filter(x=>x.status==='approved'&&episodeIds.has(x.episodeId)),shots,beats,assets:latest(s.assets).filter(x=>assetIds.has(x.id)),references:latest(s.references).filter(x=>shots.some(sh=>sh.referenceIds.includes(x.id))),
+  sceneSimplicity:{guide:'docs/SCENE_SIMPLICITY.md',strength:'advisory',instruction:'Flag avoidable physical complexity when simpler staging could preserve the dramatic function. Do not impose quotas or simplify essential spectacle, choices or evidence away. Camera/coverage can be refined within approved facts; changes to entrances, concealment, actions, discoveries or consequences must return as recommendations to Screenwriting, never be silently rewritten in production.'},
+  wardrobeDirection:{guide:'docs/SCENE_WARDROBE.md',strength:'contextual production direction',instruction:'Separate character identity from clothing. An identity/reference sheet fixes stable face, hair and build, not a universal outfit. For each scene, choose context-appropriate clothing when clear (e.g. wedding attire at a wedding, swimwear at a pool), unless the screenplay or an approved scene-specific wardrobe reference establishes another deliberate choice. Treat unstated costume as a visual proposal, preserve it across the scene, and link any wardrobe asset/reference only to the relevant scenes and shots. Never rewrite the approved script or propagate a temporary outfit into identity.'},
+  characters:latest(s.characters).filter(c=>shots.some(sh=>sh.characterIds.includes(c.id))),
+  sequenceContinuities:latest(s.sequenceContinuities).filter(c=>shots.some(sh=>sh.sceneId===c.sceneId)||c.sceneId===scope.scene),reference_manifest:referenceManifest(s).filter(x=>shots.some(sh=>sh.id===x.shotId)),scenes:latest(s.scenes).filter(sc=>shots.some(sh=>sh.sceneId===sc.id)||sc.id===scope.scene||sc.episodeId===scope.episode),scripts:scope.shot||scope.scene?undefined:s.scripts.filter(x=>x.status==='approved'&&episodeIds.has(x.episodeId)),shots,beats,assets:latest(s.assets).filter(x=>assetIds.has(x.id)),references:latest(s.references).filter(x=>shots.some(sh=>sh.referenceIds.includes(x.id))),
   takes:latest(s.takes).filter(t=>shots.some(sh=>sh.id===t.shotId)),
-  restrictions:['No new story events or dialogue. Return narrative feasibility findings to Screenwriting.','Exact source spans and existing IDs are authoritative.','Never claim a visual or listening check not performed.','No provider actions from upstream skill scripts; use studio adapters and approvals.'],
-  outputSchemas:{shot:path.join(repository,'schemas/Shot.schema.json'),review:path.join(repository,'schemas/Review.schema.json'),timeline:path.join(repository,'schemas/Timeline.schema.json')}
+  reviews:s.reviews.filter(r=>s.takes.some(t=>t.id===r.targetId&&shots.some(sh=>sh.id===t.shotId))),
+  jobs:s.jobs.filter(j=>shots.some(sh=>sh.id===j.shotId)).map(j=>({id:j.id,shotId:j.shotId,shotVersion:j.shotVersion,state:j.state,remoteId:j.remoteId,output:j.output,error:j.error,references:j.package.references.map(r=>({id:r.id,version:r.version,sha256:r.sha256}))})),
+  restrictions:['Preserve source events and dialogue. Interpret subtext through observable acting and motivated coverage. Return changes to facts, concealment or consequences to Screenwriting.','Exact source spans and existing IDs are authoritative.','Never claim a visual or listening check not performed.','No provider actions from upstream skill scripts; use studio adapters and approvals.'],
+  outputSchemas:{shot:path.join(repository,'schemas/Shot.schema.json'),sequenceContinuity:path.join(repository,'schemas/SequenceContinuity.schema.json'),review:path.join(repository,'schemas/Review.schema.json'),timeline:path.join(repository,'schemas/Timeline.schema.json')}
  };
 }
 export async function persistTask(root:string,s:State,stage:string,scope:Scope){const packet=taskPacket(s,stage,scope);const file=path.join(root,'requests',`${stage}-${scope.shot??scope.scene??scope.episode}.json`);await atomic(file,packet);return {file,packet};}

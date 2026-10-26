@@ -1,4 +1,4 @@
 interface:
   display_name: "Dirección audiovisual unificada"
-  short_description: "Elige estrategia, genera, revisa y monta historias con LTX"
+  short_description: "Fast Ref y Motion con continuidad, QA y montaje"
   default_prompt: "Usa $generation-strategy para elegir y ejecutar la mejor estrategia técnica para mi plan aprobado, conservando referencias y continuidad."

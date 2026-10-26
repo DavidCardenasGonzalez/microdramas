@@ -1,0 +1,78 @@
+{
+  "node": "v22.17.0",
+  "files": [
+    {
+      "name": "comfy-h3-ref2v",
+      "file": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\productions\\funny-girl-32\\generation\\workflows\\video_fasth3_ominiref_r2v.api.json",
+      "exists": true,
+      "sha256": "1960e7a9353ccb7fca49d0ef5cc882c1530c0d0bab9752fe751ed8da9fd251f4"
+    },
+    {
+      "name": "comfy-i2v",
+      "file": "C:\\Users\\AMD RYZEN\\OneDrive\\Documentos\\ChatGPT\\microdramas\\productions\\funny-girl-32\\generation\\workflows\\LTX-2.5_i2v.api.json",
+      "exists": true,
+      "sha256": "14582ae4d0330b5826d5c95c84fa8368b4c5f1e37e259a264530fbd81c57159a"
+    },
+    {
+      "name": "msrRunner",
+      "file": "C:\\Users\\AMD RYZEN\\.codex\\skills\\comfy-msr-video\\scripts\\run_msr_shots.py",
+      "exists": true,
+      "sha256": "5c4b5aa10625600f57b2baf65dad5a911124dc8e8a11cd7ac77428cacda2a51e"
+    },
+    {
+      "name": "msrBase",
+      "file": "C:\\Users\\AMD RYZEN\\.codex\\skills\\comfy-msr-video\\assets\\msr_15s_proven_base.json",
+      "exists": true,
+      "sha256": "65951eaf768583adedd70a8ff0261279e094f591fbc7bcdefc5d532d149a8e38"
+    },
+    {
+      "name": "fluxBase",
+      "file": "C:/ComfyUI/user/flux3_research/api/FLUX3_Klein_1Ref_Director_12GB.api.json",
+      "exists": true,
+      "sha256": "7b8e3591bf73660ea905215326870552a97bb78b56f4720c7141741ef9b5035e"
+    },
+    {
+      "name": "python",
+      "file": "C:/ComfyUI/.venv/Scripts/python.exe",
+      "exists": true,
+      "sha256": "7a1533205a6e30608226a5aac55e330b66849aed8b71990a9cb83e093df769ef"
+    },
+    {
+      "name": "i2vCanvas",
+      "file": "C:\\ComfyUI\\user\\default\\workflows\\video_ltx2_5_i2v.json",
+      "exists": true,
+      "sha256": "72ee06e21d00b20fdd4dfe35d984727290b3b4a90d9a6b8f564ce68bbc444212"
+    },
+    {
+      "name": "flfCanvas",
+      "file": "C:\\ComfyUI\\user\\default\\workflows\\video_ltx2_5_flf2v.json",
+      "exists": true,
+      "sha256": "9f75fd2dd620715e725a57e3489308a14fca47ceefa214c10adeeb8f2f05f775"
+    },
+    {
+      "name": "directorApi",
+      "file": "C:\\ComfyUI\\user\\director_quality\\prompt_quality.json",
+      "exists": true,
+      "sha256": "a8b2b9827a233fe3156ad968bc490e0924d22df16b9c565f4fde3ef5633b0b61"
+    }
+  ],
+  "comfy": {
+    "reachable": true,
+    "url": "http://127.0.0.1:8000",
+    "version": "0.42.0",
+    "devices": [
+      {
+        "name": "cuda:0 NVIDIA GeForce RTX 4070 : cudaMallocAsync",
+        "vram_total": 12878086144,
+        "vram_free": 4764452208
+      }
+    ],
+    "queue": {
+      "queue_running": [],
+      "queue_pending": []
+    }
+  },
+  "ffmpeg": "C:/ComfyUI/.venv/Lib/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe",
+  "ffprobe": "not configured: FFmpeg metadata fallback",
+  "higgsfield": "Available in Codex session; not directly callable from standalone CLI"
+}

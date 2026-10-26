@@ -101,6 +101,19 @@
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
     },
+    "delivery": {
+      "type": "string",
+      "enum": [
+        "offscreen",
+        "voice-over"
+      ]
+    },
+    "performanceNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "text": {
       "type": "string"
     },

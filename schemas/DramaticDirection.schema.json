@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "genre": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dramaticObjective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "turn": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audienceExperience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "visualTreatment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coverageReason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "singleShotReason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "characters": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "characterId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1
+          },
+          "obstacle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subtext": {
+            "type": "string",
+            "minLength": 1
+          },
+          "emotionalProgression": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "characterId",
+          "objective",
+          "obstacle",
+          "subtext",
+          "emotionalProgression"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "version",
+    "genre",
+    "dramaticObjective",
+    "turn",
+    "audienceExperience",
+    "visualTreatment",
+    "coverageReason",
+    "characters"
+  ],
+  "additionalProperties": false
+}

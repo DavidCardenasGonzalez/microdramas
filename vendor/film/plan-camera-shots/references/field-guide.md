@@ -16,6 +16,10 @@ Use one policy per plan:
 - `bounded`: segment total must remain inside minimum and maximum.
 - `editorial`: duration is advisory and must include a reason.
 
+## Studio integration
+
+When used by AI Film Studio, also read `docs/CINEMATIC_DIRECTION.md` from the repository root. Normalize the treatment to `Shot.direction`; every timed shot carries dramatic purpose, observable performance and visible subjects, with a reason for each cut. Assign every dialogue beat to its original visible speaker or independent offscreen/reaction audio. Never treat the automatic locked-camera scaffold as final direction. Preserve facts; interpret acting.
+
 ## Blocking preflight issues
 
 - missing beat
