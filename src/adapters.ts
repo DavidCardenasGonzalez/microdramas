@@ -1,15 +1,17 @@
 import { mkdir, copyFile, writeFile, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { type State, type GenerationJob, PromptPackage as PackageSchema, type PromptPackage, type Shot } from './contracts.js';
-import { dep, latest, fileSha, json, atomic, inside, exists } from './store.js';
+import { dep, latest, fileSha, json, atomic, inside, exists, sha } from './store.js';
 import { command, simulatedVideo } from './media.js';
 import { validateShot } from './planning.js';
 import { repository } from './narrative.js';
-import { h3Prompt, isH3, routeAdapter, validateCinematicDirection } from './hybrid.js';
+import { validateSpokenText } from './dialogue.js';
+import { cinematicOpening } from './cinematography.js';
+import { h3Prompt, isH3, routeAdapter, validateProductionDirection } from './hybrid.js';
 export type Capabilities={id:string;paid:boolean;strategies:string[];minSeconds:number;maxSeconds:number;execution:'local'|'codex-bridge';verified:string};
 export interface Adapter {capabilities:Capabilities;prepare(root:string,s:State,job:GenerationJob,options?:{prepareOnly?:boolean}):Promise<void>;execute(root:string,s:State,job:GenerationJob,checkpoint:()=>Promise<void>):Promise<string|undefined>;}
 const productionAudioPolicy='From the very first frame through the final frame, use only the attributed dialogue and planned location sound. No music, score, intro/outro, musical stings, drones, risers, tonal pulses or synthetic dramatic accents, including music from devices. Preserve natural quiet between planned sounds.';
-const productionNegative='unrequested dissolve, morphing, duplicated subjects, anatomy defects, text, watermark, background music, musical score, soundtrack, musical intro, opening jingle, fade-in music, musical outro, musical sting, suspense drone, riser, tonal pulse, bass drop, trailer boom, synthetic impact accent';
+const productionNegative='unrequested transitions, duplicate people, anatomy defects, text or watermark, music, score, jingles, drones, risers, tonal pulses, synthetic dramatic accents';
 export const capabilities:Record<string,Capabilities>={
  mock:{id:'mock',paid:false,strategies:['reference-video','i2v','flf2v','t2v','multi-shot'],minSeconds:1,maxSeconds:30,execution:'local',verified:'synthetic FFmpeg fixture; never real footage'},
  msr:{id:'msr',paid:false,strategies:['reference-video'],minSeconds:1,maxSeconds:15,execution:'local',verified:'existing runner + API base; doctor checks live nodes'},
@@ -24,8 +26,10 @@ export const capabilities:Record<string,Capabilities>={
 export function h3FramesForDuration(seconds:number){const raw=Math.max(5,Math.round(seconds*24));return raw+(5-(raw%17))%17;}
 export function h3MaxDurationAtOrBelow(seconds:number){const maxFrames=Math.floor(seconds*24+1e-9);return (5+17*Math.floor((maxFrames-5)/17))/24;}
 export function selectorDimensions(width:number,height:number,megapixels:number){const ratio=width/height,area=megapixels*1_000_000;let w:number,h:number;if(ratio<=1){h=Math.max(32,Math.ceil(Math.sqrt(area/ratio)/32)*32);w=Math.max(32,Math.round(ratio*h/32)*32);}else{w=Math.max(32,Math.ceil(Math.sqrt(area*ratio)/32)*32);h=Math.max(32,Math.round(w/ratio/32)*32);}return {width:w,height:h};}
-export async function compile(root:string,s:State,shot:Shot,adapterId:string,override?:string,seed=42,allowUnverifiedWorkflow=false):Promise<PromptPackage>{
- validateCinematicDirection(shot);
+export const defaultSeed=(s:State,shot:Shot,adapterId:string)=>parseInt(sha(`${s.project.id}:${shot.id}:${shot.version}:${adapterId}`).slice(0,8),16);
+export async function compile(root:string,s:State,shot:Shot,adapterId:string,override?:string,seed?:number,allowUnverifiedWorkflow=false):Promise<PromptPackage>{
+ seed=seed??defaultSeed(s,shot,adapterId);
+ validateProductionDirection(s,shot);
  let cap=capabilities[adapterId];let workflowCfg:State['config']['comfy']['apiWorkflows'][string]|undefined;if(!cap)throw Error(`Unknown adapter ${adapterId}`);if(adapterId.startsWith('comfy-')){workflowCfg=s.config.comfy.apiWorkflows[adapterId];const cfg=workflowCfg;if((!cfg?.verified&&!allowUnverifiedWorkflow)||!cfg||cfg.maxSeconds<cfg.minSeconds)throw Error('Configure a verified API export with measured minSeconds/maxSeconds; unverified workflows may only be checked with --prepare-only');cap={...cap,minSeconds:cfg.minSeconds,maxSeconds:cfg.maxSeconds};}validateShot(s,shot);if(shot.status!=='approved')throw Error(`Shot is not approved: ${shot.id}`);if(s.diagnostics.some(d=>d.stage==='plan'&&d.severity==='blocker'&&[shot.id,shot.sceneId,shot.episodeId].includes(d.targetId??'')))throw Error('Unresolved source/plan diagnostics block generation');
  if(!cap.strategies.includes(shot.strategy))throw Error(`${adapterId} cannot execute ${shot.strategy}`);
  if(isH3(shot)&&adapterId!==routeAdapter(shot)&&adapterId!=='mock')throw Error(`H3 plan requires ${routeAdapter(shot)}`);
@@ -52,9 +56,9 @@ export async function compile(root:string,s:State,shot:Shot,adapterId:string,ove
  if(['i2v','flf2v'].includes(shot.strategy)&&!references.some(r=>r.role==='start'))throw Error('Start frame required');
  if(shot.strategy==='flf2v'&&!references.some(r=>r.role==='end'))throw Error('End frame required');
  const beats=shot.beatIds.map(id=>latest(s.beats).find(b=>b.id===id)!);
- const scene=latest(s.scenes).find(x=>x.id===shot.sceneId);
- const context=shot.characterIds.map(id=>latest(s.characters).find(c=>c.id===id)).filter(x=>!!x).map(c=>`${c!.name}: ${c!.description}`).join('\\n');
- const wardrobeContext=shot.assetIds.map(id=>latest(s.assets).find(a=>a.id===id)).filter(a=>!!a&&a!.kind==='wardrobe').map(a=>`${a!.name}: ${a!.description}`).join('\\n');
+
+ const context=shot.characterIds.map(id=>latest(s.characters).find(c=>c.id===id)).filter(x=>!!x).map(c=>`${c!.name}: ${c!.description}`).join('\n');
+ const wardrobeContext=shot.assetIds.map(id=>latest(s.assets).find(a=>a.id===id)).filter(a=>!!a&&a!.kind==='wardrobe').map(a=>`${a!.name}: ${a!.description}`).join('\n');
  const assetContext=shot.assetIds.map(id=>latest(s.assets).find(a=>a.id===id)).filter(x=>!!x&&x.kind!=='character').map(a=>`${a!.kind} — ${a!.name}: ${a!.description}`).join('\n');
  const sourceForBeats=(ids:string[])=>beats.filter(b=>ids.includes(b.id)).map(b=>{
   if(b.kind!=='dialogue')return b.source.quote;
@@ -76,42 +80,49 @@ export async function compile(root:string,s:State,shot:Shot,adapterId:string,ove
   return (sourceQuote?text.split(sourceQuote).join(''):text).replace(rawCue,'').replace(said,'').replace(quoted,'').replace(/\s{2,}/g,' ').replace(/\s+([,.;!?])/g,'$1').trim();
  },value);
  let prompt=[
-  `SOUND RULE FOR THE ENTIRE CLIP\n${productionAudioPolicy}`,
-  `SCENE AND VISUAL CONTEXT\n${s.project.profile.style}\nScene: ${scene?.heading??scene?.location??shot.sceneId}${scene?.time?`; ${scene.time}`:''}. Maintain the established set, time of day, visual tone, and geography throughout the shot.`,
-  context?`CHARACTER IDENTITY\\n${context}\\nPreserve each character's established face, age, hair, and build from approved identity references. Clothing shown incidentally in an identity sheet is not a universal outfit; follow the explicit scene-appropriate wardrobe or approved scene wardrobe reference.`:'',
-  wardrobeContext?`SCENE WARDROBE\\n${wardrobeContext}\\nPreserve this approved outfit consistently for this scene.`:'',
-  assetContext?`APPROVED ASSET DETAILS\n${assetContext}`:'',
-  `SHOT PURPOSE AND COMPOSITION\n${shot.purpose}\nFrame: ${shot.framing}. Camera position: ${shot.camera.position}. Lens: ${shot.camera.lens}. Focus: ${shot.camera.focus}. Compose subjects and environment so the approved eyelines, screen direction, and spatial relationships remain clear.`,
-  `BLOCKING AND PERFORMANCE\n${withoutDialogue(shot.blocking)}\nPerform only the approved action in its stated order. Keep the performance grounded and readable. Use the approved performance choices to express the source intention; preserve narrative facts and consequences.`,
-  `NARRATIVE ACTION AND SPOKEN WORDS\n${sourceContent}\nThe quoted words are the only speech. Do not speak character names, speaker labels, or narration. Preserve every quoted word exactly and in order.`,
-  `ACTION STATES\nAt the start: ${withoutDialogue(shot.startState)}\nBy the end: ${withoutDialogue(shot.endState)}\nPlay one continuous progression between these states; do not reset or repeat the action.`,
-  `CAMERA AND CONTINUITY\nMovement: ${shot.camera.movement}. Focus behavior: ${shot.camera.focus}. Axis: ${withoutDialogue(shot.continuity.axis)}. Eyelines: ${withoutDialogue(shot.continuity.eyelines)}. Wardrobe: ${withoutDialogue(shot.continuity.wardrobe)}. The identity reference does not dictate clothing; use the appropriate approved scene wardrobe consistently. Props: ${withoutDialogue(shot.continuity.props)}. Lighting: ${withoutDialogue(shot.continuity.lighting)}. Match the approved start-frame image; preserve character placement and screen direction.`,
-  `TIMING\nThe clip is exactly ${shot.durationSeconds} seconds. Duration rationale: ${shot.durationReason??'Use only the time needed for the approved action and dialogue.'} Fit the planned action and any source dialogue naturally within this duration. Do not pad with silence, idle holds, repeated action, or extra business; retain a pause only when specified and motivated by the source or shot plan.`,
-  `AUDIO (${s.project.profile.language}${s.project.profile.languageLevel?' '+s.project.profile.languageLevel:''})\nPlanned diegetic sound: ${shot.sound.length?shot.sound.join('; '):'none'}. Speak only the exact words inside quotation marks in NARRATIVE ACTION AND SPOKEN WORDS, once each, as the named character. Do not vocalize character names, speaker labels, or descriptive prose. Any other voice or phone presence mentioned above stays indistinct, with no intelligible words. Add no words, paraphrases, or repeats. Use only the quoted dialogue and explicitly planned diegetic/environmental sound. No background music, musical score, or soundtrack.`,
-  override?`DIRECTOR CORRECTION (cannot change story)\n${withoutDialogue(override)}`:'',
-  'One physically continuous shot with no internal cuts, no morphing, no dissolve, and no unrequested transition.',
-  'AUDIO REMINDER: From the opening frame through every reveal and the ending, use only quoted dialogue and explicitly planned diegetic sound. No music or dramatic audio accents at any point.'
+  cinematicOpening(s,shot),productionAudioPolicy,
+  `Duration: ${shot.durationSeconds} seconds. ${s.project.profile.width}:${s.project.profile.height} frame.`,
+  context,wardrobeContext,assetContext,
+  `Composition: ${shot.framing}. Camera: ${shot.camera.position}; ${shot.camera.lens}; ${shot.camera.movement}. Focus: ${shot.camera.focus}.`,
+  `Action and observable performance: ${withoutDialogue(shot.blocking)}.`,
+  sourceContent,
+  `Initial state: ${withoutDialogue(shot.startState)}. Final state: ${withoutDialogue(shot.endState)}. Advance once between these states without resetting the action.`,
+  `Axis: ${withoutDialogue(shot.continuity.axis)}. Eyelines: ${withoutDialogue(shot.continuity.eyelines)}. Wardrobe: ${withoutDialogue(shot.continuity.wardrobe)}. Props: ${withoutDialogue(shot.continuity.props)}. Lighting: ${withoutDialogue(shot.continuity.lighting)}.`,
+  `Planned location sound: ${shot.sound.join('; ')||'natural quiet'}. Spoken language: ${s.project.profile.language}. Only attributed quoted words are spoken, once; all other prose directs the image.`,
+  override?`Director correction: ${withoutDialogue(override)}`:'',
+  'One continuous shot at real-time human speed, with no unrequested transition.',
+  'Keep dialogue and planned location sound only through the final frame; no music or synthetic dramatic accents, including from devices.'
  ].filter(Boolean).join('\n\n');
  let structuredPrompt:Record<string,string>|undefined;
- if(isH3(shot)){
-  const cleanPlan={...shot.referencePlan!,shots:shot.referencePlan!.shots.map(x=>({...x,action:withoutDialogue(x.action),continuity:withoutDialogue(x.continuity),performance:x.performance?withoutDialogue(x.performance):undefined}))};
+ if(shot.referencePlan){
+  const cleanPlan={...shot.referencePlan!,subjects:shot.referencePlan!.subjects.map(x=>({...x,wardrobe:shot.dynamicState?.start.characters.find(c=>c.characterId===x.characterId)?.wardrobe??x.wardrobe})),shots:shot.referencePlan!.shots.map(x=>({...x,action:withoutDialogue(x.action),continuity:withoutDialogue(x.continuity),performance:x.performance?withoutDialogue(x.performance):undefined}))};
   const dialogueForBeats=(ids:string[])=>ids.filter(id=>beats.some(b=>b.id===id&&b.kind==='dialogue')).map(id=>{
    const staged=shot.referencePlan!.dialogueStaging?.find(x=>x.beatId===id);
    if(staged&&staged.strategy!=='on-camera')return ''; // Independent words stay in metadata for the replacement mix, never on another actor's mouth.
-   return `${staged?`From ${staged.inSeconds.toFixed(3)} to ${staged.outSeconds.toFixed(3)} seconds, with the source speaker visible and lips synchronized: `:''}${sourceForBeats([id])}`;
+   return `${staged?`From ${staged.inSeconds.toFixed(3)} to ${staged.outSeconds.toFixed(3)} seconds, ${staged.language??s.project.profile.language}, ${staged.intent??'natural source delivery'}, with the source speaker visible and lips synchronized: `:''}${sourceForBeats([id])}`;
   }).filter(Boolean).join('\n\n');
   const h3=h3Prompt(s,{...shot,referencePlan:cleanPlan,startState:withoutDialogue(shot.startState),endState:withoutDialogue(shot.endState)},dialogueForBeats,productionAudioPolicy,override?withoutDialogue(override):undefined);
   prompt=h3.prompt;structuredPrompt=h3.sections;
  }
+ validateSpokenText(shot,prompt);
  if(override&&/rewrite|replace dialogue|change dialogue/i.test(override))throw Error('Narrative corrections must return to Screenwriting');
  if(/\[INSERT\b|\bTODO\b/.test(prompt))throw Error('Resolve prompt placeholders before compilation');
  const selectorBound=!!workflowCfg?.resolutionMegapixels&&workflowCfg.bindings.width?.node===workflowCfg.bindings.height?.node;
  const dimensions=selectorBound?selectorDimensions(s.project.profile.width,s.project.profile.height,workflowCfg!.resolutionMegapixels!):(()=>{const scale=workflowCfg?.resolutionMegapixels?Math.sqrt(workflowCfg.resolutionMegapixels*1_000_000/(s.project.profile.width*s.project.profile.height)):1;return {width:workflowCfg?.resolutionMegapixels?Math.max(32,Math.round(s.project.profile.width*scale/32)*32):s.project.profile.width,height:workflowCfg?.resolutionMegapixels?Math.max(32,Math.round(s.project.profile.height*scale/32)*32):s.project.profile.height};})();
  const {width,height}=dimensions;
  const continuity=shot.sequenceContinuity?s.sequenceContinuities.find(x=>x.id===shot.sequenceContinuity!.id&&x.version===shot.sequenceContinuity!.version):undefined;
- return PackageSchema.parse({adapter:adapterId,shotId:shot.id,shotVersion:shot.version,strategy:shot.strategy,prompt,negative:productionNegative,references,durationSeconds:shot.durationSeconds,width,height,fps:s.project.profile.fps,seed,simulated:adapterId==='mock',parameters:{...(adapterId==='seedance'?{model:s.config.bridge.model,resolution:'720p',mode:'std',generate_audio:true}:adapterId==='kling'?{model:s.config.bridge.kling!.model}:{}),...(continuity?{sequenceContinuity:continuity}:{}),...(shot.beatType?{beatType:shot.beatType}:{}),...(shot.direction?{direction:shot.direction}:{}),...(shot.referencePlan?.dialogueStaging?{externalDialogue:shot.referencePlan.dialogueStaging.filter(a=>a.strategy!=='on-camera').map(a=>({...a,text:shot.dialogue.find(line=>line.beatId===a.beatId)!.text})),requiresReplacementMix:shot.referencePlan.dialogueStaging.some(a=>a.strategy!=='on-camera')}:{})},...(shot.generationMode?{generationMode:shot.generationMode}:{}),...(structuredPrompt?{structuredPrompt,referencePlan:shot.referencePlan}:{})});
+ return PackageSchema.parse({adapter:adapterId,shotId:shot.id,shotVersion:shot.version,strategy:shot.strategy,prompt,negative:productionNegative,references,durationSeconds:shot.durationSeconds,width,height,fps:s.project.profile.fps,seed,simulated:adapterId==='mock',parameters:{durationReason:shot.durationReason,...(shot.cinematicStyle?{cinematicStyle:s.cinematicStyles.find(x=>x.id===shot.cinematicStyle!.id&&x.version===shot.cinematicStyle!.version)}:{}),...(shot.sequencePlan?{sequencePlan:s.sequencePlans.find(x=>x.id===shot.sequencePlan!.id&&x.version===shot.sequencePlan!.version),dynamicState:shot.dynamicState}:{}),negativeApplication:{status:workflowCfg?.bindings.negative?'binding-declared-not-yet-audited':'metadata-only',binding:workflowCfg?.bindings.negative??null},...(adapterId==='seedance'?{model:s.config.bridge.model,resolution:'720p',mode:'std',generate_audio:true}:adapterId==='kling'?{model:s.config.bridge.kling!.model}:{}),...(continuity?{sequenceContinuity:continuity}:{}),...(shot.beatType?{beatType:shot.beatType}:{}),...(shot.direction?{direction:shot.direction}:{}),...(shot.referencePlan?.dialogueStaging?{externalDialogue:shot.referencePlan.dialogueStaging.filter(a=>a.strategy!=='on-camera').map(a=>({...a,text:shot.dialogue.find(line=>line.beatId===a.beatId)!.text})),requiresReplacementMix:shot.referencePlan.dialogueStaging.some(a=>a.strategy!=='on-camera')}:{})},...(shot.generationMode?{generationMode:shot.generationMode}:{}),...(structuredPrompt?{structuredPrompt,referencePlan:shot.referencePlan}:{})});
 }
 type Graph=Record<string,{class_type:string;inputs:Record<string,any>}>;
+export function auditWorkflowInputs(graph:Graph,cfg:State['config']['comfy']['apiWorkflows'][string],p:PromptPackage){
+ const output=cfg.bindings.save?.node;
+ const connected=output?pruneGraph(graph,[output]):{};
+ return Object.fromEntries((['prompt','negative','seed'] as const).map(key=>{
+  const b=cfg.bindings[key],expected=p[key];
+  const applied=!!b&&!!connected[b.node]&&connected[b.node].inputs[b.input]===expected;
+  return [key,{applied,binding:b??null,reason:!b?'No workflow binding; metadata only':!connected[b.node]?'Binding node does not reach the saved output':applied?'Exact package value reaches the saved output; model response still requires QA':'Package value was not bound to this effective input'}];
+ }));
+}
 export function pruneGraph(graph:Graph,outputs:string[]){const keep=new Set<string>();function visit(id:string){if(keep.has(id))return;const n=graph[id];if(!n)throw Error(`Missing graph node ${id}`);keep.add(id);for(const value of Object.values(n.inputs))if(Array.isArray(value)&&value.length===2&&typeof value[0]==='string'&&typeof value[1]==='number'&&graph[value[0]])visit(value[0]);}outputs.forEach(visit);return Object.fromEntries(Object.entries(graph).filter(([id])=>keep.has(id)));}
 async function getJSON(s:State,endpoint:string){const r=await fetch(s.config.comfy.url+endpoint,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error(`ComfyUI ${endpoint}: HTTP ${r.status}`);return r.json() as Promise<any>;}
 export async function validateGraph(s:State,graph:Graph){
@@ -143,7 +154,7 @@ async function prepareGeneric(root:string,s:State,job:GenerationJob,allowUnverif
  const resolutionNode=cfg.bindings.width?.node===cfg.bindings.height?.node&&graph[cfg.bindings.width.node]?.class_type==='ResolutionSelector'?cfg.bindings.width.node:undefined;
  for(const [key,b] of Object.entries(cfg.bindings)){if(!(key in values))continue;if(!graph[b.node]?.inputs||!(b.input in graph[b.node].inputs))throw Error(`Invalid binding ${key}`);if(resolutionNode&&['width','height'].includes(key))continue;graph[b.node].inputs[b.input]=values[key];}
  if(resolutionNode){const ratio=p.width/p.height;const aspect=ratio<0.64?'9:16 (Portrait Widescreen)':ratio<0.8?'3:4 (Portrait Standard)':ratio<0.9?'2:3 (Portrait Photo)':ratio<1.1?'1:1 (Square)':ratio<1.5?'4:3 (Standard)':ratio<2?'16:9 (Widescreen)':'21:9 (Ultrawide)';const node=graph[resolutionNode];node.inputs[cfg.bindings.width.input]=aspect;node.inputs[cfg.bindings.height.input]=Number((p.width*p.height/1_000_000).toFixed(1));}
- await validateGraph(s,graph);await atomic(graphFile(root,job),graph);
+ await validateGraph(s,graph);await atomic(graphFile(root,job),graph);await atomic(path.join(root,'generation',job.id,'input-usage.json'),auditWorkflowInputs(graph,cfg,p));
 }
 export async function registerH3Workflow(root:string,s:State,source:string,variant:'fast-ref'|'motion'|'legacy'='fast-ref'){
  const graph:Graph=await json(source);if('nodes' in graph)throw Error('H3 registration needs the existing flat API export, not a canvas');
@@ -191,7 +202,7 @@ async function prepareH3(root:string,s:State,job:GenerationJob){
  if(ref?.class_type!=='MiniMaxH3ReferenceToVideo'||!p.referencePlan||!p.references.length||p.references.length>(cfg.maxReferences??0))throw Error('Invalid H3 references or binding');
  if(p.durationSeconds>cfg.maxSeconds)throw Error(`H3 workflow maximum is ${cfg.maxSeconds} seconds per generated video`);
  if(p.references.some(r=>r.role==='end'))throw Error('Literal last-frame binding is not verified in this H3 reference adapter');
- const values:Record<string,unknown>={prompt:p.prompt,...(cfg.bindings.duration?{duration:p.durationSeconds}:{frames:Math.round(p.durationSeconds*24)}),width:p.width,height:p.height,seed:p.seed,fps:p.fps,save:`video/studio-${s.project.id}/${job.id}`};
+ const values:Record<string,unknown>={prompt:p.prompt,...(cfg.bindings.negative?{negative:p.negative}:{}),...(cfg.bindings.duration?{duration:p.durationSeconds}:{frames:Math.round(p.durationSeconds*24)}),width:p.width,height:p.height,seed:p.seed,fps:p.fps,save:`video/studio-${s.project.id}/${job.id}`};
  const resolutionNode=cfg.bindings.width?.node===cfg.bindings.height?.node&&graph[cfg.bindings.width.node]?.class_type==='ResolutionSelector'?cfg.bindings.width.node:undefined;
  for(const key of Object.keys(values)){const b=cfg.bindings[key];if(!b||!graph[b.node]||!(b.input in graph[b.node].inputs))throw Error(`Missing H3 binding: ${key}`);if(resolutionNode&&['width','height'].includes(key))continue;graph[b.node].inputs[b.input]=values[key];}
  if(resolutionNode){const ratio=p.width/p.height;const aspect=ratio<0.64?'9:16 (Portrait Widescreen)':ratio<0.8?'3:4 (Portrait Standard)':ratio<0.9?'2:3 (Portrait Photo)':ratio<1.1?'1:1 (Square)':ratio<1.5?'4:3 (Standard)':ratio<2?'16:9 (Widescreen)':'21:9 (Ultrawide)';const node=graph[resolutionNode];node.inputs[cfg.bindings.width.input]=aspect;node.inputs[cfg.bindings.height.input]=cfg.resolutionMegapixels??Number((p.width*p.height/1_000_000).toFixed(1));}
@@ -201,7 +212,7 @@ async function prepareH3(root:string,s:State,job:GenerationJob){
   const id=`studio-reference-${index+1}`;graph[id]={class_type:'LoadImage',inputs:{image:`${folder}/${filename}`}};
   ref.inputs[`ref_images.ref_image_${index}`]=[id,0];
  }
- await validateGraph(s,graph);await atomic(graphFile(root,job),graph);
+ await validateGraph(s,graph);await atomic(graphFile(root,job),graph);await atomic(path.join(root,'generation',job.id,'input-usage.json'),auditWorkflowInputs(graph,cfg,p));
 }
 async function executeComfy(root:string,s:State,job:GenerationJob,checkpoint:()=>Promise<void>){
  if(!job.remoteId){const queue=await getJSON(s,'/queue');const queued=[...(queue.queue_running??[]),...(queue.queue_pending??[])];const foreign=queued.filter((entry:any)=>!String(entry?.[3]?.client_id??'').startsWith('studio-JOB-'));if(foreign.length)throw Error('ComfyUI queue occupied by non-studio work; existing work preserved. Resume when free.');

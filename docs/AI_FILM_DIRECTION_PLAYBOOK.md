@@ -1,6 +1,6 @@
 # AI Film Studio — Guía integrada de escritura, dirección y generación de video
 
-**Versión:** 1.1 · **Actualización:** 25 de octubre de 2026  
+**Versión:** 1.2 · **Actualización:** 26 de octubre de 2026
 **Uso:** documento rector para los agentes de adaptación, guion, dirección, generación, evaluación y montaje. Sustituye las reglas de dirección previas cuando entren en conflicto.  
 **Idioma de planificación:** español o idioma del proyecto. **Prompts cinematográficos:** inglés.  
 **Principio rector:** diseñar historias que sean emocionantes **y filmables**, no escribir primero una historia imposible y delegar todos sus problemas al generador de video.
@@ -9,11 +9,13 @@
 
 La [corrección de dirección dramática y cinematográfica](CINEMATIC_DIRECTION.md), adoptada en la misma fecha tras revisar Funny Girl, concreta actuación, cobertura y atribución de voces. Prevalece ante ejemplos anteriores que deleguen diálogo invisible al audio nativo o minimicen planos sin una razón dramática.
 
+La [corrección integral de producción](CINEMATIC_PIPELINE_CORRECTION.md), adoptada el 26 de octubre de 2026, exige identidad Hollywood concreta por género, CinematicStyle persistente, SequencePlan global antes de dividir generaciones, estados dinámicos heredados y QA de toma/continuidad/secuencia. Los ejemplos son fragmentos didácticos: completar su biblia cinematográfica, audio sin música, estados y referencias antes de compilarlos. No constituyen excepciones al contrato actual.
+
 ## 1. Contrato de extremo a extremo
 
 El sistema recibe una novela, sinopsis o idea y debe producir, con intervención mínima, capítulos y clips terminados. El flujo es:
 
-`Obra/idea → adaptación original → biblia narrativa → guion filmable → desglose de acciones → biblia de continuidad → selección de referencias → enrutamiento de modelos → prompts temporizados → generaciones → QA → recuperación → montaje → subtítulos y publicación`.
+`Obra/idea → adaptación original → biblia narrativa → guion filmable → desglose de acciones → biblia cinematográfica → dirección de secuencia completa → invariantes y estados dinámicos → selección de referencias → enrutamiento de modelos → prompts temporizados → generaciones → QA → recuperación → montaje → subtítulos y publicación`.
 
 **La escritura y la producción son un único ciclo.** El guionista debe conocer las capacidades y limitaciones de los modelos. El director puede pedir reescribir o redistribuir una acción antes de consumir una generación. El evaluador debe enviar hallazgos al guionista, no solo al generador.
 
@@ -96,24 +98,24 @@ Ejemplos de reescritura *antes* de generar:
 
 ## 4. Biblia de continuidad: texto como primera opción
 
-El sistema debe conservar datos **estructurados e inmutables por secuencia**:
+El sistema conserva dos capas versionadas: invariantes de escena y estado dinámico completo por unidad. No copiar como inmutable una posición, dueño de objeto o emoción que cambie:
 
-- **Personajes:** IDs, descripción física breve, referencia disponible, vestuario exacto, estado emocional, voz, estado físico relevante.
+- **Personajes:** invariantes de identidad, referencia, ropa y voz; estado dinámico de presencia, posición/postura, manos, herida, mirada y emoción.
 - **Set:** nombre canónico, arquitectura, mobiliario, fondo dominante, fuentes de luz, hora, paleta.
-- **Mapa espacial:** A frente a ventana izquierda; B sentado a la derecha en consola; C de pie detrás de B; entrada al fondo, etc.
-- **Objetos persistentes:** llave en bolsillo derecho de A; maletín sostenido por B; abrigo colocado; puerta abierta/cerrada.
+- **Mapa espacial permanente:** ventana a la izquierda de consola; entrada al fondo, relaciones entre espacios y eje. La posición actual de A/B/C va en dynamicState.
+- **Objetos persistentes:** apariencia invariable; posición/propietario, llave en bolsillo o mesa, maletín sostenido, abrigo puesto y puerta abierta/cerrada se actualizan en dynamicState.
 - **Eje de pantalla:** dirección de miradas y desplazamiento para preservar 180°; no cambiar izquierda/derecha sin una motivación visual.
 - **Timeline:** hechos ocurridos, frases ya pronunciadas, emoción al terminar, estado al comenzar siguiente clip.
 
 ### Política de anclas
 
-Por defecto, **repetir literalmente el bloque de continuidad** entre prompts de una misma secuencia. El prompt del clip 2 no debe decir solo “same room as before”, porque el modelo no tiene memoria garantizada del clip 1.
+Por defecto, **repetir literalmente solo el bloque de invariantes de continuidad** entre prompts de una misma secuencia. El prompt del clip 2 no debe decir solo “same room as before”, porque el modelo no tiene memoria garantizada del clip 1.
 
 **Ejemplo de bloque canónico que se copia sin cambios:**
 
-> Aboard a deep-space exploration ship in 2189. A dark metallic observation room with one large window overlooking the stars, sophisticated control consoles, soft cyan instrument lighting, and neutral warm-white overhead lighting. A wears a fitted dark navy command uniform and stands near the observation window on the left of the central console. B wears a charcoal-gray engineering uniform and sits at the main console on the right. C wears a dark technical jumpsuit and stands beside the communications console behind and slightly left of B. The same physical room, wardrobe, lighting, character positions, and eyelines persist throughout the conversation.
+> Aboard a deep-space exploration ship in 2189. A dark metallic observation room has one star-facing window left of the central console and a communications station behind the console. Soft cyan instruments contrast with warm-white facial light. A wears a fitted dark navy command uniform, B a charcoal-gray engineering uniform, and C a dark technical jumpsuit. Keep architecture, outfits, lighting and screen axis consistent.
 
-En una segunda generación se añade un **estado narrativo**: `A has just heard that the voice belongs to her dead daughter; she is devastated`. No usar el video anterior por defecto.
+Cada generación copia además el **estado físico/emocional final anterior completo** en su inicio, incluyendo entradas/salidas, manos/objetos/puertas y ledgers de acciones/frases. Por ejemplo: `A has just heard that the voice belongs to her dead daughter; she is devastated`. No usar el video anterior por defecto.
 
 **Empalme entre dos clips:** preferir corte cinematográfico motivado o plano-reacción estable; no exigir reproducción pixel a pixel del último fotograma si no se suministra. Al editar, preservar continuidad de voz, room tone y dirección de mirada. El resultado satisfactorio que observamos fue **continuidad perceptiva**, no identidad matemática de cada fotograma.
 
@@ -225,16 +227,16 @@ El modelo nunca debe leer como voz `The Question`, `The Betrayal`, `Shot Two` u 
 
 ## 9. Ejemplos de prompts probables y su propósito
 
-> Los ejemplos siguientes son **plantillas operativas**, no garantías. Sustituir A/B/C por IDs concretos y copiar el mismo bloque de continuidad entre clips de una secuencia.
+> Los ejemplos siguientes son **fragmentos de dirección**, no prompts completos ni garantías. Primero definir CinematicStyle y SequencePlan, sustituir A/B/C por sujetos concretos, repetir solo invariantes y heredar estados completos. El compilador añade la identidad cinematográfica completa y la política sonora. Las posiciones de estos ejemplos pertenecen a cada intervalo, no al canonicalText permanente.
 
 ### Ejemplo A — Fast Ref: confrontación dramática (20 s)
 
 ```text
-Duration: 20 seconds. Ultra-photorealistic prestige Hollywood crime thriller. Emotionally restrained but intense acting, natural human speed.
+Ultra-photorealistic scene from a premium Hollywood crime thriller feature film. Rain-blue exterior contrast against warm practicals, intimate facial lighting, restrained confrontational acting and cuts motivated by changing knowledge. Duration: 20 seconds.
 
 <Picture 1>: A, adult woman. <Picture 2>: B, adult man. <Picture 3>: C, adult man. Preserve facial identity for each speaking character.
 
-A luxurious penthouse living room at night. Heavy rain against floor-to-ceiling windows, cold blue exterior light and warm amber lamps. A wears a dark blouse and stands to the left of the dining table. B wears a charcoal suit and sits opposite her. C wears a black suit and stands near the rain-streaked window. All remain in the same room and positions.
+A luxurious penthouse living room at night. Heavy rain against floor-to-ceiling windows, cold blue exterior light and warm amber lamps. A wears a dark blouse and stands to the left of the dining table. B wears a charcoal suit and sits opposite her. C wears a black suit and stands near the rain-streaked window. These are their initial positions; inherit subsequent states from each directed interval.
 
 0–4 seconds: Tight medium close-up of A. Her eyes are wet. She looks toward B outside the frame and says, "They found the car."
 4–8 seconds: Medium close-up of B at the table, face clearly visible. He says, shaken, "I watched it burn."
@@ -251,19 +253,20 @@ Use clean editorial cuts, stable eyelines, rich atmospheric sound and soft depth
 **Bloque compartido: copiar literalmente en cada prompt:**
 
 ```text
-Aboard a deep-space exploration ship in 2189. A dark metallic observation room with one large window overlooking stars, sophisticated consoles, soft cyan instrument lights and neutral warm-white facial illumination. A, the captain, wears a fitted dark navy uniform and stands near the observation window, left of the main console. B, the engineer, wears a charcoal-gray uniform and sits at the main console on the right. C, the communications officer, wears a dark technical jumpsuit and stands behind and slightly left of B. All three retain these positions and outfits for both consecutive clips.
+Aboard a deep-space exploration ship in 2189. A dark metallic observation room has one star-facing window left of the central console and a communications station behind the console. Soft cyan instruments contrast with warm-white facial light. A wears a fitted dark navy command uniform, B a charcoal-gray engineering uniform, and C a dark technical jumpsuit. Keep architecture, outfits, lighting and screen axis consistent.
 ```
 
 **Clip 1 (20 s):**
 
 ```text
-Duration: 20 seconds. Prestige photorealistic Hollywood science-fiction thriller. <Picture 1> A, <Picture 2> B, <Picture 3> C. [INSERT THE SHARED SETTING BLOCK VERBATIM]
+Ultra-photorealistic scene from a premium Hollywood science-fiction thriller feature film. Cyan consoles against warm-white face light, shallow listening close-ups, psychologically grounded uncertainty and focus changes driven by discoveries. Duration: 20 seconds. <Picture 1> A, <Picture 2> B, <Picture 3> C. [INSERT THE SHARED SETTING BLOCK VERBATIM]
 
 0–4 seconds: Close-up of A, facing B: "You traced the signal to the medical bay?"
 4–8 seconds: Close-up of C at the communications console: "Yes. That door's been sealed for forty years."
 8–12 seconds: Close-up of B at the main console: "Then it's a glitch. Nobody's been down there."
 12–16 seconds: Over B's shoulder, A's face in focus: "A glitch doesn't know my name."
-16–20 seconds: Tight close-up of A. C says off-screen: "It called you Mom." A freezes, shocked and silent.
+16–18 seconds: HARD CUT to C at communications, lips visible: "It called you Mom."
+18–20 seconds: HARD CUT to A; her breath catches and her gaze loses focus as the words register.
 
 Keep lighting, clothing, gaze direction, sound ambience and spatial geography consistent. Only quoted dialogue is spoken.
 ```
@@ -271,7 +274,7 @@ Keep lighting, clothing, gaze direction, sound ambience and spatial geography co
 **Clip 2 (20 s):**
 
 ```text
-Duration: 20 seconds. Immediate continuation, no time skip. Prestige photorealistic Hollywood science-fiction thriller. <Picture 1> A, <Picture 2> B, <Picture 3> C. [INSERT THE SHARED SETTING BLOCK VERBATIM]
+Ultra-photorealistic scene from a premium Hollywood science-fiction thriller feature film. Preserve the same cyan/warm-white lighting, intimate listening coverage and discovery-driven focus changes. Duration: 20 seconds. Immediate continuation; inherit the complete previous final state. <Picture 1> A, <Picture 2> B, <Picture 3> C. [INSERT THE SHARED SETTING BLOCK VERBATIM]
 
 Emotional starting state: A has just learned the voice called her Mom. She is devastated. B is worried and C is ashamed. Do not repeat dialogue already spoken.
 
@@ -279,7 +282,8 @@ Emotional starting state: A has just learned the voice called her Mom. She is de
 4–8 seconds: Medium close-up of B at the same console: "We know. That's why we didn't tell you."
 8–12 seconds: Medium close-up of C by communications: "I checked the recording. It's really her voice."
 12–16 seconds: Over B's shoulder, A sharply in focus: "What does she want?"
-16–20 seconds: Close-up of A, silent and afraid. C says off-screen: "She wants you to open the door." A hears a distant knock. Hold on her face.
+16–19 seconds: HARD CUT to C at communications, lips visible: "She wants you to open the door."
+19–20 seconds: HARD CUT to A as a distant knock interrupts her held breath.
 
 Preserve the previous clip's wardrobe, architecture, relative positions, character identities and mood. Use a deliberate cinematic cut rather than requiring an identical first/last frame. Only quoted dialogue is spoken.
 ```
@@ -289,7 +293,7 @@ Preserve the previous clip's wardrobe, architecture, relative positions, charact
 ### Ejemplo C — Motion: persecución con montaje y cara protegida (10 s, 0.4)
 
 ```text
-Duration: 10 seconds. Ultra-photorealistic Hollywood action thriller. Urgent natural real-time running. Motion workflow at configured 0.4 resolution.
+Ultra-photorealistic scene from a premium Hollywood action thriller feature film. Cold industrial overhead light, tactile full-speed running, grounded foot impacts, urgent tracking and trajectory-preserving cuts. Duration: 10 seconds. Motion workflow at configured 0.4 resolution.
 
 <Picture 1>: A, adult woman. <Picture 2>: B, adult man. C is not visible.
 
@@ -306,7 +310,7 @@ Clear editorial cuts, grounded foot placement, physically coherent velocity and 
 ### Ejemplo D — Motion: entrega de objeto + línea (10 s, 0.4)
 
 ```text
-Duration: 10 seconds. Photorealistic intimate suspense drama, natural real-time motion. Motion workflow at configured 0.4 resolution.
+Ultra-photorealistic scene from a premium Hollywood intimate suspense drama feature film. Warm desk light shapes faces against a dim office; shallow focus reveals the silver key, withheld breath and a precise handoff before a motivated reaction cut. Duration: 10 seconds. Motion workflow at configured 0.4 resolution.
 
 <Picture 1>: A, adult woman. <Picture 2>: B, adult man. C is not present.
 
@@ -325,7 +329,7 @@ The same single silver key persists; slide, stop, lift, hold and dialogue occur 
 **Problema observado:** en una pelea de 10 s, agarrar la ropa + apartar manos + empujar + caer produjo una secuencia correcta pero demasiado teatral. No repetir el agarre durante segundos.
 
 ```text
-Duration: 10 seconds. Photorealistic grounded Hollywood action. Fast real-time stunt choreography.
+Ultra-photorealistic scene from a premium Hollywood action drama feature film. Motivated apartment practicals, physically convincing full-speed contact, readable side coverage and impact-driven reaction cuts. Duration: 10 seconds.
 
 <Picture 1>: A, adult woman. <Picture 2>: B, adult man. <Picture 3>: C, adult man.
 
@@ -428,7 +432,7 @@ Guardar modelo/checkpoint, LoRA, sampler, steps, seed, ratio, VRAM pico, tiempo 
 
 - ¿La escena es narrativamente necesaria y tiene un cambio claro?
 - ¿Cada personaje visible tiene propósito? ¿Alguna referencia es superflua?
-- ¿La biblia de set, vestuario, props y posiciones está copiada completa?
+- ¿La biblia cinematográfica y los invariantes están completos, y el estado dinámico inicial hereda completo el final anterior?
 - ¿Se entiende a quién mira y habla cada personaje sin que parezca gritarle a la nada?
 - ¿Hay un sujeto visual principal y los secundarios tienen enfoque deliberado?
 - ¿Las acciones tienen inicio, trayectoria, final y duración natural?

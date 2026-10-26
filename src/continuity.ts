@@ -10,6 +10,7 @@ export function importContinuity(s:State,input:unknown){
  if(new Set(c.characters.map(x=>x.characterId)).size!==c.characters.length)throw Error('Duplicate continuity character');
  if(c.props.some(x=>x.ownerId&&!scene.characterIds.includes(x.ownerId)))throw Error('Unknown prop owner in continuity');
  if(/\[INSERT\b|\bTODO\b|same (room|setting) as before/i.test(c.canonicalText))throw Error('Continuity needs complete executable English text, without placeholders');
+ if(c.scope==='invariants'&&(c.characters.some(x=>x.position||x.physicalState)||c.props.some(x=>x.ownerId)))throw Error('Invariant continuity cannot freeze positions, physical states or prop owners; use Shot.dynamicState');
  const old=latest(s.sequenceContinuities).find(x=>x.id===c.id);
  const content=(x:typeof c)=>JSON.stringify({...x,version:0,status:'approved',deps:[]});
  if(old&&content(old)===content(c))return old;

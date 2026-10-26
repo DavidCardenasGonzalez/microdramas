@@ -155,6 +155,17 @@
           "cutReason": {
             "type": "string",
             "minLength": 1
+          },
+          "playback": {
+            "type": "string",
+            "enum": [
+              "real-time",
+              "slow-motion"
+            ]
+          },
+          "playbackReason": {
+            "type": "string",
+            "minLength": 1
           }
         },
         "required": [
@@ -212,6 +223,18 @@
             "exclusiveMinimum": 0
           },
           "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1
+          },
+          "intent": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timingReason": {
             "type": "string",
             "minLength": 1
           }

@@ -4,6 +4,8 @@ La [guía oficial](AI_FILM_DIRECTION_PLAYBOOK.md) gobierna adaptación, guion, d
 
 El selector Python histórico de LTX/MSR no participa en la ruta oficial. No pedir un primer frame, una hoja ni imágenes nuevas por escena de manera automática. Reutilizar identidades y continuidad textual exacta; preparar solo lo que falte y aporte una mejora concreta. Los límites provienen del workflow registrado y el adaptador, sin máximo universal de cinco segundos.
 
+La [corrección integral](CINEMATIC_PIPELINE_CORRECTION.md) conserva identidad cinematográfica Hollywood por género, dirige la secuencia completa antes de asignar generaciones y separa invariantes del estado dinámico heredado. Las rutas oficiales y el escalamiento premium comparten este contrato; nuevas referencias FLUX requieren biblia cinematográfica. No reabrir el escenario por empezar un render.
+
 ## Ejecución y continuidad del encargo
 
 El objetivo es recibir una novela y completar su adaptación a microdrama con mínima intervención. Codex ejecuta las etapas con skills y contratos persistentes, escena por escena; la CLI no contiene un LLM ni puede sustituir escritura, dirección o percepción audiovisual.

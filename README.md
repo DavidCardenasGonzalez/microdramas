@@ -1,6 +1,6 @@
 # AI Film Studio
 
-Estudio local dirigido por Codex, implementado en TypeScript y CLI. La [guía oficial](docs/AI_FILM_DIRECTION_PLAYBOOK.md) rige desde novela/idea hasta QA y montaje: **MiniMax H3 Fast Ref** como ruta principal, **Motion** como alternativa local y **Seedance/Kling** solo para escalamiento excepcional. Desarrollo narrativo con Screenwriting, contratos Zod, estado transaccional, planes con citas exactas, referencias versionadas, cola reanudable, adaptadores, QA y montaje FFmpeg. Sin interfaz web.
+Estudio local dirigido por Codex, implementado en TypeScript y CLI. La [guía oficial](docs/AI_FILM_DIRECTION_PLAYBOOK.md) rige desde novela/idea hasta QA y montaje: **MiniMax H3 Fast Ref** como ruta principal, **Motion** como alternativa local y **Seedance/Kling** solo para escalamiento excepcional. Desarrollo narrativo con Screenwriting, contratos Zod, estado transaccional, planes con citas exactas, referencias versionadas, cola reanudable, adaptadores, QA y montaje FFmpeg. Sin interfaz web. La [corrección integral del pipeline](docs/CINEMATIC_PIPELINE_CORRECTION.md) fija identidad de película de Hollywood por género, cobertura global antes de repartir generaciones, continuidad dinámica y QA de la secuencia completa.
 
 La demostración ejecutada produce un MP4 vertical **simulado** con recortes, audio, SRT, subtítulos incrustados y distribución reducida. Los ejemplos históricos de `productions/` conservan sus fuentes y límites originales. Consulta `docs/IMPLEMENTATION_REPORT.md` para resultados y límites observados.
 
@@ -62,23 +62,25 @@ En microdrama: preferir un reparto pequeño con propósito, sin cuota rígida de
 
 Leer la [guía oficial](docs/AI_FILM_DIRECTION_PLAYBOOK.md) y [su integración](docs/HYBRID_VIDEO_DIRECTION.md). Antes del guion audiovisual, clasificar beats DIALOGUE, CONTROLLED_ACTION, DYNAMIC_ACTION y COMPLEX_TRANSITION y resolver acciones filmables sin perder intención dramática.
 
-Fast Ref dirige diálogo, emoción y acción controlada; Motion, movimiento y trayectorias. Reutilizar imágenes de identidad revisadas. Set, ropa breve, luz, posiciones, eje y utilería usan primero una biblia textual versionada. No generar una imagen por clip ni exigir hojas, first/last frame o video anterior. Crear solo referencias faltantes con justificación y revisión visual. Antes de crear, revisar estado, archivos y jobs existentes.
+Fast Ref dirige diálogo, emoción y acción controlada; Motion, movimiento y trayectorias. Reutilizar imágenes de identidad revisadas. Set, ropa breve, luz, eje y apariencia de utilería usan primero invariantes textuales versionados; posiciones, manos, puertas y propietarios se heredan como estado dinámico. No generar una imagen por clip ni exigir hojas, first/last frame o video anterior. Crear solo referencias faltantes con justificación y revisión visual. Antes de crear, revisar estado, archivos y jobs existentes.
 
-Importar SequenceContinuity con `continuity --import`; cada Shot oficial H3 enlaza su versión y deps. El compilador repite canonicalText literalmente entre clips. El Reference Plan asigna imágenes ordenadas a sujetos y planos temporizados; los figurantes incidentales pueden ser texto. Los prompts cinematográficos van en inglés, con diálogo literal en idioma del proyecto una sola vez. Títulos y análisis permanecen en metadatos. Siempre sin música de primer a último frame.
+Importar `CinematicStyle` con `cinematic-style --import` y `SequencePlan` con `sequence-plan --import`: dirigir primero la secuencia completa y justificar transiciones, después repartirla según los límites reales. Importar SequenceContinuity con `scope: invariants` mediante `continuity --import`; cada Shot oficial H3 enlaza los tres contratos y sus deps. El compilador repite únicamente el canonicalText invariable; `dynamicState.start/end` hereda posiciones, postura, manos, objetos, puertas, emoción y beats completados/pronunciados sin reinicios. Todos los prompts abren con dirección de película Hollywood específica del género y conservan la biblia completa y su tratamiento local. El Reference Plan asigna imágenes ordenadas a sujetos y planos temporizados; los figurantes incidentales pueden ser texto. Los prompts cinematográficos van en inglés, con diálogo literal en idioma del proyecto una sola vez. Títulos y análisis permanecen en metadatos. Siempre sin música de primer a último frame.
 
 ```powershell
 node bin/studio.mjs -p productions/<proyecto> doctor
 node bin/studio.mjs -p productions/<proyecto> workflows --register-h3 assets/workflows/video_fasth3_omniref_r2v.api.json --variant fast-ref
 node bin/studio.mjs -p productions/<proyecto> workflows --register-h3 <motion-api-real.json> --variant motion
+node bin/studio.mjs -p productions/<proyecto> cinematic-style --import cinematic-style.json
+node bin/studio.mjs -p productions/<proyecto> sequence-plan --import sequence-plan.json
 node bin/studio.mjs -p productions/<proyecto> continuity --import sequence-continuity.json
 node bin/studio.mjs -p productions/<proyecto> task --stage production --scene EP001-SC001
 node bin/studio.mjs -p productions/<proyecto> generate --adapter auto --shot UNIT-ID --dry-run
 node bin/studio.mjs -p productions/<proyecto> generate --adapter auto --shot UNIT-ID --prepare-only
 ```
 
-La plantilla Fast Ref incorporada conserva el workflow adjunto sin su diálogo ni imágenes de ejemplo. Motion se registra por separado desde su API real. Los valores observados ~20 s Fast Ref y ~10 s Motion a 0.4 no son máximos universales: el registro valida límites activos y frames efectivos. Preparar no renderiza. El render local requiere autorización acotada; Seedance/Kling requieren además razón de escalamiento, estimación actual, presupuesto de episodio/proyecto y aprobación humana del pago.
+La plantilla Fast Ref incorporada conserva el workflow adjunto sin su diálogo ni imágenes de ejemplo. Motion se registra por separado desde su API real. Los valores observados ~20 s Fast Ref y ~10 s Motion a 0.4 no son máximos universales: el registro valida límites activos y frames efectivos. Preparar no renderiza. `input-usage.json` registra si prompt, negativo y semilla llegan a nodos conectados a la salida; un negativo sin binding es solo metadato. Semillas nuevas varían por unidad de forma determinista; su efecto visual sigue siendo una hipótesis pendiente de pruebas A/B autorizadas. El render local requiere autorización acotada; Seedance/Kling requieren además razón de escalamiento, estimación actual, presupuesto de episodio/proyecto y aprobación humana del pago.
 
-`completionMode: complete` permite a Codex continuar recuperación, QA, selección y montaje dentro del encargo. `config --completion-mode submit` conserva encargos de solo envío. Se guarda inmediatamente el ID remoto y nunca se reenvía un POST incierto. Si falta capacidad para revisar imagen/audio, el audiovisual queda pendiente. La CLI prepara y ejecuta contratos; no contiene un LLM ni reemplaza percepción. Los planes y medios LTX/MSR anteriores conservan su procedencia; no se migran automáticamente.
+`completionMode: complete` permite a Codex continuar recuperación, QA, selección y montaje dentro del encargo. `config --completion-mode submit` conserva encargos de solo envío. Se guarda inmediatamente el ID remoto y nunca se reenvía un POST incierto. Si falta capacidad para revisar imagen/audio, el audiovisual queda pendiente. El pase de una toma nueva real exige `review --assessment`; el master cinematográfico exige además revisiones `--timeline --level continuity` y `--level narrative` de su versión actual. Los previews `--allow-pending` conservan calidad pendiente. La CLI prepara y ejecuta contratos; no contiene un LLM ni reemplaza percepción. Los planes y medios LTX/MSR anteriores conservan su procedencia; no se migran automáticamente.
 
 ## Desde una novela hasta el microdrama
 
@@ -95,6 +97,8 @@ La plantilla Fast Ref incorporada conserva el workflow adjunto sin su diálogo n
 | `task` | Contexto acotado y skill responsable por etapa |
 | `references` | Inventario, reutilización, FLUX, adjuntar imágenes revisadas o fixtures marcados |
 | `shots --context --shot ID` | Contexto de una sola toma |
+| `cinematic-style --import <json>` | Versionar identidad de producción, fotografía, actuación y género |
+| `sequence-plan --import <json>` | Cobertura y transiciones globales antes de dividir generaciones |
 | `continuity --import <json>` | Versionar biblia de secuencia y sus dependencias |
 | `workflows --register-h3 <api> --variant fast-ref\|motion` | Validar y registrar copias de workflows separados |
 | `assets --revise ID --description ...` | Versión nueva e invalidación selectiva |

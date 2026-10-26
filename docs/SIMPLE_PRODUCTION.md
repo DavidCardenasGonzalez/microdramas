@@ -13,7 +13,7 @@ node bin/studio.mjs -p productions/<proyecto> task --stage production --scene EP
 | --- | --- |
 | Skills | Se aplican al trabajo pendiente y se reutilizan sus decisiones aprobadas. No releer todas las guías por toma. |
 | Preparación | Una pasada de trabajo por escena; prioridad al siguiente plano listo. No preparar toda la temporada antes del primer envío. |
-| Dirección | Cobertura suficiente con composiciones reutilizables, cámara y puesta sencillas cuando expresan el mismo beat. Mantener la duración necesaria. |
+| Dirección | Misma identidad cinematográfica, actuación expresiva y libertad de cámara que standard. Dirigir la secuencia completa una vez antes de repartir generaciones; reutilizar decisiones, nunca reiniciar el escenario o empobrecer encuadres por simplificar el trámite. |
 | Referencias | Fast Ref/Motion reutilizan identidad y continuidad textual; crear solo faltantes justificados. Hoja y frames no son obligatorios. |
 | Reintento técnico | Mismo Shot aprobado y sus referencias; alternativa de job cuando cambie el prompt. No reimportar el mismo plan. |
 | Verificación | Reutilizar evidencia y paquetes preparados sin cambios. Validar paquetes nuevos y revisar backend si cambió o falló. |
@@ -22,7 +22,7 @@ node bin/studio.mjs -p productions/<proyecto> task --stage production --scene EP
 
 Se conservan las referencias reales exigidas por cada modo, los límites del adaptador, las autorizaciones de recursos y la aprobación humana de gastos pagados. No se cambia un workflow maestro, no se repite un envío incierto y no se aprueba una escucha o revisión visual que no se hizo. Los videos siguen sin música.
 
-El modo simplifica el trabajo de producción sin cambiar el canon. Si se pide además «simplifica la historia», Screenwriting crea una revisión nueva con menos complejidad cuando conserve su efecto; usa sus skills por etapas de razonamiento y puede entregar un único NarrativeResult. La revisión sigue el proceso de importación/aprobación existente.
+El modo simplifica el trabajo de producción sin cambiar el canon ni el estándar cinematográfico de [la corrección integral](CINEMATIC_PIPELINE_CORRECTION.md). Si se pide además «simplifica la historia», Screenwriting crea una revisión nueva con menos complejidad cuando conserve su efecto; usa sus skills por etapas de razonamiento y puede entregar un único NarrativeResult. La revisión sigue el proceso de importación/aprobación existente.
 
 El modo es una política de trabajo de Codex, no un bypass de validadores ni un nuevo runner. No envía trabajos al activarlo y no convierte todos los proyectos existentes. `standard` es el valor por defecto para compatibilidad. Se puede volver con `config --production-mode standard`; el cambio no invalida medios ni contratos.
 

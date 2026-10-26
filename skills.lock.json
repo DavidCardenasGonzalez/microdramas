@@ -560,8 +560,8 @@
           "sha256": "281b26f79175b79bb4f24309868ce8b2bc2a5b456cc4c8a3cbefec208dc18cd8",
           "localPatch": {
             "baseSha256": "281b26f79175b79bb4f24309868ce8b2bc2a5b456cc4c8a3cbefec208dc18cd8",
-            "sha256": "91ad32270a75e0de80a9e7894c4310400231c05d3a455d2caa50d411c77a2cb6",
-            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+            "sha256": "74bc31f51ab611b446ee72b4f319f44d5f248e4a7789c4e94561a01a008fed11",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
           }
         },
         {
@@ -572,7 +572,12 @@
         {
           "remote": "skills/compile-generation-prompts/references/field-guide.md",
           "local": "vendor/film/compile-generation-prompts/references/field-guide.md",
-          "sha256": "c21f8f096e003a629ed8b643cd2d76309ed3aa5196eb5c3e71056e40579bf47d"
+          "sha256": "c21f8f096e003a629ed8b643cd2d76309ed3aa5196eb5c3e71056e40579bf47d",
+          "localPatch": {
+            "baseSha256": "c21f8f096e003a629ed8b643cd2d76309ed3aa5196eb5c3e71056e40579bf47d",
+            "sha256": "d7b8dcfa0c86894e3618513739f3cc24206f23e3739665de9de63dcbee871422",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
+          }
         },
         {
           "remote": "skills/compile-generation-prompts/schemas/input.schema.json",
@@ -615,8 +620,8 @@
           "sha256": "d498f8468fdd82ea0c41252d741534d15b66288cbca689bd9eeb34778176a7f3",
           "localPatch": {
             "baseSha256": "d498f8468fdd82ea0c41252d741534d15b66288cbca689bd9eeb34778176a7f3",
-            "sha256": "da8d348b465ab37a3be7797bd94127d08ab7c9dde3927f76f3003261e86cf502",
-            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+            "sha256": "19b878f2adcdda32b52f2f5f70f6cc5d5f4d71837d0743b02b3db6049ee34473",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
           }
         },
         {
@@ -630,8 +635,8 @@
           "sha256": "0067a353d258d2528b0fe47c2e00aba2a38624510e28183db79287019ac1edc6",
           "localPatch": {
             "baseSha256": "0067a353d258d2528b0fe47c2e00aba2a38624510e28183db79287019ac1edc6",
-            "sha256": "4c84114fd04c08c0852f600a5297273b532711de6b8dab0258634237117a8496",
-            "reason": "User-directed cinematic correction: interpret acting before coverage; explicit visible speaker or independent audio; normalize to the Studio cinematic contract without cut quotas."
+            "sha256": "84d293328ec0e2ed9cd149fc20370b3d04faecaaf969f56c8e220866c23e3637",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
           }
         },
         {
@@ -647,7 +652,12 @@
         {
           "remote": "skills/review-and-assemble/SKILL.md",
           "local": "vendor/film/review-and-assemble/SKILL.md",
-          "sha256": "761e82aab0b69365d36d93195b7fa5857c75e071c5e1f45c9cfdbcedf50dca12"
+          "sha256": "761e82aab0b69365d36d93195b7fa5857c75e071c5e1f45c9cfdbcedf50dca12",
+          "localPatch": {
+            "baseSha256": "761e82aab0b69365d36d93195b7fa5857c75e071c5e1f45c9cfdbcedf50dca12",
+            "sha256": "962bdee3784a8fbe76bb345c1b93ee6cdfe15b1175825110f9508b38981eb066",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
+          }
         },
         {
           "remote": "skills/review-and-assemble/agents/openai.yaml",
@@ -657,7 +667,12 @@
         {
           "remote": "skills/review-and-assemble/references/field-guide.md",
           "local": "vendor/film/review-and-assemble/references/field-guide.md",
-          "sha256": "8a649770a8fb22c9c511c58151d8cb3c90afb5f4f7ee4146410d1646f41ec7d3"
+          "sha256": "8a649770a8fb22c9c511c58151d8cb3c90afb5f4f7ee4146410d1646f41ec7d3",
+          "localPatch": {
+            "baseSha256": "8a649770a8fb22c9c511c58151d8cb3c90afb5f4f7ee4146410d1646f41ec7d3",
+            "sha256": "2d6169a33f28799544e64cdcc14e6bee2cfc994a39d3b9c4c0b102cc7b6e8f53",
+            "reason": "Studio cinematic pipeline correction adopted by user 2026-10-26: Hollywood genre identity, global coverage, inherited state, intentional dialogue, expressive evidence and three-level QA. Preserves pinned upstream source and licence."
+          }
         },
         {
           "remote": "skills/review-and-assemble/schemas/input.schema.json",

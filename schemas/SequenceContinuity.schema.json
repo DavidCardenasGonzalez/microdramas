@@ -50,6 +50,14 @@
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
     },
+    "scope": {
+      "default": "legacy-mixed",
+      "type": "string",
+      "enum": [
+        "legacy-mixed",
+        "invariants"
+      ]
+    },
     "canonicalText": {
       "type": "string",
       "minLength": 1
@@ -99,9 +107,7 @@
         "required": [
           "characterId",
           "wardrobe",
-          "position",
-          "voice",
-          "physicalState"
+          "voice"
         ],
         "additionalProperties": false
       }
@@ -138,6 +144,7 @@
     "status",
     "deps",
     "sceneId",
+    "scope",
     "canonicalText",
     "set",
     "spatialMap",

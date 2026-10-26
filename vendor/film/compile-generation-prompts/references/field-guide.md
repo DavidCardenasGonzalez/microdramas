@@ -46,3 +46,7 @@ For every provider request:
 
 Never convert a last-frame requirement into an ordinary reference image or
 discard extra references without reporting the semantic change.
+
+## Studio output precedence
+
+For Studio, precede the video request order with the full approved Hollywood genre/style opening. Copy only immutable canonicalText; use dynamicState for current positions, hands, props, doors and emotion. Speech windows contain exact attributed source words, with language and performance intent. Missing sequence/style/dynamic or speaker direction returns to camera; compilation does not invent coverage. No poetic headings in the model prompt.

@@ -2,14 +2,16 @@ import path from 'node:path';
 import { mkdir, copyFile } from 'node:fs/promises';
 import { type State } from './contracts.js';
 import { latest, fileSha, json, uid, now, sha, atomic, save, inside } from './store.js';
+import { cinematicOpening } from './cinematography.js';
 import { validateGraph, pruneGraph } from './adapters.js';
 import { command, findFFmpeg } from './media.js';
 /** FLUX uses the installed API template and models. No workflow master is altered. */
 export async function generateReference(root:string,s:State,id:string,options:{source?:string;prompt?:string;execute?:boolean;approveLocal?:boolean;retry?:boolean;resumeJobId?:string}={}){
  const ref=latest(s.references).find(r=>r.id===id);if(!ref)throw Error('Prepare a reference inventory first');if(ref.status==='approved'&&options.execute)throw Error('Reference already approved; create an explicit revision before regeneration');
+ if(!options.resumeJobId&&!latest(s.cinematicStyles).some(x=>x.status==='approved'))throw Error('Import a concrete production CinematicStyle with cinematic-style --import before generating new reference images; existing remote jobs remain resumable');
  const template=s.config.comfy.fluxBase;if(!template)throw Error('Configure comfy.fluxBase');const templateHash=await fileSha(template);const source=options.source?path.resolve(options.source):undefined;const sourceHash=source?await fileSha(source):undefined;
  if(sourceHash&&s.references.some(r=>r.simulated&&r.sha256===sourceHash))throw Error('Simulated source cannot condition a real generation');
- const prompt=options.prompt??`${s.project.profile.style}. ${ref.description}. ${ref.purpose}. One coherent image, no collage, no text or watermark.`;
+ const prompt=options.resumeJobId?(s.referenceJobs.find(j=>j.id===options.resumeJobId)?.prompt??''):`${cinematicOpening(s)}\n\nProduction reference image. ${options.prompt??`${ref.description}. ${ref.purpose}. One coherent image, no text or watermark.`}`;
  const fingerprint=sha(JSON.stringify({id,version:ref.version,prompt,sourceHash,templateHash,width:s.project.profile.width,height:s.project.profile.height}));let job=options.resumeJobId?s.referenceJobs.find(j=>j.id===options.resumeJobId):s.referenceJobs.find(j=>j.fingerprint===fingerprint);if(options.resumeJobId&&(!job||job.targetId!==ref.id||job.targetVersion!==ref.version))throw Error('Cannot resume stale reference version');
  if(job?.state==='succeeded')return job;
  if(job?.state==='uncertain'&&!job.remoteId)throw Error(`Reference submission uncertain (${job.id}); inspect backend and bind its remote ID with jobs --reference --job ${job.id}`);

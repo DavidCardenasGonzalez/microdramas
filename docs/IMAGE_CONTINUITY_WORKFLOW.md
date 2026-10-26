@@ -4,7 +4,7 @@ La política vigente es el mínimo suficiente de la [guía oficial](AI_FILM_DIRE
 
 1. Consultar estado, referencias, jobs, clips y cortes existentes; comprobar versiones y hashes.
 2. Reutilizar identidad revisada para personajes recurrentes reconocibles. Figuración incidental puede definirse por texto.
-3. Conservar set, arquitectura, ropa, iluminación, posiciones, eje y utilería en SequenceContinuity. Repetir canonicalText literalmente entre clips; actualizar estados por toma.
+3. Conservar set, arquitectura, ropa, iluminación, eje y apariencia de utilería en SequenceContinuity con scope: invariants. Repetir ese canonicalText literalmente; posiciones, manos, propietarios y puertas cambiantes se heredan en Shot.dynamicState.start/end. Planificar la secuencia completa con SequencePlan antes de dividir clips.
 4. Crear únicamente una imagen faltante cuyo valor esté justificado: deriva repetida, set con geometría importante, vestuario persistente o necesidad específica de identidad/composición. Aproximadamente seis clips o varios capítulos orientan la decisión, sin cuota rígida.
 5. Inspeccionar toda imagen antes de adjuntarla. Registrar roles y sujetos en Reference Plan; el manifest se deriva del estado. No agregar una referencia solo porque existe.
 

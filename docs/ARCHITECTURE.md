@@ -2,6 +2,8 @@
 
 La [guía oficial](AI_FILM_DIRECTION_PLAYBOOK.md) gobierna el ciclo. `src/direction.ts` comparte esa política entre solicitudes narrativas y tareas de producción; `src/hybrid.ts` enruta Fast Ref/Motion y conserva planes heredados. `src/continuity.ts` importa biblias de secuencia versionadas, invalida solo dependientes y deriva el reference_manifest.
 
+`src/cinematography.ts` importa identidad de producción y compila la apertura Hollywood por género; `src/sequences.ts` versiona cobertura global y valida herencia de estados; `src/dialogue.ts` comprueba intención, idioma y ventanas plausibles. La [corrección integral](CINEMATIC_PIPELINE_CORRECTION.md) documenta contratos y límites.
+
 ## Módulos y ejecución
 
 `src/cli.ts` expone la interfaz operativa. Commander interpreta opciones; Zod valida todos los contratos al cargar y guardar. `src/studio.ts` inicializa proyectos, informa progreso, valida el conjunto y descubre herramientas. `src/narrative.ts` prepara solicitudes para Codex, importa resultados Screenwriting y aprueba versiones inmutables. `src/tasks.ts` limita el contexto por episodio, escena o toma.
@@ -38,7 +40,7 @@ No se guarda una segunda copia editable de contratos en cada etapa. Las vistas d
 
 ## Contratos
 
-Los esquemas de `schemas/` se generan desde `src/contracts.ts`. Se implementaron `Project`, `StoryBible`, `Character`, `Episode`, `Script`, `Scene`, `Beat`, `Shot`, `SequenceContinuity`, `ReferencePlan`, `Asset`, `Reference`, `GenerationJob`, `GeneratedTake`, `Review`, `Timeline`, `Export`; además `Profile`, `Config`, `PromptPackage`, `Approval`, `ReferenceGeneration` y diagnósticos.
+Los esquemas de `schemas/` se generan desde `src/contracts.ts`. Se implementaron `Project`, `StoryBible`, `Character`, `Episode`, `Script`, `Scene`, `Beat`, `Shot`, `CinematicStyle`, `SequencePlan`, `SequenceContinuity`, `ContinuityState`, `CinematicAssessment`, `ReferencePlan`, `Asset`, `Reference`, `GenerationJob`, `GeneratedTake`, `Review`, `Timeline`, `Export`; además `Profile`, `Config`, `PromptPackage`, `Approval`, `ReferenceGeneration` y diagnósticos.
 
 Los artefactos tienen ID, versión, estado y dependencias exactas `{id,version}`. Una toma apunta al job, plano y versiones de referencias. El plano apunta al guion, escena, beats, personajes, assets y referencias; el seleccionado y sus in/out están identificados explícitamente. Timeline y Export dependen de las selecciones y versiones correspondientes.
 
@@ -62,7 +64,7 @@ Los tokens de aprobación vinculan IDs, fingerprints, estimaciones, tipo de recu
 
 Automatizado: existencia/hash, dimensiones y relación de aspecto derivada, FPS, duración con tolerancia, pistas de audio, decodificación completa, detección de negro y freeze. Negro/freeze son alertas para inspección, ya que un plano estático o un fundido intencional pueden ser válidos. La revisión temporal de identidad, manos, movimientos, continuidad, palabras, actuación y sincronía queda pendiente hasta evaluación explícita.
 
-La selección exige QA técnico y revisión audiovisual. Los in/out son obligatorios y se comparan con la duración real. No se genera una timeline seleccionando automáticamente todos los videos enteros. Las fuentes permanecen intactas. La timeline permite cortes directos, audio nativo/silenciado/externo por segmento, pistas de diálogo/música/efecto con offset, recorte y ganancia, normalización loudnorm, y subtítulos con tiempos explícitos. Se bloquea mezclar voz independiente con diálogo nativo activo. Se soportan archivos de TTS/voz externa; **no se implementó un motor TTS nuevo ni alineación forzada automática**.
+La selección exige QA técnico y revisión audiovisual. Las tomas nuevas reales con estilo vinculado requieren informe CinematicAssessment con reproducción, escucha, muestras temporales y checks explícitos. Además, la exportación cinematográfica aprobada requiere revisiones de continuidad y narrativa del timeline actual; --allow-pending produce un preview pendiente. Cambiar timeline invalida esas revisiones. El manifiesto incluye los dos niveles de QA de secuencia. Los in/out son obligatorios y se comparan con la duración real. No se genera una timeline seleccionando automáticamente todos los videos enteros. Las fuentes permanecen intactas. La timeline permite cortes directos, audio nativo/silenciado/externo por segmento, pistas de diálogo/música/efecto con offset, recorte y ganancia, normalización loudnorm, y subtítulos con tiempos explícitos. Se bloquea mezclar voz independiente con diálogo nativo activo. Se soportan archivos de TTS/voz externa; **no se implementó un motor TTS nuevo ni alineación forzada automática**.
 
 El manifiesto registra las instrucciones de FFmpeg, hashes, timeline, jobs, versiones de skills y QA para reproducir el resultado. La normalización es una pasada de loudnorm; no se afirma mastering de dos pasadas. Los subtítulos automáticos de demo usan tiempos sintéticos identificados como tales; para audio real deben revisarse/importarse. La revisión de continuidad audiovisual de una secuencia real sigue requiriendo inspección temporal.
 

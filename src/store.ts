@@ -28,7 +28,7 @@ export async function transaction<T>(root:string,fn:(s:StudioState)=>Promise<T>)
 }
 export function invalidate(s:StudioState,id:string,version:number){
   const affected=new Set<string>([`${id}@${version}`]);
-  const collections=[s.scenes,s.beats,s.sequenceContinuities,s.shots,s.assets,s.references,s.takes,s.reviews,s.timelines,s.exports] as {id:string;version:number;status:string;deps:{id:string;version:number}[]}[][];
+  const collections=[s.scenes,s.beats,s.cinematicStyles,s.sequencePlans,s.sequenceContinuities,s.shots,s.assets,s.references,s.takes,s.reviews,s.timelines,s.exports] as {id:string;version:number;status:string;deps:{id:string;version:number}[]}[][];
   let changed=true;while(changed){changed=false;for(const list of collections)for(const a of list)if(a.status!=='stale'&&a.deps.some(d=>affected.has(`${d.id}@${d.version}`))){a.status='stale';affected.add(`${a.id}@${a.version}`);changed=true;}}
   for(const j of s.jobs)if(affected.has(`${j.shotId}@${j.shotVersion}`))j.state='stale';
   for(const shot of s.shots)if(shot.status==='stale'){shot.selectedTakeId=undefined;shot.finalState='stale';}

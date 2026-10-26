@@ -15,9 +15,13 @@ La dirección registra `beatType`, `generationMode`, `routingReason`, duración 
 
 Antes de crear imágenes, inspeccionar estado, referencias, jobs, `media/`, `generation/` y `review-drafts/`. Reutilizar identidades reales revisadas. Set, posiciones, eje, luz, vestuario breve y utilería se conservan primero mediante texto exacto. No crear hoja, frame, set ni vestuario por clip. Considerar imágenes adicionales ante deriva repetida, uso importante en aproximadamente seis clips o varios capítulos, ponderando memoria y tiempo. Es una recomendación, no una cuota.
 
-`SequenceContinuity` vive versionado en `.studio/state.json`: `sceneId`, `canonicalText` completo en inglés, `set`, `spatialMap`, `axis`, `lighting`, `characters` (identidad, ropa, posición, voz, estado físico) y `props` (nombre, estado, propietario). Importar conserva versiones e invalida solo dependientes. Cada Shot oficial H3 enlaza `{id, version}` en `sequenceContinuity` y en `deps`. El compilador copia literalmente `canonicalText`; los estados de Shot registran cambios de conocimiento, emoción y acción sin repetir palabras ya pronunciadas.
+Aplicar la [corrección integral](CINEMATIC_PIPELINE_CORRECTION.md). `CinematicStyle` fija identidad de película Hollywood por género con fotografía y actuación concretas; `SequencePlan` dirige cobertura y transiciones de la secuencia completa antes de repartir generaciones. Cada Shot enlaza las versiones exactas de ambos y sus deps.
+
+`SequenceContinuity` vive versionado en `.studio/state.json`. Para nueva dirección, `scope: invariants` conserva `sceneId`, `canonicalText` completo en inglés, set, mapa permanente, eje, luz, ropa/voz y apariencia de objetos. No fijar ahí posiciones, postura, estado físico, propietarios ni puertas cambiantes. Cada Shot oficial H3 enlaza `{id, version}` y su dep. El compilador copia literalmente únicamente los invariantes. `Shot.dynamicState.start/end` registra la situación física/emocional completa, objetos, puertas, presencia, heridas y ledgers de acciones/frases fuente. El inicio hereda completo el final anterior; el límite de render no reinicia la escena.
 
 ```powershell
+node bin/studio.mjs -p productions/<proyecto> cinematic-style --import cinematic-style.json
+node bin/studio.mjs -p productions/<proyecto> sequence-plan --import sequence-plan.json
 node bin/studio.mjs -p productions/<proyecto> continuity --import sequence-continuity.json
 node bin/studio.mjs -p productions/<proyecto> task --stage shots --scene EP001-SC001
 node bin/studio.mjs -p productions/<proyecto> plan --import-shots directed-shots.json --approve
@@ -46,9 +50,9 @@ La [dirección cinematográfica](CINEMATIC_DIRECTION.md) completa el contrato of
 
 ## Prompts, QA y recuperación
 
-Inglés cinematográfico y diálogo literal en el idioma del proyecto. Enviar duración/estilo, mapeos, continuidad completa, blocking y acción temporizada con cámara, foco, estados y cortes. Retención, títulos poéticos y razones de duración quedan en metadatos; no se envían como rótulos pronunciables. Solo se habla el diálogo citado una vez. La regla **sin música ni acentos sintéticos de principio a fin** se mantiene, también desde dispositivos.
+Cada prompt abre con dirección explícita de película Hollywood del género aprobado y conserva el estilo completo y tratamiento de escena. Inglés cinematográfico y diálogo literal en el idioma del proyecto. Enviar duración/estilo, mapeos, continuidad completa, blocking y acción temporizada con cámara, foco, estados y cortes. Retención, títulos poéticos y razones de duración quedan en metadatos; no se envían como rótulos pronunciables. Solo se habla el diálogo citado una vez. La regla **sin música ni acentos sintéticos de principio a fin** se mantiene, también desde dispositivos.
 
-Aplicar códigos y reparaciones del playbook. Revisar temporalmente identidad, anatomía, causalidad, voz y palabras. Registrar segundos utilizables y costo por segundo aprobado cuando haya datos; decodificar no equivale a evaluar audiovisual. Segundo intento diagnóstico; tercero opcional solo con valor y cambio de ruta/división explícito, sin bucles. Cambiar hechos narrativos requiere revisión Screenwriting; una corrección técnica del mismo plan no lo reimporta.
+Aplicar códigos y reparaciones del playbook. QA con evidencia temporal en tres niveles: toma, continuidad editada y narrativa de secuencia para la versión exacta de timeline. Sin los dos pases de secuencia, export cinematográfico real solo como pendiente explícito. Auditar bindings efectivos en input-usage.json; el negativo no conectado no se aplica. La semilla determinista cambia por unidad, no por reintento; no se presupone mejora visual. Revisar temporalmente identidad, anatomía, causalidad, voz y palabras. Registrar segundos utilizables y costo por segundo aprobado cuando haya datos; decodificar no equivale a evaluar audiovisual. Segundo intento diagnóstico; tercero opcional solo con valor y cambio de ruta/división explícito, sin bucles. Cambiar hechos narrativos requiere revisión Screenwriting; una corrección técnica del mismo plan no lo reimporta.
 
 `premiumBudgetPerEpisode` y `budget` limitan reservas y gasto; `approve --paid` conserva aprobación humana. Kling exige modelo, límites y evidencia de plataforma en `bridge.kling`; no se simula un conector. El handoff premium se traduce a la interfaz real del proveedor.
 

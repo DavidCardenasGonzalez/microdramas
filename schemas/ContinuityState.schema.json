@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "characterId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "presence": {
+            "type": "string",
+            "enum": [
+              "present",
+              "exited",
+              "not-entered"
+            ]
+          },
+          "position": {
+            "type": "string",
+            "minLength": 1
+          },
+          "posture": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hands": {
+            "type": "string",
+            "minLength": 1
+          },
+          "wardrobe": {
+            "type": "string",
+            "minLength": 1
+          },
+          "injuries": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eyeline": {
+            "type": "string",
+            "minLength": 1
+          },
+          "emotion": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "characterId",
+          "presence",
+          "position",
+          "posture",
+          "hands",
+          "wardrobe",
+          "injuries",
+          "eyeline",
+          "emotion"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ownerId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "ownerId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "doors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "state"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "completedActionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    },
+    "spokenBeatIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+      }
+    }
+  },
+  "required": [
+    "characters",
+    "props",
+    "doors",
+    "completedActionIds",
+    "spokenBeatIds"
+  ],
+  "additionalProperties": false
+}

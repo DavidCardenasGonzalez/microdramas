@@ -64,3 +64,7 @@ references, reference roles, compatibility result, and mismatch alternatives.
 - Do not call generation services.
 
 Read [references/field-guide.md](references/field-guide.md) for compilation order and quality gates.
+
+## Studio compilation contract (26 October 2026)
+
+Apply docs/CINEMATIC_PIPELINE_CORRECTION.md. Begin every generation prompt with a premium Hollywood feature-film direction using the approved work genre; include the full concrete CinematicStyle and local treatment. Preserve acting, camera/focus, essential visual evidence, literal attributed speech, invariant canonical text and inherited dynamic physical state. Never repeat an initial scene position after it changed, or a spoken line in a state description. Keep analytical titles, IDs, duration rationale and completed-beat ledgers in metadata. Use one full diegetic-only/no-music rule and a brief final reminder. Audit input-usage.json before claiming negative conditioning: a stored negative without an effective binding is metadata. Preserve frozen packages and known remote jobs. Seed A/B comparisons require controlled identical inputs and actual authorized rendering before a visual conclusion.

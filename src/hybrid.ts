@@ -1,7 +1,12 @@
 import { type State, type Shot } from './contracts.js';
+import { validateDialogue } from './dialogue.js';
+import { validateStyle } from './cinematography.js';
+import { validateSequence, dynamicStateText } from './sequences.js';
+import { cinematicOpening } from './cinematography.js';
 import { latest } from './store.js';
 
 export const isH3=(shot:Pick<Shot,'generationMode'>)=>['h3_fast_ref','h3_motion','h3_reference_to_video'].includes(shot.generationMode??'');
+export const isCinematicProduction=(shot:Pick<Shot,'generationMode'>)=>['h3_fast_ref','h3_motion','seedance','kling'].includes(shot.generationMode??'');
 export const isOfficialH3=(shot:Pick<Shot,'generationMode'>)=>['h3_fast_ref','h3_motion'].includes(shot.generationMode??'');
 export function routeAdapter(shot:Shot){
  if(shot.generationMode==='h3_fast_ref')return 'comfy-h3-fast-ref';
@@ -17,13 +22,14 @@ export function validateHybridPlan(s:State,shot:Shot){
  if(!shot.routingReason?.trim())throw Error('Hybrid routing requires routingReason from scene direction');
  if(shot.sequenceContinuity){const c=s.sequenceContinuities.find(x=>x.id===shot.sequenceContinuity!.id&&x.version===shot.sequenceContinuity!.version&&x.status==='approved');if(!c||c.sceneId!==shot.sceneId)throw Error('Missing approved sequence continuity for this scene');if(!shot.deps.some(d=>d.id===c.id&&d.version===c.version))throw Error('Shot must depend on its sequence continuity version');}
  if(isOfficialH3(shot)&&(!shot.beatType||!shot.sequenceContinuity))throw Error('Official H3 direction requires beatType and approved sequenceContinuity');
- if(shot.generationMode==='seedance'||shot.generationMode==='kling'){if(!shot.escalationReason?.trim())throw Error('Premium escalation requires an indispensable scene and a documented escalationReason');return;}
+ const premium=shot.generationMode==='seedance'||shot.generationMode==='kling';
+ if(premium&&!shot.escalationReason?.trim())throw Error('Premium escalation requires an indispensable scene and a documented escalationReason');
  if(shot.generationMode==='ltx_i2v'){
   if(shot.strategy!=='i2v'||shot.referencePlan)throw Error('ltx_i2v requires i2v and a composed start frame, not an H3 Reference Plan');return;
  }
  const workflow=s.config.comfy.apiWorkflows[routeAdapter(shot)];
  if(workflow?.verified&&shot.durationSeconds>workflow.maxSeconds)throw Error(`H3 production limit is ${workflow.maxSeconds} seconds per generated video; split the sequence in direction`);
- if(!['reference-video','multi-shot'].includes(shot.strategy))throw Error('H3 requires reference-video or multi-shot strategy');
+ if(isH3(shot)&&!['reference-video','multi-shot'].includes(shot.strategy))throw Error('H3 requires reference-video or multi-shot strategy');
  const p=shot.referencePlan;if(!p)throw Error('H3 requires a Reference Plan');
  const refs=p.references.map(r=>r.referenceId);const subjects=p.subjects.map(x=>x.subjectId);
  if(new Set(refs).size!==refs.length||new Set(subjects).size!==subjects.length)throw Error('Duplicate H3 reference or subject IDs');
@@ -51,18 +57,19 @@ export function validateHybridPlan(s:State,shot:Shot){
  }
  if(Math.abs(end-shot.durationSeconds)>0.001)throw Error('H3 shot timestamps must cover the generation duration');
  if(JSON.stringify(covered)!==JSON.stringify(shot.beatIds))throw Error('H3 shots must cover source beats once, in approved order');
- if(p.shots.length>1&&shot.strategy!=='multi-shot')throw Error('Multiple cinematic shots require multi-shot strategy');
+ if(p.shots.length>1&&shot.strategy!=='multi-shot'&&!premium)throw Error('Multiple cinematic shots require multi-shot strategy');
 }
 
 /** A recorded treatment is a reviewable decision, not a claim that software can judge acting. */
 export function validateCinematicDirection(shot:Shot){
- if(!isOfficialH3(shot))return;
+ if(!isCinematicProduction(shot))return;
  const d=shot.direction,p=shot.referencePlan;
  if(!d||!p)throw Error(`Cinematic direction required for ${shot.id}: run task --stage shots; historical plans remain readable`);
  if(!d.characters.length||shot.characterIds.some(id=>!d.characters.some(c=>c.characterId===id))||d.characters.some(c=>!shot.characterIds.includes(c.characterId)))throw Error('Direction must identify objective, obstacle, subtext and emotional progression for each participating character');
  if(p.shots.length===1&&!d.singleShotReason?.trim())throw Error('A continuous shot requires a dramatic singleShotReason; there is no mandatory cut count');
  for(const [i,part] of p.shots.entries()){
   if(!part.dramaticPurpose?.trim()||!part.performance?.trim()||!part.visibleSubjectIds)throw Error('Each timed shot requires dramaticPurpose, observable performance and explicit visibleSubjectIds');
+  if(part.playback==='slow-motion'&&!part.playbackReason?.trim())throw Error('Intentional slow motion requires playbackReason; do not stretch ordinary action to fill runtime');
   if(i&&!part.cutReason?.trim())throw Error('Each cut requires a narrative or visual cutReason');
   if(new Set(part.visibleSubjectIds).size!==part.visibleSubjectIds.length||part.visibleSubjectIds.some(id=>!p.subjects.some(x=>x.subjectId===id)))throw Error('Timed shot has unknown or duplicate visible subjects');
  }
@@ -80,6 +87,12 @@ export function validateCinematicDirection(shot:Shot){
   if(a.strategy==='reaction-audio'&&(!part.visibleSubjectIds!.length||part.visibleSubjectIds!.includes(speaker.subjectId)))throw Error('Reaction audio requires a visible listener and an unseen speaker');
  }
 }
+export function validateVisualEvidence(shot:Shot){
+ if(!shot.visualEvidence)throw Error('Record visualEvidence for indispensable objects, injuries, gestures and discoveries; use [] when none are required');
+ for(const e of shot.visualEvidence)if(!shot.referencePlan?.shots.some(p=>p.id===e.shotId&&p.beatIds.includes(e.beatId)))throw Error('Visual evidence must map to its source beat and the view that reveals it');
+}
+export function validateProductionDirection(s:State,shot:Shot){validateCinematicDirection(shot);if(isCinematicProduction(shot)){validateStyle(s,shot);validateSequence(s,shot);validateDialogue(s,shot);validateVisualEvidence(shot);}}
+export function productionDirectionReady(s:State,shot:Shot){try{validateProductionDirection(s,shot);return true;}catch{return false;}}
 export function cinematicDirectionReady(shot:Shot){try{validateCinematicDirection(shot);return true;}catch{return false;}}
 
 export function h3Prompt(s:State,shot:Shot,sourceForBeats:(ids:string[])=>string,audioPolicy:string,correction?:string){
@@ -92,18 +105,18 @@ export function h3Prompt(s:State,shot:Shot,sourceForBeats:(ids:string[])=>string
   sentence(`Composition: ${x.composition}`),
   x.visibleSubjectIds?sentence(`Visible in this view: ${x.visibleSubjectIds.map(subject).join(', ')||'no people'}`):'',
   sentence(`Action and blocking: ${x.action}`),x.performance?sentence(`Performance: ${x.performance}`):'',
-  sentence(`Camera: ${x.camera}`),sentence(`Continuity: ${x.continuity}`)
+  sentence(`Camera: ${x.camera}`),sentence(x.playback==='slow-motion'?'Intentional slow-motion playback for this interval only':'Real-time human movement'),sentence(`Continuity: ${x.continuity}`)
  ].filter(Boolean).join(' ')+`\n${sourceForBeats(x.beatIds)}`).join('\n\n');
  const sections={
-  subject_definitions:[...p.subjects.filter(x=>!shot.direction||p.shots.some(part=>part.visibleSubjectIds?.includes(x.subjectId))).map(x=>`${sentence(`${subject(x.subjectId)} is ${x.description}${x.referenceIds.length?`, from ${x.referenceIds.map(label).join(', ')}`:`, defined by text`}`)} ${sentence(`Wardrobe: ${x.wardrobe}`)}`),...p.references.map(r=>`${sentence(`${label(r.referenceId)} supplies ${r.role}${r.subjectId?` for ${subject(r.subjectId)}`:''}: ${r.usage}`)} ${['start','end'].includes(r.role)?(r.role==='start'?'First-frame reference: this picture aligns with the 0.00-second opening of the target video; preserve its composition and visible state before the action begins.':'Requested literal end frame.'):'Visual guidance only. Use the appearance across angles; do not reproduce reference panels, labels or studio backgrounds.'}`)].join('\n'),
+  subject_definitions:[...p.subjects.filter(x=>!shot.direction||p.shots.some(part=>part.visibleSubjectIds?.includes(x.subjectId))).map(x=>`${sentence(`${subject(x.subjectId)} is ${x.description}${x.referenceIds.length?`, from ${x.referenceIds.map(label).join(', ')}`:`, defined by text`}`)} ${sentence(`Wardrobe: ${x.wardrobe}`)}`),...p.references.map(r=>`${sentence(`${label(r.referenceId)} supplies ${r.role}${r.subjectId?` for ${subject(r.subjectId)}`:''}: ${r.usage}`)} ${['start','end'].includes(r.role)?(r.role==='start'?'Opening visual reference at 0.00-second opening of the target video; use relevant composition and appearance as visual guidance, without a promise of exact keyframe conditioning.':'Requested literal end frame.'):'Visual guidance only. Use the appearance across angles; do not reproduce reference panels, labels or studio backgrounds.'}`)].join('\n'),
   summary:`[reference generation] ${shot.durationSeconds}-second ${s.project.profile.width}:${s.project.profile.height} video. ${shot.purpose} Scene: ${latest(s.scenes).find(x=>x.id===shot.sceneId)?.heading??shot.sceneId}. Style: ${s.project.profile.style}. ${shot.durationReason}`,
   retention_analysis:`${p.retentionAnalysis}\n${p.continuityRequirements.join('\n')}`,
-  detailed_description:timedDescription+`\n${sentence(`Initial state: ${shot.startState}`)} ${sentence(`Final state: ${shot.endState}`)} Play the directed progression at natural human speed. Only quoted words are spoken, once, by their attributed speaker. All other text is visual direction.${correction?`\nDirector correction: ${correction}`:''}`,
-  overall_soundscape:`Planned location sound: ${shot.sound.join('; ')||'natural quiet'}. Speak only the attributed quoted dialogue.`,
+  detailed_description:timedDescription+`\n${sentence(`Initial state: ${shot.dynamicState?dynamicStateText(s,shot.dynamicState.start):shot.startState}`)} ${sentence(`Final state: ${shot.dynamicState?dynamicStateText(s,shot.dynamicState.end,shot.dynamicState.start):shot.endState}`)} Play the directed progression at the specified interval speeds; default to real-time human movement. Only quoted words are spoken, once, by their attributed speaker. All other text is visual direction.${correction?`\nDirector correction: ${correction}`:''}`,
+  overall_soundscape:`Planned location sound: ${shot.sound.join('; ')||'natural quiet'}.`,
   non_diegetic_music:'None throughout. Preserve natural quiet.'
  };
  const continuity=shot.sequenceContinuity?s.sequenceContinuities.find(x=>x.id===shot.sequenceContinuity!.id&&x.version===shot.sequenceContinuity!.version):undefined;
  // Keep analytical fields in the package, never send narrative titles or retention analysis as speech-prone prompt headings.
- const prompt=[audioPolicy,`Duration: ${shot.durationSeconds} seconds. ${shot.direction?`${sentence(shot.direction.genre)} ${sentence(shot.direction.visualTreatment)}`:sentence(s.project.profile.style)} Natural real-time pace.`,sections.subject_definitions,continuity?.canonicalText??p.continuityRequirements.join('\n'),sections.detailed_description,sections.overall_soundscape,'Keep dialogue and planned location sound only through the final frame; no music or synthetic dramatic accents, including from devices.'].join('\n\n');
+ const prompt=[cinematicOpening(s,shot),audioPolicy,`Duration: ${shot.durationSeconds} seconds.`,sections.subject_definitions,continuity?.canonicalText??p.continuityRequirements.join('\n'),sections.detailed_description,sections.overall_soundscape,'Keep dialogue and planned location sound only through the final frame; no music or synthetic dramatic accents, including from devices.'].join('\n\n');
  return {sections,prompt};
 }

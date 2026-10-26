@@ -26,3 +26,7 @@ Do not infer approval from file existence.
 - impossible source time range
 - unresolved content-policy restriction
 - export setting incompatible with the project aspect ratio or required delivery format
+
+## Studio final approval
+
+Block final cinematic approval when individual audiovisual evidence or either current timeline continuity/narrative pass is missing or failed. A technically clean face is insufficient if acting lacks intention, information is hidden, actions reset, or generation boundaries disrupt the film. --allow-pending is a preview with pending quality, not a final pass. Refer to docs/CINEMATIC_PIPELINE_CORRECTION.md for exact CLI/schema fields.

@@ -28,3 +28,7 @@ When used by AI Film Studio, also read `docs/CINEMATIC_DIRECTION.md` from the re
 - contradictory start and end state
 - impossible camera and performer path
 - axis or screen-direction contradiction without an intentional transition
+
+## Current Studio preflight
+
+Required new official bindings: cinematicStyle, sequencePlan, invariant sequenceContinuity and deps; dynamicState.start/end; visualEvidence (empty only if none indispensable). Approve complete bounded sequence units together. Check no repeated completed beat, no missing/duplicated speech, no start-state reset, no contradiction with timed action. DialogueStaging includes language, intent and exceptional timingReason; slow-motion intervals include playbackReason. These checks do not impose a fixed camera or number of cuts.

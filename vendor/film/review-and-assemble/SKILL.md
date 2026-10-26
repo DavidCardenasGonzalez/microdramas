@@ -46,3 +46,7 @@ Every review must reference a media asset and shot segment. Every timeline item 
 - Do not perform irreversible edits.
 
 Read [references/field-guide.md](references/field-guide.md) for review decisions, timeline rules, and blocking QC.
+
+## Studio cinematic QA (26 October 2026)
+
+Apply docs/CINEMATIC_PIPELINE_CORRECTION.md at three levels: individual identity/anatomy/acting/voice/dialogue/lipsync/movement/timing/fidelity/music; continuity of actual edited positions/props/wardrobe/location/eyelines/emotion/transitions; narrative sequence rhythm/framing/clarity/dramatic intention/tone/repeated actions/generation boundaries. Review playback and audio, record temporal observations in CinematicAssessment, never infer perceptual quality from workflow success. Sequence reviews target the exact timeline version and must be renewed after editing. Real cinematic final exports require continuity and narrative passes; unreviewed previews stay pending. Preserve all sources and explicit in/out.

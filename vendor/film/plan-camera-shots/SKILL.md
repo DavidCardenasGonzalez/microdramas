@@ -44,3 +44,7 @@ The sum of segment durations must follow the selected duration policy. Choose th
 - Do not reference assets that are absent without a diagnostic.
 
 Read [references/field-guide.md](references/field-guide.md) for IDs, duration policy, and preflight gates.
+
+## Studio production direction (26 October 2026)
+
+Apply docs/CINEMATIC_PIPELINE_CORRECTION.md. Establish a persistent CinematicStyle for the work genre, photography, acting, palette, rhythm and camera language. Direct the whole bounded sequence before allocating generation units; persist SequencePlan and motivated boundary transitions. A new render does not require an establishing view. Keep invariants in SequenceContinuity and inherit the complete previous dynamic end state in each unit start. Record indispensable visual evidence (objects, injuries, gestures and discoveries) and its revealing view/method; do not suppress meaningful details to reduce risk. Consider expressive close-ups, details, OTS, rack focus, tracking, pans, dolly, orbit, frontal/rear coverage and intentional slow motion by dramatic purpose, without cut quotas. Assign exact words, language, intent and plausible speech windows. Prefer visible important phone participants at approved locations, or deliberately plan independent audio. Return Studio Shot contracts and versioned dependencies.

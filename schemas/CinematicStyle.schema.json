@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "version": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "planned",
+        "pending",
+        "ready",
+        "stale",
+        "rejected"
+      ]
+    },
+    "deps": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "genre": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subgenre": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aestheticReferences": {
+      "type": "string",
+      "minLength": 1
+    },
+    "colorPalette": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lighting": {
+      "type": "string",
+      "minLength": 1
+    },
+    "performanceStyle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rhythm": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cameraLanguage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "realism": {
+      "type": "string",
+      "minLength": 1
+    },
+    "genreTreatment": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "status",
+    "deps",
+    "genre",
+    "subgenre",
+    "aestheticReferences",
+    "colorPalette",
+    "lighting",
+    "performanceStyle",
+    "rhythm",
+    "cameraLanguage",
+    "realism",
+    "genreTreatment"
+  ],
+  "additionalProperties": false
+}

@@ -26,7 +26,8 @@ export async function enqueue(root:string,s:State,provider:string,scope:Scope={}
  for(const shot of shots){if(!shot.durationReason?.trim())throw Error(`Approved skill-directed shot plan requires durationReason before prompt compilation: ${shot.id}. Run task --stage shots and import the refined plan.`);
   if(isOfficialH3(shot)&&(options.alternative||options.correction)&&!options.recovery)throw Error('Official H3 recovery requires --recovery with evidence, diagnosis, changed variable and expected improvement');
   const recovery=options.recovery?validateRecovery(s,shot,options.recovery):undefined;
-  const selectedProvider=provider==='auto'?routeAdapter(shot):provider;const pack=await compile(root,s,shot,selectedProvider,options.correction,options.seed??42,!!options.prepareOnly);if(recovery)pack.parameters.recovery=recovery;const fingerprint=sha(JSON.stringify(pack));
+  if(recovery?.action==='seed-variation'){const prior=s.jobs.find(j=>j.id===recovery.fromJobId)!;if(options.seed===undefined||options.seed===prior.package.seed)throw Error('Seed variation requires an explicit different --seed for a controlled comparison');}
+  const selectedProvider=provider==='auto'?routeAdapter(shot):provider;const pack=await compile(root,s,shot,selectedProvider,options.correction,options.seed,!!options.prepareOnly);if(recovery)pack.parameters.recovery=recovery;const fingerprint=sha(JSON.stringify(pack));
   const existing=s.jobs.find(x=>x.fingerprint===fingerprint&&x.state!=='stale'&&x.state!=='failed');if(existing&&!options.alternative)continue;
   const paid=capabilities[selectedProvider].paid;const estimate=options.estimate??0;
   const j:GenerationJob={id:uid('JOB'),shotId:shot.id,shotVersion:shot.version,episodeId:shot.episodeId,sceneId:shot.sceneId,package:pack,fingerprint,state:'queued',attempts:0,maxAttempts:s.config.maxAttempts,estimate,paid,reserved:false,createdAt:now(),updatedAt:now()};
